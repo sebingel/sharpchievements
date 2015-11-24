@@ -5,11 +5,11 @@ namespace sebingel.Achievements
     public class AchievementManager
     {
         private static AchievementManager instance;
-        private readonly List<Achievement> registeredAchievements;
+        private readonly List<AchievementCondition> registeredAchievementConditions;
 
         private AchievementManager()
         {
-            registeredAchievements = new List<Achievement>();
+            registeredAchievementConditions = new List<AchievementCondition>();
         }
 
         public static AchievementManager GetInstance()
@@ -19,22 +19,17 @@ namespace sebingel.Achievements
             return instance;
         }
 
-        public void RegisterAchievement(Achievement achievement)
+        public void RegisterAchievementCondition(AchievementCondition achievementCondition)
         {
-            registeredAchievements.Add(achievement);
+            registeredAchievementConditions.Add(achievementCondition);
         }
 
         public void ReportProgress(string achviementConditionKey)
         {
-            foreach (Achievement achievement in registeredAchievements)
+            foreach (AchievementCondition condition in registeredAchievementConditions)
             {
-                foreach (AchievementCondition condition in achievement.Conditions)
-                {
-                    if (condition.AchievementConditionKey == achviementConditionKey)
-                    {
-                        condition.MakeProgress();
-                    }
-                }
+                if (condition.AchievementConditionKey == achviementConditionKey)
+                    condition.MakeProgress();
             }
         }
     }
