@@ -4,8 +4,9 @@ namespace sebingel.Achievements
 {
     public class Achievement
     {
-        public string AchievementKey { get; private set; }
         public List<AchievementCondition> Conditions { get; private set; }
+        public string Titel { get; private set; }
+        public string Description { get; private set; }
         public bool Unlocked { get; private set; }
         public int Progress { get; private set; }
 
@@ -24,10 +25,11 @@ namespace sebingel.Achievements
                 AchievementCompleted(this);
         }
 
-        public Achievement(string achievementKey, List<AchievementCondition> conditions)
+        public Achievement(string titel, string description, List<AchievementCondition> conditions)
         {
-            AchievementKey = achievementKey;
             Conditions = conditions;
+            Titel = titel;
+            Description = description;
 
             foreach (AchievementCondition condition in Conditions)
             {
@@ -38,10 +40,8 @@ namespace sebingel.Achievements
 
         private void ConditionCompleted(AchievementCondition achievementCondition)
         {
-            if (achievementCondition.Unlocked)
-            {
+            if (Unlocked)
                 return;
-            }
 
             bool allConditionsCompleted = true;
             foreach (AchievementCondition condition in Conditions)
