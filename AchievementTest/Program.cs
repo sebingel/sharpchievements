@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using sebingel.scharpchievements;
+using sebingel.sharpchievements;
 
 namespace AchievementTest
 {
@@ -16,7 +16,7 @@ namespace AchievementTest
 
             Achievement a = new Achievement("5xA", "You pressed a five times", new List<AchievementCondition> { achievementCondition });
             //a.AchievementCompleted += AchievementCompleted;
-            
+
             Achievement b = new Achievement("10xA", "You pressed a ten times", new List<AchievementCondition> { condition });
             //b.AchievementCompleted += AchievementCompleted;
 

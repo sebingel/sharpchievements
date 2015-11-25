@@ -1,4 +1,4 @@
-﻿namespace sebingel.scharpchievements
+﻿namespace sebingel.sharpchievements
 {
     /// <summary>
     /// Contains information about a progresschange of an AchievementCondition

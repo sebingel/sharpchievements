@@ -1,4 +1,4 @@
-﻿namespace sebingel.scharpchievements
+﻿namespace sebingel.sharpchievements
 {
     /// <summary>
     /// Delegate for an event that fires when the achievement is unlocked

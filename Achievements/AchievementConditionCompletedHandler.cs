@@ -1,4 +1,4 @@
-﻿namespace sebingel.scharpchievements
+﻿namespace sebingel.sharpchievements
 {
     /// <summary>
     /// Delegate for the event that ist fired when an AchievementCondition is completed

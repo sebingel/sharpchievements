@@ -1,4 +1,4 @@
-﻿namespace sebingel.scharpchievements
+﻿namespace sebingel.sharpchievements
 {
     /// <summary>
     /// This class contains data that about the progresschange of an Achievement
