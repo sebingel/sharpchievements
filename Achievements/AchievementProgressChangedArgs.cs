@@ -1,4 +1,4 @@
-﻿namespace sebingel.Achievements
+﻿namespace sebingel.scharpchievements
 {
     public class AchievementProgressChangedArgs
     {

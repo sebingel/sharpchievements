@@ -1,4 +1,4 @@
-﻿namespace sebingel.Achievements
+﻿namespace sebingel.scharpchievements
 {
     /// <summary>
     /// Condition that describes the requirements that must be met to unlock an achievement and can track the progress.

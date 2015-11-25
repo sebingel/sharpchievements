@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace sebingel.Achievements
+namespace sebingel.scharpchievements
 {
     /// <summary>
     /// Class that represents an achievement

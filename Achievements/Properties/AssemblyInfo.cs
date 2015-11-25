@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Achievementsystem for C#")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Achievements")]
+[assembly: AssemblyProduct("sharpchievements")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

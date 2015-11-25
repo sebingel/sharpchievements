@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using sebingel.Achievements;
+using sebingel.scharpchievements;
 
 namespace AchievementTest
 {
