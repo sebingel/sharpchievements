@@ -15,13 +15,13 @@ namespace AchievementNotificationTest
             AchievementManager achievementManager = AchievementManager.GetInstance();
 
             AchievementCondition clickConditionOne = new AchievementCondition("Click1", 3);
-            Achievement a1 = new Achievement("Clicked ONE", "You clicked on ONE", new List<AchievementCondition> { clickConditionOne });
+            Achievement a1 = new Achievement("Clicked ONE", "You clicked on ONE", clickConditionOne);
 
             AchievementCondition clickConditionTwo = new AchievementCondition("Click2", 1);
-            Achievement a2 = new Achievement("Clicked TWO", "You clicked on TWO", new List<AchievementCondition> { clickConditionTwo });
+            Achievement a2 = new Achievement("Clicked TWO", "You clicked on TWO", clickConditionTwo);
 
             AchievementCondition clickConditionThree = new AchievementCondition("Click3", 1);
-            Achievement a3 = new Achievement("Clicked THREE", "You clicked on THREE", new List<AchievementCondition> { clickConditionThree });
+            Achievement a3 = new Achievement("Clicked THREE", "You clicked on THREE", clickConditionThree);
 
             AchievementCondition clickConditionFour = new AchievementCondition("Click1", 1);
             AchievementCondition clickConditionFive = new AchievementCondition("Click2", 3);

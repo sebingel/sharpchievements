@@ -14,13 +14,13 @@ namespace AchievementTest
             AchievementCondition condition = new AchievementCondition("a", 10);
             AchievementCondition item = new AchievementCondition("s", 5);
 
-            Achievement a = new Achievement("5xA", "You pressed a five times", new List<AchievementCondition> { achievementCondition });
+            Achievement a = new Achievement("5xA", "You pressed a five times", achievementCondition);
             //a.AchievementCompleted += AchievementCompleted;
 
-            Achievement b = new Achievement("10xA", "You pressed a ten times", new List<AchievementCondition> { condition });
+            Achievement b = new Achievement("10xA", "You pressed a ten times", condition);
             //b.AchievementCompleted += AchievementCompleted;
 
-            Achievement c = new Achievement("5xS", "You pressed s five times", new List<AchievementCondition> { item });
+            Achievement c = new Achievement("5xS", "You pressed s five times", item);
             //c.AchievementCompleted += AchievementCompleted;
 
             Achievement d = new Achievement("5xS+10xA", "You pressed s five times and a ten times", new List<AchievementCondition> { condition, item });

@@ -36,13 +36,15 @@ namespace sebingel.sharpchievements
 
         #endregion
 
+        #region Events
+
         /// <summary>
         /// Event that fires when the progress has changed
         /// </summary>
         public event AchievementProgressChangedHandler ProgressChanged;
         private void InvokeProgressChanged(int progressCount)
         {
-            if (ProgressChanged != null)
+            if(ProgressChanged != null)
                 ProgressChanged(this, new AchievementProgressChangedArgs(progressCount));
         }
 
@@ -53,9 +55,11 @@ namespace sebingel.sharpchievements
         private void InvokeAchievementCompleted()
         {
             Unlocked = true;
-            if (AchievementCompleted != null)
+            if(AchievementCompleted != null)
                 AchievementCompleted(this);
         }
+
+        #endregion
 
         #region Constructor(s)
 
@@ -78,7 +82,18 @@ namespace sebingel.sharpchievements
             }
         }
 
+        /// <summary>
+        /// An achievement
+        /// </summary>
+        /// <param name="titel">Titel of the achievement</param>
+        /// <param name="description">Description of the achievement</param>
+        /// <param name="conditions">Condition that must be met to unlock the achievement</param>
+        public Achievement(string titel, string description, AchievementCondition condition) : this(titel, description, new List<AchievementCondition> { condition })
+        { }
+
         #endregion
+
+        #region Methods
 
         /// <summary>
         /// This method is tied to the ConditionCompleted events in the AchievementConditions of this Achievement
@@ -86,18 +101,18 @@ namespace sebingel.sharpchievements
         /// <param name="achievementCondition">AchievementCondition thath fired the event</param>
         private void ConditionCompleted(AchievementCondition achievementCondition)
         {
-            if (Unlocked)
+            if(Unlocked)
                 return;
 
             bool allConditionsCompleted = true;
-            foreach (AchievementCondition condition in Conditions)
+            foreach(AchievementCondition condition in Conditions)
             {
-                if (!condition.Unlocked)
+                if(!condition.Unlocked)
                     allConditionsCompleted = false;
             }
             Unlocked = allConditionsCompleted;
 
-            if (Unlocked)
+            if(Unlocked)
             {
                 InvokeAchievementCompleted();
             }
@@ -110,7 +125,7 @@ namespace sebingel.sharpchievements
         /// <param name="args">Parameters that are important for this event</param>
         private void ConditionProgressChanged(AchievementCondition sender, AchievementConditionProgressChangedArgs args)
         {
-            if (sender.Unlocked)
+            if(sender.Unlocked)
             {
                 return;
             }
@@ -119,6 +134,8 @@ namespace sebingel.sharpchievements
             Progress = 100;
 
             InvokeProgressChanged(Progress);
-        }
+        } 
+
+        #endregion
     }
 }
