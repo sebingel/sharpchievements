@@ -12,7 +12,7 @@ namespace sebingel.sharpchievements
     /// <summary>
     /// Notification Window that can be used to inform the user aabout unlocked achievements
     /// </summary>
-    public partial class NotificationWindow
+    public partial class AchievementNotificationWindow
     {
         /// <summary>
         /// The Titel of the Achievement
@@ -20,14 +20,14 @@ namespace sebingel.sharpchievements
         public string Titel { get; set; }
 
         /// <summary>
-        /// Notification Window that can be used to inform the user aabout unlocked achievements
+        /// Notification Window that can be used to inform the user about unlocked achievements
         /// </summary>
         /// <param name="left">The position of the left border of the application's GUI</param>
         /// <param name="top">The position of the top border of the application's GUI</param>
         /// <param name="width">The width of the application's GUI</param>
         /// <param name="height">The height of the application's GUI</param>
         /// <param name="achievement">The unlocked Achievement</param>
-        public NotificationWindow(double left, double top, double width, double height, Achievement achievement)
+        public AchievementNotificationWindow(double left, double top, double width, double height, Achievement achievement)
         {
             Titel = achievement.Titel;
 
