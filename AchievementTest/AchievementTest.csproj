@@ -48,9 +48,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Achievements\Achievements.csproj">
+    <ProjectReference Include="..\Achievements\sharpchievements.csproj">
       <Project>{a7476c97-d350-475d-ac02-991cafb9f221}</Project>
-      <Name>Achievements</Name>
+      <Name>sharpchievements</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

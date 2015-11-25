@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Achievements", "Achievements\Achievements.csproj", "{A7476C97-D350-475D-AC02-991CAFB9F221}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sharpchievements", "Achievements\sharpchievements.csproj", "{A7476C97-D350-475D-AC02-991CAFB9F221}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AchievementTest", "AchievementTest\AchievementTest.csproj", "{661CF93C-654C-49B3-95A7-3AAF8FFB3E2A}"
 EndProject
