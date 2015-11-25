@@ -43,7 +43,10 @@ namespace AchievementNotificationTest
 
         private void AchievementManagerAchievementCompleted(Achievement achievement)
         {
-            new AchievementNotificationWindow(Left, Top, Width, Height, achievement).Show();
+            //new AchievementNotificationWindow(achievement).Show();
+            //new AchievementNotificationWindow(achievement,Left, Top, ActualWidth, ActualHeight).Show();
+            new AchievementNotificationWindow(achievement, this).Show();
+            //new AchievementNotificationWindow(achievement, 100, 100).Show();
         }
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)

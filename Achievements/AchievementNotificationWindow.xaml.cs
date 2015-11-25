@@ -20,14 +20,16 @@ namespace sebingel.sharpchievements
         public string Titel { get; set; }
 
         /// <summary>
-        /// Notification Window that can be used to inform the user about unlocked achievements
+        /// Notification Window that can be used to inform the user about unlocked achievements.
+        /// Shows the AchievementNotificationWindow in the bottom right corner of the given coordinates.
         /// </summary>
+        /// <remarks>This has some problems with maximized windows</remarks>
+        /// <param name="achievement">The unlocked Achievement</param>
         /// <param name="left">The position of the left border of the application's GUI</param>
         /// <param name="top">The position of the top border of the application's GUI</param>
         /// <param name="width">The width of the application's GUI</param>
         /// <param name="height">The height of the application's GUI</param>
-        /// <param name="achievement">The unlocked Achievement</param>
-        public AchievementNotificationWindow(double left, double top, double width, double height, Achievement achievement)
+        public AchievementNotificationWindow(Achievement achievement, double left, double top, double width, double height)
         {
             Titel = achievement.Titel;
 
@@ -35,13 +37,84 @@ namespace sebingel.sharpchievements
 
             Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
             {
-                //Rectangle workingArea = System.Windows.SystemParameters.WorkArea;
-                Rectangle workingArea = new Rectangle(Convert.ToInt32(left), Convert.ToInt32(top), Convert.ToInt32(width), Convert.ToInt32(height));
                 Matrix transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                Point corner = transform.Transform(new Point(workingArea.Right, workingArea.Bottom));
+                Point corner = transform.Transform(new Point(left+width, top+height));
 
                 Left = corner.X - ActualWidth;
                 Top = corner.Y - ActualHeight;
+            }));
+        }
+
+        /// <summary>
+        /// Notification Window that can be used to inform the user about unlocked achievements.
+        /// Shows the AchievementNotificationWindow in the bottom right corner of the given Window.
+        /// </summary>
+        /// <param name="achievement">The unlocked Achievement</param>
+        /// <param name="window">The Window in which the Notification should be displayed</param>
+        public AchievementNotificationWindow(Achievement achievement, Window window)
+        {
+            Titel = achievement.Titel;
+
+            InitializeComponent();
+
+            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            {
+                double left = window.Left;
+                double width = window.ActualWidth;
+                double top = window.Top;
+                double height = window.ActualHeight;
+
+                if(window.WindowState == WindowState.Maximized)
+                {
+                    left = 0;
+                    top = 0;
+                }
+
+                Matrix transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
+                Point corner = transform.Transform(new Point(left + width, top + height));
+
+                Left = corner.X - ActualWidth;
+                Top = corner.Y - ActualHeight;
+            }));
+        }
+
+        /// <summary>
+        /// Notification Window that can be used to inform the user about unlocked achievements.
+        /// Shows the AchievementNotificationWindow in the bottom right corner of the screen.
+        /// </summary>
+        /// <param name="achievement">The unlocked Achievement</param>
+        public AchievementNotificationWindow(Achievement achievement)
+        {
+            Titel = achievement.Titel;
+
+            InitializeComponent();
+
+            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            {
+                Matrix transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
+                Point corner = transform.Transform(new Point(SystemParameters.WorkArea.Right, SystemParameters.WorkArea.Bottom));
+
+                Left = corner.X - ActualWidth;
+                Top = corner.Y - ActualHeight;
+            }));
+        }
+
+        /// <summary>
+        /// Notification Window that can be used to inform the user about unlocked achievements
+        /// </summary>
+        /// <param name="achievement">The unlocked Achievement</param>
+        /// <param name="left">The position of the left border of the Notification</param>
+        /// <param name="top">The position of the top border of the Notification</param>
+        public AchievementNotificationWindow(Achievement achievement, double left, double top)
+        {
+            Titel = achievement.Titel;
+
+            InitializeComponent();
+
+            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            {
+                Left = left;
+                Top = top;
             }));
         }
 
