@@ -9,6 +9,14 @@ namespace sebingel.scharpchievements
     {
         private static AchievementManager instance;
         private readonly List<AchievementCondition> registeredAchievementConditions;
+        private readonly List<Achievement> registeredAchievements;
+
+        public event AchievementCompleteHandler AchievementCompleted;
+        protected virtual void InvokeAchievementCompleted(Achievement achievement)
+        {
+            if (AchievementCompleted != null)
+                AchievementCompleted(achievement);
+        }
 
         /// <summary>
         /// Central management class for everything achievement related
@@ -16,6 +24,7 @@ namespace sebingel.scharpchievements
         private AchievementManager()
         {
             registeredAchievementConditions = new List<AchievementCondition>();
+            registeredAchievements = new List<Achievement>();
         }
 
         /// <summary>
@@ -37,6 +46,26 @@ namespace sebingel.scharpchievements
         public void RegisterAchievementCondition(AchievementCondition achievementCondition)
         {
             registeredAchievementConditions.Add(achievementCondition);
+        }
+
+        /// <summary>
+        /// Register an Achievement
+        /// </summary>
+        /// <remarks>The AchievementCompleted event only fires for registered Achievements!</remarks>
+        /// <param name="achievement">The Achievement that should be registered</param>
+        public void RegisterAchievement(Achievement achievement)
+        {
+            registeredAchievements.Add(achievement);
+            achievement.AchievementCompleted += AchievementAchievementCompleted;
+        }
+
+        /// <summary>
+        /// Fires the AchievementCompleted event of the AchievementManager
+        /// </summary>
+        /// <param name="achievement">Achievement that fired the AchievementCompleted event</param>
+        private void AchievementAchievementCompleted(Achievement achievement)
+        {
+            InvokeAchievementCompleted(achievement);
         }
 
         /// <summary>

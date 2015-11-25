@@ -8,25 +8,34 @@ namespace AchievementTest
     {
         static void Main()
         {
+            AchievementManager achievementManager = AchievementManager.GetInstance();
+
             AchievementCondition achievementCondition = new AchievementCondition("a", 5);
             AchievementCondition condition = new AchievementCondition("a", 10);
             AchievementCondition item = new AchievementCondition("s", 5);
 
             Achievement a = new Achievement("5xA", "You pressed a five times", new List<AchievementCondition> { achievementCondition });
-            a.AchievementCompleted += AchievementCompleted;
-
+            //a.AchievementCompleted += AchievementCompleted;
+            
             Achievement b = new Achievement("10xA", "You pressed a ten times", new List<AchievementCondition> { condition });
-            b.AchievementCompleted += AchievementCompleted;
+            //b.AchievementCompleted += AchievementCompleted;
 
             Achievement c = new Achievement("5xS", "You pressed s five times", new List<AchievementCondition> { item });
-            c.AchievementCompleted += AchievementCompleted;
+            //c.AchievementCompleted += AchievementCompleted;
 
             Achievement d = new Achievement("5xS+10xA", "You pressed s five times and a ten times", new List<AchievementCondition> { condition, item });
-            d.AchievementCompleted += AchievementCompleted;
+            //d.AchievementCompleted += AchievementCompleted;
 
-            AchievementManager.GetInstance().RegisterAchievementCondition(achievementCondition);
-            AchievementManager.GetInstance().RegisterAchievementCondition(condition);
-            AchievementManager.GetInstance().RegisterAchievementCondition(item);
+            achievementManager.RegisterAchievement(a);
+            achievementManager.RegisterAchievement(b);
+            achievementManager.RegisterAchievement(c);
+            achievementManager.RegisterAchievement(d);
+
+            achievementManager.RegisterAchievementCondition(achievementCondition);
+            achievementManager.RegisterAchievementCondition(condition);
+            achievementManager.RegisterAchievementCondition(item);
+
+            achievementManager.AchievementCompleted += AchievementCompleted;
 
             Run();
         }
