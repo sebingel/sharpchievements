@@ -1,0 +1,45 @@
+﻿<Window
+    x:Class="sebingel.sharpchievements.NotificationWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="350" Height="90"
+    WindowStyle="None" AllowsTransparency="True" Background="Transparent" Topmost="True"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <Grid>
+
+        <!-- Notification area -->
+        <Border BorderThickness="1" Background="#4b4b4b" BorderBrush="Black">
+            <StackPanel Orientation="Horizontal">
+                <Image Height="80" Width="80" Margin="5"/>
+                <StackPanel>
+                    <TextBlock Margin="5,10" FontWeight="Bold" Text="Achievement Unlocked!" Foreground="#e1e1e1"/>
+                    <TextBlock Margin="5,10" Text="{Binding Titel}" Foreground="#c9c9c9"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Animation -->
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames
+                            Storyboard.TargetProperty="(UIElement.Opacity)">
+                            <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+                            <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                        </DoubleAnimationUsingKeyFrames>
+
+                        <DoubleAnimationUsingKeyFrames 
+                        Storyboard.TargetProperty="(UIElement.Opacity)" Completed="Timeline_OnCompleted">
+                            <SplineDoubleKeyFrame KeyTime="0:0:3" Value="1" />
+                            <SplineDoubleKeyFrame KeyTime="0:0:4" Value="0" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+
+    </Grid>
+
+</Window>

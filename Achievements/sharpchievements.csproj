@@ -30,13 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Achievement.cs" />
@@ -46,9 +51,18 @@
     <Compile Include="AchievementConditionProgressChangedHandler.cs" />
     <Compile Include="AchievementManager.cs" />
     <Compile Include="AchievementCompleteHandler.cs" />
+    <Compile Include="AchievementNotificationWindow.xaml.cs">
+      <DependentUpon>AchievementNotificationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AchievementProgressChangedArgs.cs" />
     <Compile Include="AchievementProgressChangedHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AchievementNotificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
