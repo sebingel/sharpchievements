@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using sebingel.sharpchievements;
+using sebingel.sharpchievements.AchievementViews.View;
 
 namespace AchievementNotificationTest
 {
@@ -15,7 +16,7 @@ namespace AchievementNotificationTest
             AchievementManager achievementManager = AchievementManager.GetInstance();
 
             AchievementCondition clickConditionOne = new AchievementCondition("Click1", 3);
-            Achievement a1 = new Achievement("Clicked ONE", "You clicked on ONE", clickConditionOne);
+            Achievement a1 = new Achievement("Clicked ONE", "You clicked on ONE", clickConditionOne, "/sebingel.sharpchievements;component/Images/award71.png");
 
             AchievementCondition clickConditionTwo = new AchievementCondition("Click2", 1);
             Achievement a2 = new Achievement("Clicked TWO", "You clicked on TWO", clickConditionTwo);
@@ -49,17 +50,17 @@ namespace AchievementNotificationTest
             //new AchievementNotificationWindow(achievement, 100, 100).Show();
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonClick(object sender, System.Windows.RoutedEventArgs e)
         {
             AchievementManager.GetInstance().ReportProgress("Click1");
         }
 
-        private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonClick1(object sender, System.Windows.RoutedEventArgs e)
         {
             AchievementManager.GetInstance().ReportProgress("Click2");
         }
 
-        private void Button_Click_2(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonClick2(object sender, System.Windows.RoutedEventArgs e)
         {
             AchievementManager.GetInstance().ReportProgress("Click3");
         }

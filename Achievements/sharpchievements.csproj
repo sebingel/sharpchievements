@@ -51,7 +51,7 @@
     <Compile Include="AchievementConditionProgressChangedHandler.cs" />
     <Compile Include="AchievementManager.cs" />
     <Compile Include="AchievementCompleteHandler.cs" />
-    <Compile Include="AchievementNotificationWindow.xaml.cs">
+    <Compile Include="AchievementViews\View\AchievementNotificationWindow.xaml.cs">
       <DependentUpon>AchievementNotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AchievementProgressChangedArgs.cs" />
@@ -59,10 +59,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AchievementNotificationWindow.xaml">
+    <Page Include="AchievementViews\View\AchievementNotificationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\award71.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

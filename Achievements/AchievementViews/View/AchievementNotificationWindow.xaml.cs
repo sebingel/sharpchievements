@@ -1,13 +1,12 @@
 ﻿// Inspired by https://stackoverflow.com/questions/3034741/create-popup-toaster-notifications-in-windows-with-net
 
 using System;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Point = System.Windows.Point;
 
-namespace sebingel.sharpchievements
+namespace sebingel.sharpchievements.AchievementViews.View
 {
     /// <summary>
     /// Notification Window that can be used to inform the user aabout unlocked achievements
@@ -17,7 +16,17 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// The Titel of the Achievement
         /// </summary>
-        public string Titel { get; set; }
+        public string Titel { get; private set; }
+
+        /// <summary>
+        /// Path to the Image that is displayed in the notification
+        /// </summary>
+        public string ImagePath { get; private set; }
+
+        /// <summary>
+        /// Visibility of the image
+        /// </summary>
+        public Visibility ImageVisibility { get; private set; }
 
         /// <summary>
         /// Notification Window that can be used to inform the user about unlocked achievements.
@@ -31,18 +40,7 @@ namespace sebingel.sharpchievements
         /// <param name="height">The height of the application's GUI</param>
         public AchievementNotificationWindow(Achievement achievement, double left, double top, double width, double height)
         {
-            Titel = achievement.Titel;
-
-            InitializeComponent();
-
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
-            {
-                Matrix transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                Point corner = transform.Transform(new Point(left+width, top+height));
-
-                Left = corner.X - ActualWidth;
-                Top = corner.Y - ActualHeight;
-            }));
+            Initialize(left, top, width, height, achievement);
         }
 
         /// <summary>
@@ -53,29 +51,20 @@ namespace sebingel.sharpchievements
         /// <param name="window">The Window in which the Notification should be displayed</param>
         public AchievementNotificationWindow(Achievement achievement, Window window)
         {
-            Titel = achievement.Titel;
-
-            InitializeComponent();
-
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            double left;
+            double top;
+            if (window.WindowState == WindowState.Maximized)
             {
-                double left = window.Left;
-                double width = window.ActualWidth;
-                double top = window.Top;
-                double height = window.ActualHeight;
+                left = 0;
+                top = 0;
+            }
+            else
+            {
+                left = window.Left;
+                top = window.Top;
+            }
 
-                if(window.WindowState == WindowState.Maximized)
-                {
-                    left = 0;
-                    top = 0;
-                }
-
-                Matrix transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                Point corner = transform.Transform(new Point(left + width, top + height));
-
-                Left = corner.X - ActualWidth;
-                Top = corner.Y - ActualHeight;
-            }));
+            Initialize(left, top, window.ActualWidth, window.ActualHeight, achievement);
         }
 
         /// <summary>
@@ -85,37 +74,43 @@ namespace sebingel.sharpchievements
         /// <param name="achievement">The unlocked Achievement</param>
         public AchievementNotificationWindow(Achievement achievement)
         {
-            Titel = achievement.Titel;
-
-            InitializeComponent();
-
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
-            {
-                Matrix transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                Point corner = transform.Transform(new Point(SystemParameters.WorkArea.Right, SystemParameters.WorkArea.Bottom));
-
-                Left = corner.X - ActualWidth;
-                Top = corner.Y - ActualHeight;
-            }));
+            Initialize(0, 0, SystemParameters.WorkArea.Right, SystemParameters.WorkArea.Bottom, achievement);
         }
 
         /// <summary>
         /// Notification Window that can be used to inform the user about unlocked achievements
+        /// Shows the bottom rigth corner of the notification at the given coordinates
         /// </summary>
         /// <param name="achievement">The unlocked Achievement</param>
         /// <param name="left">The position of the left border of the Notification</param>
         /// <param name="top">The position of the top border of the Notification</param>
         public AchievementNotificationWindow(Achievement achievement, double left, double top)
         {
+            Initialize(left, top, 0, 0, achievement);
+        }
+
+        private void Initialize(double left, double top, double width, double height, Achievement achievement)
+        {
             Titel = achievement.Titel;
+            ImagePath = achievement.ImagePath;
+
+            if (String.IsNullOrEmpty(achievement.ImagePath))
+                ImageVisibility = Visibility.Collapsed;
+            else
+                ImageVisibility = Visibility.Visible;
 
             InitializeComponent();
 
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            Action method = () =>
             {
-                Left = left;
-                Top = top;
-            }));
+                Matrix transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
+                Point corner = transform.Transform(new Point(left + width, top + height));
+
+                Left = corner.X - ActualWidth;
+                Top = corner.Y - ActualHeight;
+            };
+
+            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, method);
         }
 
         private void Timeline_OnCompleted(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace sebingel.sharpchievements
 {
@@ -34,6 +35,11 @@ namespace sebingel.sharpchievements
         /// </summary>
         public int Progress { get; private set; }
 
+        /// <summary>
+        /// Path to the Image that is displayed in notifications etc.
+        /// </summary>
+        public string ImagePath { get; private set; }
+
         #endregion
 
         #region Events
@@ -44,7 +50,7 @@ namespace sebingel.sharpchievements
         public event AchievementProgressChangedHandler ProgressChanged;
         private void InvokeProgressChanged(int progressCount)
         {
-            if(ProgressChanged != null)
+            if (ProgressChanged != null)
                 ProgressChanged(this, new AchievementProgressChangedArgs(progressCount));
         }
 
@@ -55,7 +61,7 @@ namespace sebingel.sharpchievements
         private void InvokeAchievementCompleted()
         {
             Unlocked = true;
-            if(AchievementCompleted != null)
+            if (AchievementCompleted != null)
                 AchievementCompleted(this);
         }
 
@@ -70,8 +76,20 @@ namespace sebingel.sharpchievements
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
         public Achievement(string titel, string description, List<AchievementCondition> conditions)
+            : this(titel, description, conditions, String.Empty)
+        { }
+
+        /// <summary>
+        /// An achievement
+        /// </summary>
+        /// <param name="titel">Titel of the achievement</param>
+        /// <param name="description">Description of the achievement</param>
+        /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
+        /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
+        public Achievement(string titel, string description, List<AchievementCondition> conditions, string imagePath)
         {
             Conditions = conditions;
+            ImagePath = imagePath;
             Titel = titel;
             Description = description;
 
@@ -87,8 +105,20 @@ namespace sebingel.sharpchievements
         /// </summary>
         /// <param name="titel">Titel of the achievement</param>
         /// <param name="description">Description of the achievement</param>
-        /// <param name="conditions">Condition that must be met to unlock the achievement</param>
-        public Achievement(string titel, string description, AchievementCondition condition) : this(titel, description, new List<AchievementCondition> { condition })
+        /// <param name="condition">Condition that must be met to unlock the achievement</param>
+        public Achievement(string titel, string description, AchievementCondition condition)
+            : this(titel, description, condition, String.Empty)
+        { }
+
+        /// <summary>
+        /// An achievement
+        /// </summary>
+        /// <param name="titel">Titel of the achievement</param>
+        /// <param name="description">Description of the achievement</param>
+        /// <param name="condition">Condition that must be met to unlock the achievement</param>
+        /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
+        public Achievement(string titel, string description, AchievementCondition condition, string imagePath)
+            : this(titel, description, new List<AchievementCondition> { condition }, imagePath)
         { }
 
         #endregion
@@ -101,18 +131,18 @@ namespace sebingel.sharpchievements
         /// <param name="achievementCondition">AchievementCondition thath fired the event</param>
         private void ConditionCompleted(AchievementCondition achievementCondition)
         {
-            if(Unlocked)
+            if (Unlocked)
                 return;
 
             bool allConditionsCompleted = true;
-            foreach(AchievementCondition condition in Conditions)
+            foreach (AchievementCondition condition in Conditions)
             {
-                if(!condition.Unlocked)
+                if (!condition.Unlocked)
                     allConditionsCompleted = false;
             }
             Unlocked = allConditionsCompleted;
 
-            if(Unlocked)
+            if (Unlocked)
             {
                 InvokeAchievementCompleted();
             }
@@ -125,7 +155,7 @@ namespace sebingel.sharpchievements
         /// <param name="args">Parameters that are important for this event</param>
         private void ConditionProgressChanged(AchievementCondition sender, AchievementConditionProgressChangedArgs args)
         {
-            if(sender.Unlocked)
+            if (sender.Unlocked)
             {
                 return;
             }
@@ -134,7 +164,7 @@ namespace sebingel.sharpchievements
             Progress = 100;
 
             InvokeProgressChanged(Progress);
-        } 
+        }
 
         #endregion
     }

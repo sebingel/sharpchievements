@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AchievementNotificationTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="350">
+        Title="MainWindow" Height="350" Width="500">
 
     <StackPanel Width="125" HorizontalAlignment="Left">
-        <Button Content="ONE" Margin="5" Click="Button_Click"/>
-        <Button Content="TWO" Margin="5" Click="Button_Click_1"/>
-        <Button Content="THREE" Margin="5" Click="Button_Click_2"/>
+        <Button Content="ONE" Margin="5" Click="ButtonClick"/>
+        <Button Content="TWO" Margin="5" Click="ButtonClick1"/>
+        <Button Content="THREE" Margin="5" Click="ButtonClick2"/>
     </StackPanel>
 
 </Window>
