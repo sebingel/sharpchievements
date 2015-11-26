@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using DansCSharpLibrary.Serialization;
 
 namespace sebingel.sharpchievements
@@ -59,7 +60,8 @@ namespace sebingel.sharpchievements
         /// <param name="achievement">The Achievement that should be registered</param>
         public void RegisterAchievement(Achievement achievement)
         {
-            registeredAchievements.Add(achievement);
+            if (registeredAchievements.All(x => x.Titel != achievement.Titel))
+                registeredAchievements.Add(achievement);
             achievement.AchievementCompleted += AchievementAchievementCompleted;
         }
 
@@ -125,13 +127,19 @@ namespace sebingel.sharpchievements
         /// Loads the achievements from the disk
         /// </summary>
         /// <param name="path">Path to load from</param>
-        public void LoadAchievements(string path)
+        /// <param name="suppressFileNotFound">true if you want to supress a FileNotFoundException</param>
+        public bool LoadAchievements(string path, bool suppressFileNotFound)
         {
             if (String.IsNullOrEmpty(path))
                 throw new AchievementSaveException("Can not load from empty string.");
 
             if (!File.Exists(path))
-                throw new FileNotFoundException("File not found.", path);
+            {
+                if (!suppressFileNotFound)
+                    throw new FileNotFoundException("File not found.", path);
+
+                return false;
+            }
 
             registeredAchievements = BinarySerialization.ReadFromBinaryFile<List<Achievement>>(path);
             foreach (Achievement registeredAchievement in registeredAchievements)
@@ -142,6 +150,8 @@ namespace sebingel.sharpchievements
                         registeredAchievementConditions.Add(achievementCondition);
                 }
             }
+
+            return true;
         }
     }
 }

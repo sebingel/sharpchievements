@@ -13,34 +13,27 @@ namespace AchievementTest
             Am.AchievementCompleted += AchievementCompleted;
 
             //BasicTest();
-            //SaveTest();
-            LoadTest();
+            SaveLoadTest();
         }
 
-        private static void SaveTest()
+        private static void SaveLoadTest()
         {
-            AchievementManager am = AchievementManager.GetInstance();
+            Am.LoadAchievements(@"C:\Datasec\achievementTest.bin", true);
+            {
+                AchievementCondition ac = new AchievementCondition("key", 10);
+                Achievement a = new Achievement("a", "desc", ac);
 
-            AchievementCondition ac = new AchievementCondition("key", 10);
-            Achievement a = new Achievement("a", "desc", ac);
+                Am.RegisterAchievementCondition(ac);
+                Am.RegisterAchievement(a);
 
-            am.RegisterAchievementCondition(ac);
-            am.RegisterAchievement(a);
-
-            am.SaveAchiements(@"C:\Datasec\AnwAdmin\achievements.bin");
-
-            Console.ReadLine();
-        }
-
-        private static void LoadTest()
-        {
-            Am.LoadAchievements(@"C:\Datasec\AnwAdmin\achievements.bin");
+                Am.SaveAchiements(@"C:\Datasec\achievementTest.bin");
+            }
 
             Am.ReportProgress("key");
             Am.ReportProgress("key");
             Am.ReportProgress("key");
 
-            Am.SaveAchiements(@"C:\Datasec\AnwAdmin\achievements.bin");
+            Am.SaveAchiements(@"C:\Datasec\achievementTest.bin");
 
             Console.ReadLine();
         }
