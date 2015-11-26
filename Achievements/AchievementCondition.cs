@@ -1,8 +1,11 @@
-﻿namespace sebingel.sharpchievements
+﻿using System;
+
+namespace sebingel.sharpchievements
 {
     /// <summary>
     /// Condition that describes the requirements that must be met to unlock an achievement and can track the progress.
     /// </summary>
+    [Serializable]
     public class AchievementCondition
     {
         private readonly int countToUnlock;

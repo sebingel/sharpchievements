@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using DansCSharpLibrary.Serialization;
 
 namespace sebingel.sharpchievements
 {
     /// <summary>
     /// Central management class for everything achievement related
     /// </summary>
+    [Serializable]
     public class AchievementManager
     {
         private static AchievementManager instance;
         private readonly List<AchievementCondition> registeredAchievementConditions;
-        private readonly List<Achievement> registeredAchievements;
+        private List<Achievement> registeredAchievements;
 
         public event AchievementCompleteHandler AchievementCompleted;
-        protected virtual void InvokeAchievementCompleted(Achievement achievement)
+        private void InvokeAchievementCompleted(Achievement achievement)
         {
             if (AchievementCompleted != null)
                 AchievementCompleted(achievement);
@@ -78,6 +82,65 @@ namespace sebingel.sharpchievements
             {
                 if (condition.AchievementConditionKey == achviementConditionKey)
                     condition.MakeProgress();
+            }
+        }
+
+        /// <summary>
+        /// Saves the achievements to the disk
+        /// </summary>
+        /// <param name="path">Path to save the file to</param>
+        public void SaveAchiements(string path)
+        {
+            if (String.IsNullOrEmpty(path))
+                throw new AchievementSaveException("Can not save to empty string.");
+
+            string sPathDirectory = Path.GetDirectoryName(path);
+
+            if (String.IsNullOrEmpty(sPathDirectory))
+                throw new AchievementSaveException("\"" + path + "\" is not a valid path.");
+
+            if (!Directory.Exists(sPathDirectory))
+            {
+                try
+                {
+                    Directory.CreateDirectory(sPathDirectory);
+                }
+                catch (Exception e)
+                {
+                    throw new AchievementSaveException(
+                        "Directory \"" + sPathDirectory + "\" does not exist.\nFailed to create directory \"" +
+                        sPathDirectory + "\".\n" + e.Message, e);
+                }
+            }
+
+            string sFilename = Path.GetFileName(path);
+
+            if (String.IsNullOrEmpty(sFilename))
+                throw new AchievementSaveException("\"" + path + "\" contains no filename.");
+
+            BinarySerialization.WriteToBinaryFile(Path.Combine(sPathDirectory, sFilename), registeredAchievements);
+        }
+
+        /// <summary>
+        /// Loads the achievements from the disk
+        /// </summary>
+        /// <param name="path">Path to load from</param>
+        public void LoadAchievements(string path)
+        {
+            if (String.IsNullOrEmpty(path))
+                throw new AchievementSaveException("Can not load from empty string.");
+
+            if (!File.Exists(path))
+                throw new FileNotFoundException("File not found.", path);
+
+            registeredAchievements = BinarySerialization.ReadFromBinaryFile<List<Achievement>>(path);
+            foreach (Achievement registeredAchievement in registeredAchievements)
+            {
+                foreach (AchievementCondition achievementCondition in registeredAchievement.Conditions)
+                {
+                    if (!registeredAchievementConditions.Contains(achievementCondition))
+                        registeredAchievementConditions.Add(achievementCondition);
+                }
             }
         }
     }

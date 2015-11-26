@@ -6,6 +6,7 @@ namespace sebingel.sharpchievements
     /// <summary>
     /// Class that represents an achievement
     /// </summary>
+    [Serializable]
     public class Achievement
     {
         #region Properties

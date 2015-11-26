@@ -6,10 +6,47 @@ namespace AchievementTest
 {
     public class Program
     {
+        private static readonly AchievementManager Am = AchievementManager.GetInstance();
+
         static void Main()
         {
-            AchievementManager achievementManager = AchievementManager.GetInstance();
+            Am.AchievementCompleted += AchievementCompleted;
 
+            //BasicTest();
+            //SaveTest();
+            LoadTest();
+        }
+
+        private static void SaveTest()
+        {
+            AchievementManager am = AchievementManager.GetInstance();
+
+            AchievementCondition ac = new AchievementCondition("key", 10);
+            Achievement a = new Achievement("a", "desc", ac);
+
+            am.RegisterAchievementCondition(ac);
+            am.RegisterAchievement(a);
+
+            am.SaveAchiements(@"C:\Datasec\AnwAdmin\achievements.bin");
+
+            Console.ReadLine();
+        }
+
+        private static void LoadTest()
+        {
+            Am.LoadAchievements(@"C:\Datasec\AnwAdmin\achievements.bin");
+
+            Am.ReportProgress("key");
+            Am.ReportProgress("key");
+            Am.ReportProgress("key");
+
+            Am.SaveAchiements(@"C:\Datasec\AnwAdmin\achievements.bin");
+
+            Console.ReadLine();
+        }
+
+        private static void BasicTest()
+        {
             AchievementCondition achievementCondition = new AchievementCondition("a", 5);
             AchievementCondition condition = new AchievementCondition("a", 10);
             AchievementCondition item = new AchievementCondition("s", 5);
@@ -23,19 +60,18 @@ namespace AchievementTest
             Achievement c = new Achievement("5xS", "You pressed s five times", item);
             //c.AchievementCompleted += AchievementCompleted;
 
-            Achievement d = new Achievement("5xS+10xA", "You pressed s five times and a ten times", new List<AchievementCondition> { condition, item });
+            Achievement d = new Achievement("5xS+10xA", "You pressed s five times and a ten times",
+                new List<AchievementCondition> { condition, item });
             //d.AchievementCompleted += AchievementCompleted;
 
-            achievementManager.RegisterAchievement(a);
-            achievementManager.RegisterAchievement(b);
-            achievementManager.RegisterAchievement(c);
-            achievementManager.RegisterAchievement(d);
+            Am.RegisterAchievement(a);
+            Am.RegisterAchievement(b);
+            Am.RegisterAchievement(c);
+            Am.RegisterAchievement(d);
 
-            achievementManager.RegisterAchievementCondition(achievementCondition);
-            achievementManager.RegisterAchievementCondition(condition);
-            achievementManager.RegisterAchievementCondition(item);
-
-            achievementManager.AchievementCompleted += AchievementCompleted;
+            Am.RegisterAchievementCondition(achievementCondition);
+            Am.RegisterAchievementCondition(condition);
+            Am.RegisterAchievementCondition(item);
 
             Run();
         }
