@@ -17,7 +17,7 @@ namespace sebingel.sharpchievements
         public List<AchievementCondition> Conditions { get; private set; }
 
         /// <summary>
-        /// Titel of the achievement
+        /// Applicationwide unique Titel of the achievement
         /// </summary>
         public string Titel { get; private set; }
 
@@ -48,6 +48,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Event that fires when the progress has changed
         /// </summary>
+        [field: NonSerialized]
         public event AchievementProgressChangedHandler ProgressChanged;
         private void InvokeProgressChanged(int progressCount)
         {
@@ -58,6 +59,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Event that fires when the achievement is unlocked
         /// </summary>
+        [field: NonSerialized]
         public event AchievementCompleteHandler AchievementCompleted;
         private void InvokeAchievementCompleted()
         {
@@ -73,7 +75,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// An achievement
         /// </summary>
-        /// <param name="titel">Titel of the achievement</param>
+        /// <param name="titel">Applicationwide unique Titel of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
         public Achievement(string titel, string description, List<AchievementCondition> conditions)
@@ -83,7 +85,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// An achievement
         /// </summary>
-        /// <param name="titel">Titel of the achievement</param>
+        /// <param name="titel">Applicationwide unique Titel of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
         /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
@@ -104,7 +106,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// An achievement
         /// </summary>
-        /// <param name="titel">Titel of the achievement</param>
+        /// <param name="titel">Applicationwide unique Titel of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
         public Achievement(string titel, string description, AchievementCondition condition)
@@ -114,7 +116,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// An achievement
         /// </summary>
-        /// <param name="titel">Titel of the achievement</param>
+        /// <param name="titel">Applicationwide unique Titel of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
         /// <param name="imagePath">Path to the image that is displayed in notifivations</param>

@@ -12,6 +12,11 @@ namespace sebingel.sharpchievements
         private int progress;
 
         /// <summary>
+        /// Applicationwide Unique Titel of the AchievementCondition
+        /// </summary>
+        public string Titel { get; set; }
+
+        /// <summary>
         /// Key of this AchivementCondition. Is used to identify one ore more AchievementConditions by the AchievementManager.
         /// </summary>
         public string AchievementConditionKey { get; private set; }
@@ -45,10 +50,12 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Condition that describes the requirements that must be met to unlock an achievement and can track the progress.
         /// </summary>
+        /// <param name="titel">Applicationwide Unique Titel of the AchievementCondition</param>
         /// <param name="achievementConditionKey">Key of this AchivementCondition. Is used to identify one ore more AchievementConditions by the AchievementManager.</param>
         /// <param name="countToUnlock">Sets the number of Calls until this AchievementCondtion counts as completed.</param>
-        public AchievementCondition(string achievementConditionKey, int countToUnlock)
+        public AchievementCondition(string titel, string achievementConditionKey, int countToUnlock)
         {
+            Titel = titel;
             AchievementConditionKey = achievementConditionKey;
             this.countToUnlock = countToUnlock;
             Unlocked = false;

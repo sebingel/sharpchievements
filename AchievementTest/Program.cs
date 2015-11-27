@@ -19,15 +19,11 @@ namespace AchievementTest
         private static void SaveLoadTest()
         {
             Am.LoadAchievements(@"C:\Datasec\achievementTest.bin", true);
-            {
-                AchievementCondition ac = new AchievementCondition("key", 10);
-                Achievement a = new Achievement("a", "desc", ac);
+            AchievementCondition ac = new AchievementCondition("titel", "key", 5);
+            Achievement a = new Achievement("a", "desc", ac);
 
-                Am.RegisterAchievementCondition(ac);
-                Am.RegisterAchievement(a);
-
-                Am.SaveAchiements(@"C:\Datasec\achievementTest.bin");
-            }
+            Am.RegisterAchievementCondition(ac);
+            Am.RegisterAchievement(a);
 
             Am.ReportProgress("key");
             Am.ReportProgress("key");
@@ -40,9 +36,9 @@ namespace AchievementTest
 
         private static void BasicTest()
         {
-            AchievementCondition achievementCondition = new AchievementCondition("a", 5);
-            AchievementCondition condition = new AchievementCondition("a", 10);
-            AchievementCondition item = new AchievementCondition("s", 5);
+            AchievementCondition achievementCondition = new AchievementCondition("aCondition", "a", 5);
+            AchievementCondition condition = new AchievementCondition("secondACondition", "a", 10);
+            AchievementCondition item = new AchievementCondition("sCondition", "s", 5);
 
             Achievement a = new Achievement("5xA", "You pressed a five times", achievementCondition);
             //a.AchievementCompleted += AchievementCompleted;

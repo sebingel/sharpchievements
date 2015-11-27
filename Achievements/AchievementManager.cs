@@ -9,7 +9,6 @@ namespace sebingel.sharpchievements
     /// <summary>
     /// Central management class for everything achievement related
     /// </summary>
-    [Serializable]
     public class AchievementManager
     {
         private static AchievementManager instance;
@@ -50,7 +49,11 @@ namespace sebingel.sharpchievements
         /// <param name="achievementCondition">The AchievementCondition that should be registered</param>
         public void RegisterAchievementCondition(AchievementCondition achievementCondition)
         {
-            registeredAchievementConditions.Add(achievementCondition);
+            if (registeredAchievementConditions.All(x => x.Titel != achievementCondition.Titel))
+            {
+                registeredAchievementConditions.Add(achievementCondition);
+                registeredAchievementConditions.Add(achievementCondition);
+            }
         }
 
         /// <summary>
@@ -61,8 +64,10 @@ namespace sebingel.sharpchievements
         public void RegisterAchievement(Achievement achievement)
         {
             if (registeredAchievements.All(x => x.Titel != achievement.Titel))
+            {
                 registeredAchievements.Add(achievement);
-            achievement.AchievementCompleted += AchievementAchievementCompleted;
+                achievement.AchievementCompleted += AchievementAchievementCompleted;
+            }
         }
 
         /// <summary>
@@ -144,6 +149,8 @@ namespace sebingel.sharpchievements
             registeredAchievements = BinarySerialization.ReadFromBinaryFile<List<Achievement>>(path);
             foreach (Achievement registeredAchievement in registeredAchievements)
             {
+                registeredAchievement.AchievementCompleted += AchievementAchievementCompleted;
+
                 foreach (AchievementCondition achievementCondition in registeredAchievement.Conditions)
                 {
                     if (!registeredAchievementConditions.Contains(achievementCondition))
