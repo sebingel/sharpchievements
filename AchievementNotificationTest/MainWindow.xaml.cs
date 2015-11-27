@@ -9,6 +9,8 @@ namespace AchievementNotificationTest
     /// </summary>
     public partial class MainWindow
     {
+        private AchievementNotificationWindow w;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,8 +48,15 @@ namespace AchievementNotificationTest
         {
             //new AchievementNotificationWindow(achievement).Show();
             //new AchievementNotificationWindow(achievement,Left, Top, ActualWidth, ActualHeight).Show();
-            new AchievementNotificationWindow(achievement, this).Show();
             //new AchievementNotificationWindow(achievement, 100, 100).Show();
+            w = new AchievementNotificationWindow(achievement, this);
+            //w.Completed += W_Completed;
+            w.Show();
+        }
+
+        private void W_Completed(AchievementNotificationWindow w)
+        {
+            w.Completed -= W_Completed;
         }
 
         private void ButtonClick(object sender, System.Windows.RoutedEventArgs e)
@@ -63,6 +72,12 @@ namespace AchievementNotificationTest
         private void ButtonClick2(object sender, System.Windows.RoutedEventArgs e)
         {
             AchievementManager.GetInstance().ReportProgress("Click3");
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e)
+        {
+            if(w != null)
+                w.Close();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Inspired by https://stackoverflow.com/questions/3034741/create-popup-toaster-notifications-in-windows-with-net
 
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -28,6 +29,13 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public Visibility ImageVisibility { get; private set; }
 
+        public event Action<AchievementNotificationWindow> Completed;
+        private void InvokeCompleted()
+        {
+            if(Completed != null)
+                Completed(this);
+        }
+
         /// <summary>
         /// Notification Window that can be used to inform the user about unlocked achievements.
         /// Shows the AchievementNotificationWindow in the bottom right corner of the given coordinates.
@@ -51,6 +59,8 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <param name="window">The Window in which the Notification should be displayed</param>
         public AchievementNotificationWindow(Achievement achievement, Window window)
         {
+            window.Closing += Window_Closing;
+
             double left;
             double top;
             if (window.WindowState == WindowState.Maximized)
@@ -65,6 +75,12 @@ namespace sebingel.sharpchievements.AchievementViews.View
             }
 
             Initialize(left, top, window.ActualWidth, window.ActualHeight, achievement);
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            ((Window)sender).Closing -= Window_Closing;
+            Close();
         }
 
         /// <summary>

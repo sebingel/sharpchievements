@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AchievementNotificationTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="500">
+        Title="MainWindow" Height="350" Width="500"
+        Closed="Window_Closed">
 
     <StackPanel Width="125" HorizontalAlignment="Left">
         <Button Content="ONE" Margin="5" Click="ButtonClick"/>
