@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using DansCSharpLibrary.Serialization;
@@ -67,6 +68,8 @@ namespace sebingel.sharpchievements
             {
                 registeredAchievements.Add(achievement);
                 achievement.AchievementCompleted += AchievementAchievementCompleted;
+
+                InvokeAchievementsChanged();
             }
         }
 
@@ -77,6 +80,7 @@ namespace sebingel.sharpchievements
         private void AchievementAchievementCompleted(Achievement achievement)
         {
             InvokeAchievementCompleted(achievement);
+            InvokeAchievementsChanged();
         }
 
         /// <summary>
@@ -88,7 +92,10 @@ namespace sebingel.sharpchievements
             foreach (AchievementCondition condition in registeredAchievementConditions)
             {
                 if (condition.AchievementConditionKey == achviementConditionKey)
+                {
                     condition.MakeProgress();
+                    InvokeAchievementsChanged();
+                }
             }
         }
 
@@ -159,6 +166,25 @@ namespace sebingel.sharpchievements
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Returns a ReadOnlyCollection of all registered Achievements
+        /// </summary>
+        /// <returns>A ReadOnlyCollection of all registered Achievements</returns>
+        public ReadOnlyCollection<Achievement> GetAchievementList()
+        {
+            return new ReadOnlyCollection<Achievement>(registeredAchievements);
+        }
+
+        /// <summary>
+        /// Event that fires when anything is changed in any registered Achievement
+        /// </summary>
+        public event Action AchievementsChanged;
+        private void InvokeAchievementsChanged()
+        {
+            if (AchievementsChanged != null)
+                AchievementsChanged();
         }
     }
 }
