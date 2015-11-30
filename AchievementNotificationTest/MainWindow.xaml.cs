@@ -13,6 +13,8 @@ namespace AchievementNotificationTest
 
         public MainWindow()
         {
+            // for test purposes no saving or loading here
+
             InitializeComponent();
 
             AchievementManager achievementManager = AchievementManager.GetInstance();
@@ -28,7 +30,7 @@ namespace AchievementNotificationTest
 
             AchievementCondition clickConditionFour = new AchievementCondition("SpecialOne", "Click1", 1);
             AchievementCondition clickConditionFive = new AchievementCondition("SpecialTwo", "Click2", 3);
-            Achievement a4 = new Achievement("SPECIAL!!!", "You clicked on ONE", new List<AchievementCondition> { clickConditionFour, clickConditionFive });
+            Achievement a4 = new Achievement("SPECIAL!!!", "You clicked on ONE and on TWO several times!", new List<AchievementCondition> { clickConditionFour, clickConditionFive });
 
             achievementManager.RegisterAchievement(a1);
             achievementManager.RegisterAchievement(a2);
@@ -46,12 +48,13 @@ namespace AchievementNotificationTest
 
         private void AchievementManagerAchievementCompleted(Achievement achievement)
         {
-            //new AchievementNotificationWindow(achievement).Show();
-            //new AchievementNotificationWindow(achievement,Left, Top, ActualWidth, ActualHeight).Show();
-            //new AchievementNotificationWindow(achievement, 100, 100).Show();
-            w = new AchievementNotificationWindow(achievement, this);
+            // w = new AchievementNotificationWindow(achievement).Show();
+            // w = new AchievementNotificationWindow(achievement,Left, Top, ActualWidth, ActualHeight).Show();
+            // w = new AchievementNotificationWindow(achievement, 100, 100).Show();
+            new AchievementNotificationWindow(achievement, this).Show();
+
             //w.Completed += W_Completed;
-            w.Show();
+            //w.Show();
         }
 
         private void W_Completed(AchievementNotificationWindow w)
@@ -76,7 +79,7 @@ namespace AchievementNotificationTest
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
-            if(w != null)
+            if (w != null)
                 w.Close();
         }
     }

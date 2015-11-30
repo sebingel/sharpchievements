@@ -3,12 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AchievementNotificationTest"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="500"
         Closed="Window_Closed">
 
-    <StackPanel Width="125" HorizontalAlignment="Left">
+    <StackPanel HorizontalAlignment="Left">
         <Button Content="ONE" Margin="5" Click="ButtonClick"/>
         <Button Content="TWO" Margin="5" Click="ButtonClick1"/>
         <Button Content="THREE" Margin="5" Click="ButtonClick2"/>
