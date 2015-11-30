@@ -29,10 +29,13 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public Visibility ImageVisibility { get; private set; }
 
+        /// <summary>
+        /// Event that fires when the animation is completed
+        /// </summary>
         public event Action<AchievementNotificationWindow> Completed;
         private void InvokeCompleted()
         {
-            if(Completed != null)
+            if (Completed != null)
                 Completed(this);
         }
 
@@ -59,7 +62,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <param name="window">The Window in which the Notification should be displayed</param>
         public AchievementNotificationWindow(Achievement achievement, Window window)
         {
-            window.Closing += Window_Closing;
+            window.Closing += WindowClosing;
 
             double left;
             double top;
@@ -77,9 +80,14 @@ namespace sebingel.sharpchievements.AchievementViews.View
             Initialize(left, top, window.ActualWidth, window.ActualHeight, achievement);
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
+        /// <summary>
+        /// Unsubscribes the event and closes the AchievementNotificationWindow when the calling window is closed
+        /// </summary>
+        /// <param name="sender">the calling window</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void WindowClosing(object sender, CancelEventArgs e)
         {
-            ((Window)sender).Closing -= Window_Closing;
+            ((Window)sender).Closing -= WindowClosing;
             Close();
         }
 
@@ -105,6 +113,14 @@ namespace sebingel.sharpchievements.AchievementViews.View
             Initialize(left, top, 0, 0, achievement);
         }
 
+        /// <summary>
+        /// Shows the AchievementNotificationWindow in the lower right corner of the given coordinates
+        /// </summary>
+        /// <param name="left">Distance from left screen border</param>
+        /// <param name="top">Distance from top screen border</param>
+        /// <param name="width">Width</param>
+        /// <param name="height">Height</param>
+        /// <param name="achievement">The Achievement</param>
         private void Initialize(double left, double top, double width, double height, Achievement achievement)
         {
             Titel = achievement.Titel;
