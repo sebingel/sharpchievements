@@ -56,15 +56,30 @@
     <Compile Include="AchievementManager.cs" />
     <Compile Include="AchievementCompleteHandler.cs" />
     <Compile Include="AchievementSaveException.cs" />
+    <Compile Include="AchievementViews\View\AchievementControl.xaml.cs">
+      <DependentUpon>AchievementControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AchievementViews\View\AchievementNotificationWindow.xaml.cs">
       <DependentUpon>AchievementNotificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AchievementProgressChangedArgs.cs" />
     <Compile Include="AchievementProgressChangedHandler.cs" />
+    <Compile Include="AchievementViews\View\AchievementOverviewControl.xaml.cs">
+      <DependentUpon>AchievementOverviewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AchievementViews\View\AchievementControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AchievementViews\View\AchievementNotificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AchievementViews\View\AchievementOverviewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
