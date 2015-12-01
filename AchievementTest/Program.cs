@@ -12,8 +12,8 @@ namespace AchievementTest
         {
             Am.AchievementCompleted += AchievementCompleted;
 
-            //BasicTest();
-            SaveLoadTest();
+            BasicTest();
+            //SaveLoadTest();
         }
 
         private static void SaveLoadTest()

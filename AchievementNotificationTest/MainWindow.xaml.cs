@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using sebingel.sharpchievements;
 using sebingel.sharpchievements.AchievementViews.View;
 
@@ -9,12 +10,8 @@ namespace AchievementNotificationTest
     /// </summary>
     public partial class MainWindow
     {
-        private AchievementNotificationWindow w;
-
         public MainWindow()
         {
-            // for test purposes no saving or loading here
-
             InitializeComponent();
 
             AchievementManager achievementManager = AchievementManager.GetInstance();
@@ -30,7 +27,7 @@ namespace AchievementNotificationTest
 
             AchievementCondition clickConditionFour = new AchievementCondition("SpecialOne", "Click1", 1);
             AchievementCondition clickConditionFive = new AchievementCondition("SpecialTwo", "Click2", 3);
-            Achievement a4 = new Achievement("SPECIAL!!!", "You clicked on ONE and on TWO several times!", new List<AchievementCondition> { clickConditionFour, clickConditionFive });
+            Achievement a4 = new Achievement("SPECIAL!!!", "You clicked on ONE", new List<AchievementCondition> { clickConditionFour, clickConditionFive });
 
             achievementManager.RegisterAchievement(a1);
             achievementManager.RegisterAchievement(a2);
@@ -48,39 +45,25 @@ namespace AchievementNotificationTest
 
         private void AchievementManagerAchievementCompleted(Achievement achievement)
         {
-            // w = new AchievementNotificationWindow(achievement).Show();
-            // w = new AchievementNotificationWindow(achievement,Left, Top, ActualWidth, ActualHeight).Show();
-            // w = new AchievementNotificationWindow(achievement, 100, 100).Show();
+            //new AchievementNotificationWindow(achievement).Show();
+            //new AchievementNotificationWindow(achievement,Left, Top, ActualWidth, ActualHeight).Show();
+            //new AchievementNotificationWindow(achievement, 100, 100).Show();
             new AchievementNotificationWindow(achievement, this).Show();
-
-            //w.Completed += W_Completed;
-            //w.Show();
         }
 
-        private void W_Completed(AchievementNotificationWindow w)
-        {
-            w.Completed -= W_Completed;
-        }
-
-        private void ButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonClick(object sender, RoutedEventArgs e)
         {
             AchievementManager.GetInstance().ReportProgress("Click1");
         }
 
-        private void ButtonClick1(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonClick1(object sender, RoutedEventArgs e)
         {
             AchievementManager.GetInstance().ReportProgress("Click2");
         }
 
-        private void ButtonClick2(object sender, System.Windows.RoutedEventArgs e)
+        private void ButtonClick2(object sender, RoutedEventArgs e)
         {
             AchievementManager.GetInstance().ReportProgress("Click3");
-        }
-
-        private void Window_Closed(object sender, System.EventArgs e)
-        {
-            if (w != null)
-                w.Close();
         }
     }
 }

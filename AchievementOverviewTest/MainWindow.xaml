@@ -4,6 +4,17 @@
         xmlns:view="clr-namespace:sebingel.sharpchievements.AchievementViews.View;assembly=sebingel.sharpchievements"
         Title="MainWindow" Height="350" Width="525">
 
-    <view:AchievementOverviewControl />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Unlock!" Click="ButtonBase_OnClick" HorizontalAlignment="Left" Margin="5" />
+            <Button Content="Unlock 2!" Click="ButtonBase_OnClick2" HorizontalAlignment="Left" Margin="5" />
+        </StackPanel>
+        <view:AchievementOverviewControl Grid.Row="1" Name="AchievementOverviewControl"/>
+    </Grid>
 
 </Window>
