@@ -12,6 +12,9 @@ namespace sebingel.sharpchievements.AchievementViews.View
     public partial class AchievementOverviewControl : INotifyPropertyChanged
     {
         private List<Achievement> achievementList;
+        private Visibility unlockedAchievementsVisibility;
+        private Visibility separatorVisibility;
+        private Visibility lockedAchievementsVisibility;
 
         /// <summary>
         /// A list containing Achievements that are displayed
@@ -30,16 +33,65 @@ namespace sebingel.sharpchievements.AchievementViews.View
         }
 
         /// <summary>
+        /// State of the visibility of unlocked Achievements
+        /// </summary>
+        public Visibility UnlockedAchievementsVisibility
+        {
+            get
+            {
+                return unlockedAchievementsVisibility;
+            }
+            set
+            {
+                unlockedAchievementsVisibility = value;
+                InvokePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// State of the visibility of the Separator between locken and unlocked Achievements
+        /// </summary>
+        public Visibility SeparatorVisibility
+        {
+            get
+            {
+                return separatorVisibility;
+            }
+            set
+            {
+                separatorVisibility = value;
+                InvokePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// State of the visibility of locked Achievements
+        /// </summary>
+        public Visibility LockedAchievementsVisibility
+        {
+            get
+            {
+                return lockedAchievementsVisibility;
+            }
+            set
+            {
+                lockedAchievementsVisibility = value;
+                InvokePropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// A basic overview of all registered Achievements
         /// </summary>
         public AchievementOverviewControl()
             : this(null)
         {
             InitializeComponent();
-            AchievementOverViewControlAchievementsChanged();
+            Refresh();
 
+            // Disable due to performance problems
             // When called with no parameters the control will keep track of all registered Achievements by subscribing the according event in the AchievementManager
-            AchievementManager.GetInstance().AchievementsChanged += AchievementOverViewControlAchievementsChanged;
+            //AchievementManager.GetInstance().AchievementsChanged += AchievementOverViewControlAchievementsChanged;
         }
 
         /// <summary>
@@ -55,15 +107,32 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <summary>
         /// Happens when an Achievement is changed in the AchievementManager
         /// </summary>
-        private void AchievementOverViewControlAchievementsChanged()
+        public void Refresh()
         {
             AchievementList = new List<Achievement>(AchievementManager.GetInstance().GetAchievementList());
 
-            ic.Items.Clear();
-            foreach (Achievement achievement in AchievementList)
-            {
-                ic.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
-            }
+            IcUnlocked.Items.Clear();
+            foreach (Achievement achievement in AchievementList.FindAll(x => x.Unlocked))
+                IcUnlocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
+
+            IcLocked.Items.Clear();
+            foreach (Achievement achievement in AchievementList.FindAll(x => !x.Unlocked))
+                IcLocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
+
+            if (AchievementList.FindAll(x => x.Unlocked).Count > 0)
+                UnlockedAchievementsVisibility = Visibility.Visible;
+            else
+                UnlockedAchievementsVisibility = Visibility.Collapsed;
+
+            if (AchievementList.FindAll(x => !x.Unlocked).Count > 0)
+                LockedAchievementsVisibility = Visibility.Visible;
+            else
+                LockedAchievementsVisibility = Visibility.Collapsed;
+
+            if (AchievementList.FindAll(x => x.Unlocked).Count > 0 && AchievementList.FindAll(x => !x.Unlocked).Count > 0)
+                SeparatorVisibility = Visibility.Visible;
+            else
+                SeparatorVisibility = Visibility.Collapsed;
         }
 
         #region INotifyPropertyChanged

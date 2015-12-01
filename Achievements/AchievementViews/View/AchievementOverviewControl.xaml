@@ -1,29 +1,48 @@
 ﻿<UserControl x:Class="sebingel.sharpchievements.AchievementViews.View.AchievementOverviewControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:view="clr-namespace:sebingel.sharpchievements.AchievementViews.View"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    
+
     <!-- TODO: Use Binding and DataTemplate -->
     <!--<UserControl.Resources>
         <DataTemplate x:Key="AchievementTemplate">
             <view:AchievementControl/>
         </DataTemplate>
     </UserControl.Resources>-->
-    
+
     <ScrollViewer>
         <Border BorderThickness="0" Background="#2f2f2f" BorderBrush="Black">
-            <!--<ItemsControl ItemsSource="{Binding AchievementList}" ItemTemplate="{StaticResource AchievementTemplate}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--<ItemsControl ItemsSource="{Binding AchievementList}" ItemTemplate="{StaticResource AchievementTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>-->
-            <ItemsControl Name="ic"/>
+
+                <TextBlock Grid.Row="0" Text="Achievements" FontSize="25" Foreground="#B0B0B0" Margin="5,0" />
+                <TextBlock Grid.Row="1" Text="Unlocked" FontSize="20" Foreground="#B0B0B0"
+                           Visibility="{Binding UnlockedAchievementsVisibility}" Margin="5,0" />
+                <ItemsControl Grid.Row="2" Name="IcUnlocked" Visibility="{Binding UnlockedAchievementsVisibility}" />
+                <Separator Grid.Row="3" Visibility="{Binding SeparatorVisibility}" Margin="5" Foreground="#4b4b4b" />
+                <TextBlock Grid.Row="4" Text="Locked" FontSize="20" Foreground="#B0B0B0" Margin="5,0"
+                           Visibility="{Binding LockedAchievementsVisibility}" />
+                <ItemsControl Grid.Row="5" Name="IcLocked" Visibility="{Binding LockedAchievementsVisibility}" />
+            </Grid>
         </Border>
     </ScrollViewer>
 </UserControl>

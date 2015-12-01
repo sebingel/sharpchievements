@@ -41,8 +41,17 @@ namespace sebingel.sharpchievements.AchievementViews.View
                 if (value != null)
                 {
                     Titel = value.Titel;
-                    Description = value.Description;
-                    ImagePath = value.ImagePath;
+
+                    if (value.Unlocked)
+                    {
+                        Description = value.Description;
+                        ImagePath = value.ImagePath;
+                    }
+                    else
+                    {
+                        Description = String.Empty;
+                        ImagePath = "/sebingel.sharpchievements;component/Images/question30.png";
+                    }
 
                     if (String.IsNullOrEmpty(value.ImagePath))
                         ImageVisibility = Visibility.Collapsed;
