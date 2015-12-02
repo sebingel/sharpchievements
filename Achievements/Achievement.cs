@@ -12,27 +12,32 @@ namespace sebingel.sharpchievements
         #region Properties
 
         /// <summary>
+        /// Applicationwide unique uniqueId of the achievement
+        /// </summary>
+        public string UniqueId { get; private set; }
+
+        /// <summary>
         /// List of conditions which must be met to unlock the achievement
         /// </summary>
         public List<AchievementCondition> Conditions { get; private set; }
 
         /// <summary>
-        /// Applicationwide unique Titel of the achievement
+        /// The Titel of the Achievement
         /// </summary>
         public string Titel { get; private set; }
 
         /// <summary>
-        /// Description of the achievement
+        /// Description of the Achievement
         /// </summary>
         public string Description { get; private set; }
 
         /// <summary>
-        /// Flag which shows if the achievement is unlocked
+        /// Flag which shows if the Achievement is unlocked
         /// </summary>
         public bool Unlocked { get; private set; }
 
         /// <summary>
-        /// Progress of unlocking the achievement
+        /// Progress of unlocking the Achievement
         /// </summary>
         public int Progress { get; private set; }
 
@@ -73,24 +78,27 @@ namespace sebingel.sharpchievements
         #region Constructor(s)
 
         /// <summary>
-        /// An achievement
+        /// An Achievement
         /// </summary>
-        /// <param name="titel">Applicationwide unique Titel of the achievement</param>
+        /// <param name="uniqueId">Applicationwide unique uniqueId of the achievement</param>
+        /// <param name="titel">Titel of the Achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
-        public Achievement(string titel, string description, List<AchievementCondition> conditions)
-            : this(titel, description, conditions, String.Empty)
+        public Achievement(string uniqueId, string titel, string description, List<AchievementCondition> conditions)
+            : this(uniqueId, titel, description, conditions, String.Empty)
         { }
 
         /// <summary>
         /// An achievement
         /// </summary>
-        /// <param name="titel">Applicationwide unique Titel of the achievement</param>
+        /// <param name="uniqueId">Applicationwide unique uniqueId of the achievement</param>
+        /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
         /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
-        public Achievement(string titel, string description, List<AchievementCondition> conditions, string imagePath)
+        public Achievement(string uniqueId, string titel, string description, List<AchievementCondition> conditions, string imagePath)
         {
+            UniqueId = uniqueId;
             Conditions = conditions;
             ImagePath = imagePath;
             Titel = titel;
@@ -106,22 +114,22 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// An achievement
         /// </summary>
-        /// <param name="titel">Applicationwide unique Titel of the achievement</param>
+        /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
-        public Achievement(string titel, string description, AchievementCondition condition)
-            : this(titel, description, condition, String.Empty)
+        public Achievement(string uniqueId, string titel, string description, AchievementCondition condition)
+            : this(uniqueId, titel, description, condition, String.Empty)
         { }
 
         /// <summary>
         /// An achievement
         /// </summary>
-        /// <param name="titel">Applicationwide unique Titel of the achievement</param>
+        /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
         /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
-        public Achievement(string titel, string description, AchievementCondition condition, string imagePath)
-            : this(titel, description, new List<AchievementCondition> { condition }, imagePath)
+        public Achievement(string uniqueId, string titel, string description, AchievementCondition condition, string imagePath)
+            : this(uniqueId, titel, description, new List<AchievementCondition> { condition }, imagePath)
         { }
 
         #endregion
@@ -170,5 +178,14 @@ namespace sebingel.sharpchievements
         }
 
         #endregion
+
+        public void Clear()
+        {
+            foreach (AchievementCondition achievementCondition in Conditions)
+            {
+                achievementCondition.ProgressChanged -= ConditionProgressChanged;
+                achievementCondition.ConditionCompleted -= ConditionCompleted;
+            }
+        }
     }
 }

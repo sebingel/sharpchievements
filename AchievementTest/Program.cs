@@ -20,7 +20,7 @@ namespace AchievementTest
         {
             Am.LoadAchievements(@"C:\Datasec\achievementTest.bin", true);
             AchievementCondition ac = new AchievementCondition("titel", "key", 5);
-            Achievement a = new Achievement("a", "desc", ac);
+            Achievement a = new Achievement("a", "a", "desc", ac);
 
             Am.RegisterAchievementCondition(ac);
             Am.RegisterAchievement(a);
@@ -40,16 +40,16 @@ namespace AchievementTest
             AchievementCondition condition = new AchievementCondition("secondACondition", "a", 10);
             AchievementCondition item = new AchievementCondition("sCondition", "s", 5);
 
-            Achievement a = new Achievement("5xA", "You pressed a five times", achievementCondition);
+            Achievement a = new Achievement("a", "5xA", "You pressed a five times", achievementCondition);
             //a.AchievementCompleted += AchievementCompleted;
 
-            Achievement b = new Achievement("10xA", "You pressed a ten times", condition);
+            Achievement b = new Achievement("b", "10xA", "You pressed a ten times", condition);
             //b.AchievementCompleted += AchievementCompleted;
 
-            Achievement c = new Achievement("5xS", "You pressed s five times", item);
+            Achievement c = new Achievement("c", "5xS", "You pressed s five times", item);
             //c.AchievementCompleted += AchievementCompleted;
 
-            Achievement d = new Achievement("5xS+10xA", "You pressed s five times and a ten times",
+            Achievement d = new Achievement("d", "5xS+10xA", "You pressed s five times and a ten times",
                 new List<AchievementCondition> { condition, item });
             //d.AchievementCompleted += AchievementCompleted;
 
@@ -61,6 +61,9 @@ namespace AchievementTest
             Am.RegisterAchievementCondition(achievementCondition);
             Am.RegisterAchievementCondition(condition);
             Am.RegisterAchievementCondition(item);
+
+            Am.DeleteAchievementByUniqueId("d");
+            Am.DeleteAchievementByUniqueId("b");
 
             Run();
         }

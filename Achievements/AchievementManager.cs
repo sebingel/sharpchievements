@@ -24,6 +24,16 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
+        /// Event that fires when anything is changed in any registered Achievement
+        /// </summary>
+        public event Action AchievementsChanged;
+        private void InvokeAchievementsChanged()
+        {
+            if (AchievementsChanged != null)
+                AchievementsChanged();
+        }
+
+        /// <summary>
         /// Central management class for everything achievement related
         /// </summary>
         private AchievementManager()
@@ -50,9 +60,8 @@ namespace sebingel.sharpchievements
         /// <param name="achievementCondition">The AchievementCondition that should be registered</param>
         public void RegisterAchievementCondition(AchievementCondition achievementCondition)
         {
-            if (registeredAchievementConditions.All(x => x.Titel != achievementCondition.Titel))
+            if (registeredAchievementConditions.All(x => x.UniqueId != achievementCondition.UniqueId))
             {
-                registeredAchievementConditions.Add(achievementCondition);
                 registeredAchievementConditions.Add(achievementCondition);
             }
         }
@@ -64,7 +73,7 @@ namespace sebingel.sharpchievements
         /// <param name="achievement">The Achievement that should be registered</param>
         public void RegisterAchievement(Achievement achievement)
         {
-            if (registeredAchievements.All(x => x.Titel != achievement.Titel))
+            if (registeredAchievements.All(x => x.UniqueId != achievement.UniqueId))
             {
                 registeredAchievements.Add(achievement);
                 achievement.AchievementCompleted += AchievementAchievementCompleted;
@@ -178,13 +187,52 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
-        /// Event that fires when anything is changed in any registered Achievement
+        /// Deletes an Achievement by its UniqueId
         /// </summary>
-        public event Action AchievementsChanged;
-        private void InvokeAchievementsChanged()
+        /// <param name="uniqueId">UniqueId of Achievement that should be deleted</param>
+        public void DeleteAchievementByUniqueId(string uniqueId)
         {
-            if (AchievementsChanged != null)
-                AchievementsChanged();
+            Achievement a = registeredAchievements.Find(x => x.UniqueId == uniqueId);
+            if (a != null)
+            {
+                registeredAchievements.Remove(a);
+                a.AchievementCompleted -= AchievementAchievementCompleted;
+                a.Clear();
+                CleanUpAchievementConditions();
+            }
+        }
+
+        /// <summary>
+        /// Removes no longer needed AchievementConditions
+        /// </summary>
+        private void CleanUpAchievementConditions()
+        {
+            List<AchievementCondition> toDelete = new List<AchievementCondition>();
+            foreach (AchievementCondition achievementCondition in registeredAchievementConditions)
+            {
+                if (registeredAchievements.Find(x => x.Conditions.Contains(achievementCondition)) == null)
+                    toDelete.Add(achievementCondition);
+            }
+
+            foreach (AchievementCondition achievementCondition in toDelete)
+            {
+                registeredAchievementConditions.Remove(achievementCondition);
+            }
+        }
+
+        /// <summary>
+        /// Deletes every Achievement and every AchievementCondition
+        /// </summary>
+        public void Reset()
+        {
+            foreach (Achievement registeredAchievement in registeredAchievements)
+            {
+                registeredAchievement.AchievementCompleted -= AchievementAchievementCompleted;
+                registeredAchievement.Clear();
+            }
+
+            registeredAchievements.Clear();
+            registeredAchievementConditions.Clear();
         }
     }
 }

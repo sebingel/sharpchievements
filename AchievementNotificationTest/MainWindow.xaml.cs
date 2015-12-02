@@ -17,17 +17,17 @@ namespace AchievementNotificationTest
             AchievementManager achievementManager = AchievementManager.GetInstance();
 
             AchievementCondition clickConditionOne = new AchievementCondition("ClickedOne", "Click1", 3);
-            Achievement a1 = new Achievement("Clicked ONE", "You clicked on ONE", clickConditionOne, "/sebingel.sharpchievements;component/Images/award71.png");
+            Achievement a1 = new Achievement("a1", "Clicked ONE", "You clicked on ONE", clickConditionOne, "/sebingel.sharpchievements;component/Images/award71.png");
 
             AchievementCondition clickConditionTwo = new AchievementCondition("ClickedTwo", "Click2", 1);
-            Achievement a2 = new Achievement("Clicked TWO", "You clicked on TWO", clickConditionTwo);
+            Achievement a2 = new Achievement("a2", "Clicked TWO", "You clicked on TWO", clickConditionTwo);
 
             AchievementCondition clickConditionThree = new AchievementCondition("ClickedThree", "Click3", 1);
-            Achievement a3 = new Achievement("Clicked THREE", "You clicked on THREE", clickConditionThree);
+            Achievement a3 = new Achievement("a3", "Clicked THREE", "You clicked on THREE", clickConditionThree);
 
             AchievementCondition clickConditionFour = new AchievementCondition("SpecialOne", "Click1", 1);
             AchievementCondition clickConditionFive = new AchievementCondition("SpecialTwo", "Click2", 3);
-            Achievement a4 = new Achievement("SPECIAL!!!", "You clicked on ONE", new List<AchievementCondition> { clickConditionFour, clickConditionFive });
+            Achievement a4 = new Achievement("a4", "SPECIAL!!!", "You clicked on ONE", new List<AchievementCondition> { clickConditionFour, clickConditionFive });
 
             achievementManager.RegisterAchievement(a1);
             achievementManager.RegisterAchievement(a2);
