@@ -48,7 +48,7 @@ namespace AchievementOverviewTest
             AchievementOverviewControl.Refresh();
         }
 
-        void AmAchievementCompleted(Achievement achievement)
+        private void AmAchievementCompleted(Achievement achievement)
         {
             new AchievementNotificationWindow(achievement, this).Show();
         }
