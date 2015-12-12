@@ -114,6 +114,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// An achievement
         /// </summary>
+        /// /// <param name="uniqueId">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
@@ -124,6 +125,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// An achievement
         /// </summary>
+        /// /// <param name="uniqueId">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
