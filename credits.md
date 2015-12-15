@@ -1,0 +1,10 @@
+AchievementNotificationWindow
+-----------------------------
+
+Inspired by [ray burns](https://stackoverflow.com/users/199245/ray-burns) from [stackoverflow](https://stackoverflow.com/questions/3034741/create-popup-toaster-notifications-in-windows-with-net)
+
+award71.png
+-----------
+
+<div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
