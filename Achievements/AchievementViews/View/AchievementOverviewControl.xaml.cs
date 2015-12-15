@@ -89,7 +89,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
             InitializeComponent();
             Refresh();
 
-            // Disable due to performance problems
+            // Disabled due to performance problems
             // When called with no parameters the control will keep track of all registered Achievements by subscribing the according event in the AchievementManager
             //AchievementManager.GetInstance().AchievementsChanged += AchievementOverViewControlAchievementsChanged;
         }

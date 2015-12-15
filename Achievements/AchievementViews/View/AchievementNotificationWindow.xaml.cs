@@ -14,6 +14,8 @@ namespace sebingel.sharpchievements.AchievementViews.View
     /// </summary>
     public partial class AchievementNotificationWindow
     {
+        #region Fields
+
         /// <summary>
         /// The Titel of the Achievement
         /// </summary>
@@ -29,6 +31,10 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public Visibility ImageVisibility { get; private set; }
 
+        #endregion
+
+        #region Events
+
         /// <summary>
         /// Event that fires when the animation is completed
         /// </summary>
@@ -38,6 +44,10 @@ namespace sebingel.sharpchievements.AchievementViews.View
             if (Completed != null)
                 Completed(this);
         }
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Notification Window that can be used to inform the user about unlocked achievements.
@@ -81,17 +91,6 @@ namespace sebingel.sharpchievements.AchievementViews.View
         }
 
         /// <summary>
-        /// Unsubscribes the event and closes the AchievementNotificationWindow when the calling window is closed
-        /// </summary>
-        /// <param name="sender">the calling window</param>
-        /// <param name="e">CancelEventArgs</param>
-        private void WindowClosing(object sender, CancelEventArgs e)
-        {
-            ((Window)sender).Closing -= WindowClosing;
-            Close();
-        }
-
-        /// <summary>
         /// Notification Window that can be used to inform the user about unlocked achievements.
         /// Shows the AchievementNotificationWindow in the bottom right corner of the screen.
         /// </summary>
@@ -111,6 +110,21 @@ namespace sebingel.sharpchievements.AchievementViews.View
         public AchievementNotificationWindow(Achievement achievement, double left, double top)
         {
             Initialize(left, top, 0, 0, achievement);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Unsubscribes the event and closes the AchievementNotificationWindow when the calling window is closed
+        /// </summary>
+        /// <param name="sender">the calling window</param>
+        /// <param name="e">CancelEventArgs</param>
+        private void WindowClosing(object sender, CancelEventArgs e)
+        {
+            ((Window)sender).Closing -= WindowClosing;
+            Close();
         }
 
         /// <summary>
@@ -149,5 +163,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         {
             Close();
         }
+
+        #endregion
     }
 }
