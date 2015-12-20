@@ -10,4 +10,4 @@ If you want a quick and easy introduction on how to track achievements try the *
 
 License
 -
-Take a look at [License.txt](https://github.com/sebingel/sharpchievements/blob/master/license.txt)
+[Apache 2.0](https://github.com/sebingel/sharpchievements/blob/master/license.txt)
