@@ -212,7 +212,8 @@ namespace sebingel.sharpchievements
                 registeredAchievements.Remove(a);
                 a.AchievementCompleted -= AchievementAchievementCompleted;
                 a.Clear();
-                CleanUpAchievementConditions();
+                // Do not delete all unusedAchievementConditions automatically to prevent progress loss
+                //CleanUpAchievementConditions();
             }
         }
 
