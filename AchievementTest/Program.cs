@@ -1,4 +1,4 @@
-﻿namespace AchievementTest
+﻿namespace sebingel.sharpchievements.Tests
 {
     public static class Program
     {

@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
-using sebingel.sharpchievements;
 
-namespace AchievementTest
+namespace sebingel.sharpchievements.Tests
 {
     /// <summary>
     /// Test Class for AchievementCondition
