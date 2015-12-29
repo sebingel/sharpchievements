@@ -17,13 +17,13 @@ using System;
 namespace sebingel.sharpchievements
 {
     /// <summary>
-    /// Condition that describes the requirements that must be met to unlock an achievement and can track the progress.
+    /// Condition that describes the requirements that must be met to unlock an achievement and can track the progressCount.
     /// </summary>
     [Serializable]
     public class AchievementCondition
     {
         private readonly int countToUnlock;
-        private int progress;
+        private int progressCount;
 
         /// <summary>
         /// Applicationwide Unique uniqueId of the AchievementCondition
@@ -41,7 +41,18 @@ namespace sebingel.sharpchievements
         public bool Unlocked { get; private set; }
 
         /// <summary>
-        /// Event that fires when the progress of an AchievementCondition is changed.
+        /// The current progress of the AchievementCondition in percent
+        /// </summary>
+        public int Progress
+        {
+            get
+            {
+                return 100 / countToUnlock * progressCount;
+            }
+        }
+
+        /// <summary>
+        /// Event that fires when the progressCount of an AchievementCondition is changed.
         /// </summary>
         public event AchievementConditionProgressChangedHandler ProgressChanged;
         private void InvokeProgressChanged(int progressCount)
@@ -62,7 +73,7 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
-        /// Condition that describes the requirements that must be met to unlock an achievement and can track the progress.
+        /// Condition that describes the requirements that must be met to unlock an achievement and can track the progressCount.
         /// </summary>
         /// <param name="uniqueId">Applicationwide Unique uniqueId of the AchievementCondition</param>
         /// <param name="achievementConditionKey">Key of this AchivementCondition. Is used to identify one ore more AchievementConditions by the AchievementManager.</param>
@@ -76,14 +87,14 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
-        /// Adds one progress step for this AchievementCondition
+        /// Adds one progressCount step for this AchievementCondition
         /// </summary>
         public void MakeProgress()
         {
-            progress++;
-            InvokeProgressChanged(progress);
+            progressCount++;
+            InvokeProgressChanged(progressCount);
 
-            if (progress >= countToUnlock)
+            if (progressCount >= countToUnlock)
                 InvokeConditionCompleted();
         }
     }

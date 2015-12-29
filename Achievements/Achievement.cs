@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace sebingel.sharpchievements
 {
@@ -51,7 +52,7 @@ namespace sebingel.sharpchievements
         public bool Unlocked { get; private set; }
 
         /// <summary>
-        /// Progress of unlocking the Achievement
+        /// The current progress of the Achievement in percent
         /// </summary>
         public int Progress { get; private set; }
 
@@ -113,10 +114,18 @@ namespace sebingel.sharpchievements
         public Achievement(string uniqueId, string titel, string description, List<AchievementCondition> conditions, string imagePath)
         {
             UniqueId = uniqueId;
-            Conditions = conditions;
             ImagePath = imagePath;
             Titel = titel;
             Description = description;
+
+            // Add AchievementConditions
+            Conditions = new List<AchievementCondition>();
+            foreach (AchievementCondition achievementCondition in conditions)
+            {
+                // but only of not already added
+                if (Conditions.Find(x => x.UniqueId == achievementCondition.UniqueId) == null)
+                    Conditions.Add(achievementCondition);
+            }
 
             foreach (AchievementCondition condition in Conditions)
             {
@@ -183,12 +192,10 @@ namespace sebingel.sharpchievements
         private void ConditionProgressChanged(AchievementCondition sender, AchievementConditionProgressChangedArgs args)
         {
             if (sender.Unlocked)
-            {
                 return;
-            }
 
-            // TODO: Calculate exact progress
-            Progress = 100;
+            // Calculate overall progress of Achievement based on progress of AchievementConditions
+            Progress = Conditions.Sum(condition => condition.Progress) / Conditions.Count;
 
             InvokeProgressChanged(Progress);
         }
@@ -202,6 +209,8 @@ namespace sebingel.sharpchievements
                 achievementCondition.ProgressChanged -= ConditionProgressChanged;
                 achievementCondition.ConditionCompleted -= ConditionCompleted;
             }
+
+            Conditions.Clear();
         }
     }
 }
