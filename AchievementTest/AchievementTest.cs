@@ -10,6 +10,7 @@ namespace sebingel.sharpchievements.Tests
     internal static class AchievementTest
     {
         private static bool completed;
+        private static bool progress;
 
         /// <summary>
         /// Executes Tests for creating an Achievement, clearing an Achievement and completing an Achievement
@@ -19,6 +20,42 @@ namespace sebingel.sharpchievements.Tests
             CreateAchievementTest();
             ClearAchievementTest();
             CompleteAchievementTest();
+            AchievementProgressTest();
+        }
+
+        private static void AchievementProgressTest()
+        {
+            // create AcheivementCondition
+            AchievementCondition achievementCondition = new AchievementCondition("acUniqueId", "acKey", 3);
+            string uniqueId = "aUniqueId";
+            string atitel = "aTitel";
+            string adescription = "aDescription";
+
+            // create Achievement and wire event
+            Achievement a = new Achievement(uniqueId, atitel, adescription, achievementCondition);
+            a.ProgressChanged += AProgressChanged;
+
+            // check if no progress is made yet
+            Debug.Assert(!progress, "!progress");
+
+            // MakeProgress
+            achievementCondition.MakeProgress();
+
+            // check if progress is made
+            Debug.Assert(progress, "progress");
+
+            // achievementCondition has a count of 3. so making one step should raise the progress of the achievement to 33%
+            Debug.Assert(a.Progress == 33, "a.Progress==33");
+        }
+
+        /// <summary>
+        /// Sets the progress variable when the event is fired
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        static void AProgressChanged(Achievement sender, AchievementProgressChangedArgs args)
+        {
+            progress = true;
         }
 
         /// <summary>

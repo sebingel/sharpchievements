@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AchievementConditionTest.cs" />
+    <Compile Include="AchievementManagerTest.cs" />
     <Compile Include="AchievementTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
