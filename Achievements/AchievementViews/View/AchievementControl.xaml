@@ -19,31 +19,28 @@ limitations under the License.-->
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" Height="90" HorizontalAlignment="Stretch"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             BorderThickness="1" BorderBrush="Black" Background="#4b4b4b">
 
-    <Border BorderThickness="1" Background="#4b4b4b" BorderBrush="Black">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Height="80" Width="80" Source="{Binding ImagePath}"
+               Visibility="{Binding ImageVisibility}" />
 
-            <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Height="80" Width="80" Source="{Binding ImagePath}"
-                   Visibility="{Binding ImageVisibility}" />
-
-            <TextBlock Grid.Row="0" Grid.Column="1" Margin="5" FontWeight="Bold" Text="{Binding Titel}"
-                       Foreground="#B0B0B0" VerticalAlignment="Top" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Margin="5,0" Text="{Binding Description}" Foreground="#c9c9c9"
-                       VerticalAlignment="Top" />
-            <ProgressBar Grid.Row="2" Grid.Column="1" Value="50" Margin="5" Height="15" />
-        </Grid>
-
-    </Border>
+        <TextBlock Grid.Row="0" Grid.Column="1" Margin="5" FontWeight="Bold" Text="{Binding Titel}"
+                   Foreground="#B0B0B0" VerticalAlignment="Top" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="5,0" Text="{Binding Description}" Foreground="#c9c9c9"
+                   VerticalAlignment="Top" />
+        <ProgressBar Grid.Row="2" Grid.Column="1" Value="50" Margin="5" Height="15" />
+    </Grid>
 
 </UserControl>
