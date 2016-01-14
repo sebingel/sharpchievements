@@ -46,51 +46,6 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public Visibility ImageVisibility { get; private set; }
 
-        /// <summary>
-        /// Achievement to display
-        /// </summary>
-        public Achievement Achievement
-        {
-            set
-            {
-                if (value != null)
-                {
-                    Titel = value.Titel;
-
-                    if (value.Unlocked)
-                    {
-                        Description = value.Description;
-                        ImagePath = value.ImagePath;
-                    }
-                    else
-                    {
-                        Description = String.Empty;
-                        ImagePath = "/sebingel.sharpchievements;component/Images/question30.png";
-                    }
-
-                    if (String.IsNullOrEmpty(value.ImagePath))
-                        ImageVisibility = Visibility.Collapsed;
-                    else
-                        ImageVisibility = Visibility.Visible;
-
-                    if (value.Conditions.Any() || value.Conditions.ToList()[0].CountToUnlock > 1)
-                    {
-                        Progress = value.Progress;
-                        ProgressVisibility = Visibility.Visible;
-                    }
-                    else
-                        ProgressVisibility = Visibility.Collapsed;
-
-                    InvokePropertyChanged("Titel");
-                    InvokePropertyChanged("Description");
-                    InvokePropertyChanged("ImagePath");
-                    InvokePropertyChanged("ImageVisibility");
-                    InvokePropertyChanged("Progress");
-                    InvokePropertyChanged("ProgressVisibility");
-                }
-            }
-        }
-
         public int Progress { get; private set; }
 
         public Visibility ProgressVisibility { get; private set; }
@@ -106,11 +61,45 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// A control to display an Achievement
         /// </summary>
         /// <param name="achievement">Achievement to display</param>
-        public AchievementControl(Achievement achievement)
+        public AchievementControl([NotNull] Achievement achievement)
         {
+            if (achievement == null)
+                throw new ArgumentNullException("achievement");
+
             InitializeComponent();
 
-            Achievement = achievement;
+            Titel = achievement.Titel;
+
+            if (achievement.Unlocked)
+            {
+                Description = achievement.Description;
+                ImagePath = achievement.ImagePath;
+            }
+            else
+            {
+                Description = String.Empty;
+                ImagePath = "/sebingel.sharpchievements;component/Images/question30.png";
+            }
+
+            if (String.IsNullOrEmpty(achievement.ImagePath))
+                ImageVisibility = Visibility.Collapsed;
+            else
+                ImageVisibility = Visibility.Visible;
+
+            if (achievement.Conditions.Any() || achievement.Conditions.ToList()[0].CountToUnlock > 1)
+            {
+                Progress = achievement.Progress;
+                ProgressVisibility = Visibility.Visible;
+            }
+            else
+                ProgressVisibility = Visibility.Collapsed;
+
+            InvokePropertyChanged("Titel");
+            InvokePropertyChanged("Description");
+            InvokePropertyChanged("ImagePath");
+            InvokePropertyChanged("ImageVisibility");
+            InvokePropertyChanged("Progress");
+            InvokePropertyChanged("ProgressVisibility");
         }
 
         #region INotifyPropertyChanged

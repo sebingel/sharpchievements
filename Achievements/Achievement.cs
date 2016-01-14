@@ -30,21 +30,25 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Applicationwide unique uniqueId of the achievement
         /// </summary>
+        [NotNull]
         public string UniqueId { get; private set; }
 
         /// <summary>
         /// List of conditions which must be met to unlock the achievement
         /// </summary>
+        [NotNull]
         public IEnumerable<AchievementCondition> Conditions { get; private set; }
 
         /// <summary>
         /// The Titel of the Achievement
         /// </summary>
+        [NotNull]
         public string Titel { get; private set; }
 
         /// <summary>
         /// Description of the Achievement
         /// </summary>
+        [NotNull]
         public string Description { get; private set; }
 
         /// <summary>
@@ -60,6 +64,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Path to the Image that is displayed in notifications etc.
         /// </summary>
+        [CanBeNull]
         public string ImagePath { get; private set; }
 
         #endregion
@@ -116,6 +121,15 @@ namespace sebingel.sharpchievements
         public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
             [NotNull] IEnumerable<AchievementCondition> conditions, [CanBeNull] string imagePath)
         {
+            if (String.IsNullOrWhiteSpace(description))
+                throw new ArgumentException("description can not be null, empty or whitespace only", "description");
+            if (conditions == null)
+                throw new ArgumentNullException("conditions");
+            if (String.IsNullOrWhiteSpace(uniqueId))
+                throw new ArgumentException("uniqueId can not be null, empty or whitespace only", "uniqueId");
+            if (String.IsNullOrWhiteSpace(titel))
+                throw new ArgumentException("titel can not be null, empty or whitespace only", "titel");
+
             UniqueId = uniqueId;
             ImagePath = imagePath;
             Titel = titel;

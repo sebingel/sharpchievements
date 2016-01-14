@@ -17,7 +17,7 @@ using System;
 namespace sebingel.sharpchievements
 {
     /// <summary>
-    /// Condition that describes the requirements that must be met to unlock an achievement and can track the progressCount.
+    /// Condition that describes the requirements that must be met to unlock an achievement and can track the iProgressCount.
     /// </summary>
     [Serializable]
     public class AchievementCondition
@@ -63,13 +63,13 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
-        /// Event that fires when the progressCount of an AchievementCondition is changed.
+        /// Event that fires when the iProgressCount of an AchievementCondition is changed.
         /// </summary>
         public event AchievementConditionProgressChangedHandler ProgressChanged;
-        private void InvokeProgressChanged(int progressCount)
+        private void InvokeProgressChanged(int iProgressCount)
         {
             if (ProgressChanged != null)
-                ProgressChanged(this, new AchievementConditionProgressChangedArgs(progressCount));
+                ProgressChanged(this, new AchievementConditionProgressChangedArgs(iProgressCount));
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
-        /// Condition that describes the requirements that must be met to unlock an achievement and can track the progressCount.
+        /// Condition that describes the requirements that must be met to unlock an achievement and can track the iProgressCount.
         /// </summary>
         /// <param name="uniqueId">Applicationwide Unique uniqueId of the AchievementCondition</param>
         /// <param name="achievementConditionKey">Key of this AchivementCondition. Is used to identify one ore more AchievementConditions by the AchievementManager.</param>
@@ -98,7 +98,7 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
-        /// Adds one progressCount step for this AchievementCondition
+        /// Adds one iProgressCount step for this AchievementCondition
         /// </summary>
         public void MakeProgress()
         {
