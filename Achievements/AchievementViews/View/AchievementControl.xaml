@@ -18,6 +18,7 @@ limitations under the License.-->
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:percentageProgressBar="clr-namespace:PercentageProgressBar;assembly=PercentageProgressBar"
              mc:Ignorable="d" Height="90" HorizontalAlignment="Stretch"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              BorderThickness="1" BorderBrush="Black" Background="#4b4b4b">
@@ -47,7 +48,8 @@ limitations under the License.-->
                 <ColumnDefinition Width="*" MaxWidth="250" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ProgressBar Value="50" Margin="5" Height="15" />
+            <ProgressBar Value="{Binding Progress}" Margin="5" Height="15" Visibility="{Binding ProgressVisibility}"/>
+            
         </Grid>
 
     </Grid>

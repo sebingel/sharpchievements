@@ -72,13 +72,27 @@ namespace sebingel.sharpchievements.AchievementViews.View
                     else
                         ImageVisibility = Visibility.Visible;
 
+                    if (value.Conditions.Count > 1 || value.Conditions[0].CountToUnlock > 1)
+                    {
+                        Progress = value.Progress;
+                        ProgressVisibility = Visibility.Visible;
+                    }
+                    else
+                        ProgressVisibility = Visibility.Collapsed;
+
                     InvokePropertyChanged("Titel");
                     InvokePropertyChanged("Description");
                     InvokePropertyChanged("ImagePath");
                     InvokePropertyChanged("ImageVisibility");
+                    InvokePropertyChanged("Progress");
+                    InvokePropertyChanged("ProgressVisibility");
                 }
             }
         }
+
+        public int Progress { get; private set; }
+
+        public Visibility ProgressVisibility { get; private set; }
 
         /// <summary>
         /// A control to display an Achievement
