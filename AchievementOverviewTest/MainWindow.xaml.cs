@@ -16,7 +16,7 @@ namespace AchievementOverviewTest
             AchievementManager am = AchievementManager.GetInstance();
 
             AchievementCondition con1 = new AchievementCondition("con1", "con1", 1);
-            AchievementCondition con2 = new AchievementCondition("con2", "con2", 1);
+            AchievementCondition con2 = new AchievementCondition("con2", "con2", 2);
             Achievement a1 = new Achievement("a1", "a1", "a1Desc", con1, "/sebingel.sharpchievements;component/Images/award71.png");
             Achievement a2 = new Achievement("a2", "a2", "a2Desc\nWrap", con1, "/sebingel.sharpchievements;component/Images/award71.png");
             Achievement a3 = new Achievement("a3", "a3", "a2Desc\nWrap", con2, "/sebingel.sharpchievements;component/Images/award71.png");
