@@ -52,6 +52,17 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
+        /// Gets the number of progresses that needs to be made to complete this AchievementCondition
+        /// </summary>
+        public int CountToUnlock
+        {
+            get
+            {
+                return countToUnlock;
+            }
+        }
+
+        /// <summary>
         /// Event that fires when the progressCount of an AchievementCondition is changed.
         /// </summary>
         public event AchievementConditionProgressChangedHandler ProgressChanged;
