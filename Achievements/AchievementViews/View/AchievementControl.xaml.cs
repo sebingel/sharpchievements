@@ -14,6 +14,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using sebingel.sharpchievements.Annotations;
@@ -72,7 +73,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
                     else
                         ImageVisibility = Visibility.Visible;
 
-                    if (value.Conditions.Count > 1 || value.Conditions[0].CountToUnlock > 1)
+                    if (value.Conditions.Any() || value.Conditions.ToList()[0].CountToUnlock > 1)
                     {
                         Progress = value.Progress;
                         ProgressVisibility = Visibility.Visible;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace sebingel.sharpchievements.Tests
 {
@@ -108,12 +109,12 @@ namespace sebingel.sharpchievements.Tests
             // create Achievement
             Achievement a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition, achievementCondition2 });
             // check of Achievement has both AchievementConditions
-            Debug.Assert(a.Conditions.Count == 2, "a.Conditions.Count == 2");
+            Debug.Assert(a.Conditions.Count() == 2, "a.Conditions.Count == 2");
 
             // clear Achievement
             a.Clear();
             // Check if Conditions are gone
-            Debug.Assert(a.Conditions.Count == 0, "a.Conditions.Count == 0");
+            Debug.Assert(!a.Conditions.Any(), "!a.Conditions.Any()");
         }
 
         /// <summary>
@@ -132,13 +133,13 @@ namespace sebingel.sharpchievements.Tests
 
             Achievement a = new Achievement(uniqueId, atitel, adescription, achievementCondition);
             Debug.Assert(!a.Unlocked, "!a.Unlocked");
-            Debug.Assert(a.Conditions[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
+            Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
             Debug.Assert(a.Description == adescription, "a.Description==adescription");
             Debug.Assert(String.IsNullOrEmpty(a.ImagePath), "String.IsNullOrEmpty(a.ImagePath)");
             Debug.Assert(a.Progress == 0, "a.Progress==0");
             Debug.Assert(a.Titel == atitel, "a.Titel==atitel");
             Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
-            Debug.Assert(a.Conditions.Count == 1, "a.Conditions.Count == 1");
+            Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
 
             #endregion
 
@@ -146,13 +147,13 @@ namespace sebingel.sharpchievements.Tests
 
             a = new Achievement(uniqueId, atitel, adescription, achievementCondition, aImagepath);
             Debug.Assert(!a.Unlocked, "!a.Unlocked");
-            Debug.Assert(a.Conditions[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
+            Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
             Debug.Assert(a.Description == adescription, "a.Description==adescription");
             Debug.Assert(a.ImagePath == aImagepath, "a.ImagePath == aImagepath");
             Debug.Assert(a.Progress == 0, "a.Progress==0");
             Debug.Assert(a.Titel == atitel, "a.Titel==atitel");
             Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
-            Debug.Assert(a.Conditions.Count == 1, "a.Conditions.Count == 1");
+            Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
 
             #endregion
 
@@ -160,20 +161,20 @@ namespace sebingel.sharpchievements.Tests
 
             a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition });
             Debug.Assert(!a.Unlocked, "!a.Unlocked");
-            Debug.Assert(a.Conditions[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
+            Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
             Debug.Assert(a.Description == adescription, "a.Description==adescription");
             Debug.Assert(String.IsNullOrEmpty(a.ImagePath), "String.IsNullOrEmpty(a.ImagePath)");
             Debug.Assert(a.Progress == 0, "a.Progress==0");
             Debug.Assert(a.Titel == atitel, "a.Titel==atitel");
             Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
-            Debug.Assert(a.Conditions.Count == 1, "a.Conditions.Count == 1");
+            Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
 
             a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition, achievementCondition });
-            Debug.Assert(a.Conditions.Count == 1, "a.Conditions.Count == 1");
+            Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
 
             AchievementCondition achievementCondition2 = new AchievementCondition("acUniqueId2", "acKey", 5);
             a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition, achievementCondition2 });
-            Debug.Assert(a.Conditions.Count == 2, "a.Conditions.Count == 2");
+            Debug.Assert(a.Conditions.Count() == 2, "a.Conditions.Count == 2");
 
             #endregion
 
@@ -182,13 +183,13 @@ namespace sebingel.sharpchievements.Tests
             a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition },
                 aImagepath);
             Debug.Assert(!a.Unlocked, "!a.Unlocked");
-            Debug.Assert(a.Conditions[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
+            Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
             Debug.Assert(a.Description == adescription, "a.Description==adescription");
             Debug.Assert(a.ImagePath == aImagepath, "a.ImagePath==aImagepath");
             Debug.Assert(a.Progress == 0, "a.Progress==0");
             Debug.Assert(a.Titel == atitel, "a.Titel==atitel");
             Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
-            Debug.Assert(a.Conditions.Count == 1, "a.Conditions.Count == 1");
+            Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
 
             #endregion
         }

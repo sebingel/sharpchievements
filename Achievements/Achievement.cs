@@ -34,7 +34,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// List of conditions which must be met to unlock the achievement
         /// </summary>
-        public List<AchievementCondition> Conditions { get; private set; }
+        public IEnumerable<AchievementCondition> Conditions { get; private set; }
 
         /// <summary>
         /// The Titel of the Achievement
@@ -119,13 +119,14 @@ namespace sebingel.sharpchievements
             Description = description;
 
             // Add AchievementConditions
-            Conditions = new List<AchievementCondition>();
+            List<AchievementCondition> conditionList = new List<AchievementCondition>();
             foreach (AchievementCondition achievementCondition in conditions)
             {
                 // but only of not already added
-                if (Conditions.Find(x => x.UniqueId == achievementCondition.UniqueId) == null)
-                    Conditions.Add(achievementCondition);
+                if (conditionList.Find(x => x.UniqueId == achievementCondition.UniqueId) == null)
+                    conditionList.Add(achievementCondition);
             }
+            Conditions = conditionList;
 
             foreach (AchievementCondition condition in Conditions)
             {
@@ -195,7 +196,7 @@ namespace sebingel.sharpchievements
                 return;
 
             // Calculate overall progress of Achievement based on progress of AchievementConditions
-            Progress = Conditions.Sum(condition => condition.Progress) / Conditions.Count;
+            Progress = Conditions.Sum(condition => condition.Progress) / Conditions.Count();
 
             InvokeProgressChanged(Progress);
         }
@@ -210,7 +211,7 @@ namespace sebingel.sharpchievements
                 achievementCondition.ConditionCompleted -= ConditionCompleted;
             }
 
-            Conditions.Clear();
+            Conditions = Enumerable.Empty<AchievementCondition>();
         }
     }
 }
