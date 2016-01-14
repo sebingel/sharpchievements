@@ -111,7 +111,7 @@ namespace sebingel.sharpchievements
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
         /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
-        public Achievement(string uniqueId, string titel, string description, List<AchievementCondition> conditions, string imagePath)
+        public Achievement(string uniqueId, string titel, string description, IEnumerable<AchievementCondition> conditions, string imagePath)
         {
             UniqueId = uniqueId;
             ImagePath = imagePath;
