@@ -60,11 +60,14 @@ namespace sebingel.sharpchievements
         /// Singleton access
         /// </summary>
         /// <returns>The only existing instance</returns>
-        public static AchievementManager GetInstance()
+        public static AchievementManager Instance
         {
-            if (instance == null)
-                instance = new AchievementManager();
-            return instance;
+            get
+            {
+                if (instance == null)
+                    instance = new AchievementManager();
+                return instance;
+            }
         }
 
         /// <summary>

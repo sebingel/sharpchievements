@@ -27,7 +27,7 @@ namespace sebingel.sharpchievements.Tests
             if (File.Exists(saveFilePath))
                 File.Delete(saveFilePath);
 
-            AchievementManager am = AchievementManager.GetInstance();
+            AchievementManager am = AchievementManager.Instance;
             am.AchievementCompleted += AmAchievementCompleted;
 
             // create and register first Achievement/AchievementCondition

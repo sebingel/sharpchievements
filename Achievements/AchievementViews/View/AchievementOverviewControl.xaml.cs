@@ -105,7 +105,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
 
             // Disabled due to performance problems
             // When called with no parameters the control will keep track of all registered Achievements by subscribing the according event in the AchievementManager
-            //AchievementManager.GetInstance().AchievementsChanged += AchievementOverViewControlAchievementsChanged;
+            //AchievementManager.Instance().AchievementsChanged += AchievementOverViewControlAchievementsChanged;
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public void Refresh()
         {
-            AchievementList = new List<Achievement>(AchievementManager.GetInstance().GetAchievementList());
+            AchievementList = new List<Achievement>(AchievementManager.Instance.GetAchievementList());
 
             IcUnlocked.Items.Clear();
             foreach (Achievement achievement in AchievementList.FindAll(x => x.Unlocked))

@@ -13,7 +13,7 @@ namespace AchievementOverviewTest
         {
             InitializeComponent();
 
-            AchievementManager am = AchievementManager.GetInstance();
+            AchievementManager am = AchievementManager.Instance;
 
             AchievementCondition con1 = new AchievementCondition("con1", "con1", 1);
             AchievementCondition con2 = new AchievementCondition("con2", "con2", 2);
@@ -55,13 +55,13 @@ namespace AchievementOverviewTest
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            AchievementManager.GetInstance().ReportProgress("con2");
+            AchievementManager.Instance.ReportProgress("con2");
             AchievementOverviewControl.Refresh();
         }
 
         private void ButtonBase_OnClick2(object sender, RoutedEventArgs e)
         {
-            AchievementManager.GetInstance().ReportProgress("con1");
+            AchievementManager.Instance.ReportProgress("con1");
             AchievementOverviewControl.Refresh();
         }
     }
