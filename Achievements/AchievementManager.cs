@@ -53,6 +53,16 @@ namespace sebingel.sharpchievements
                 AchievementsChanged();
         }
 
+        /// <summary>
+        /// Event that fires when a new Achievement is registered
+        /// </summary>
+        public event AchievementRegisteredHandler AchievementRegistered;
+        private void InvokeAchievementRegistered(Achievement a)
+        {
+            if (AchievementRegistered != null)
+                AchievementRegistered(a);
+        }
+
         #endregion
 
         #region Properties
@@ -122,6 +132,7 @@ namespace sebingel.sharpchievements
                 achievement.AchievementCompleted += AchievementAchievementCompleted;
 
                 InvokeAchievementsChanged();
+                InvokeAchievementRegistered(achievement);
             }
         }
 

@@ -51,6 +51,7 @@
     <Compile Include="AchievementConditionProgressChangedHandler.cs" />
     <Compile Include="AchievementManager.cs" />
     <Compile Include="AchievementCompleteHandler.cs" />
+    <Compile Include="AchievementRegisteredHandler.cs" />
     <Compile Include="AchievementSaveException.cs" />
     <Compile Include="AchievementViews\View\AchievementControl.xaml.cs">
       <DependentUpon>AchievementControl.xaml</DependentUpon>
