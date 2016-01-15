@@ -13,7 +13,9 @@
 //limitations under the License.
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using sebingel.sharpchievements.Annotations;
@@ -25,7 +27,6 @@ namespace sebingel.sharpchievements.AchievementViews.View
     /// </summary>
     public partial class AchievementOverviewControl : INotifyPropertyChanged
     {
-        private List<Achievement> achievementList;
         private Visibility unlockedAchievementsVisibility;
         private Visibility separatorVisibility;
         private Visibility lockedAchievementsVisibility;
@@ -33,18 +34,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <summary>
         /// A list containing Achievements that are displayed
         /// </summary>
-        public IEnumerable<Achievement> AchievementList
-        {
-            get
-            {
-                return achievementList;
-            }
-            set
-            {
-                achievementList = new List<Achievement>(value);
-                InvokePropertyChanged();
-            }
-        }
+        public ObservableCollection<Achievement> AchievementList { get; set; }
 
         /// <summary>
         /// State of the visibility of unlocked Achievements
@@ -95,27 +85,35 @@ namespace sebingel.sharpchievements.AchievementViews.View
         }
 
         /// <summary>
-        /// A basic overview of all registered Achievements
+        /// This construcor purely exists because a Usercontrol needs a parameterless constructor
         /// </summary>
         public AchievementOverviewControl()
             : this(null)
-        {
-            InitializeComponent();
-            Refresh();
-
-            // Disabled due to performance problems
-            // When called with no parameters the control will keep track of all registered Achievements by subscribing the according event in the AchievementManager
-            //AchievementManager.Instance().AchievementsChanged += AchievementOverViewControlAchievementsChanged;
-        }
+        { }
 
         /// <summary>
         /// A basic overview of a set of Achievements
         /// </summary>
-        /// <param name="achievementList">A set of Achievements to be desplyed</param>
-        public AchievementOverviewControl(List<Achievement> achievementList)
+        /// <param name="achievements">A set of Achievements to be desplyed</param>
+        public AchievementOverviewControl(IEnumerable<Achievement> achievements)
         {
             InitializeComponent();
-            AchievementList = achievementList;
+
+            if (achievements == null)
+            {
+                // If the Control is invoked without a list of Achivements to display it will register
+                // to AchievementManager.Instance.AchievementsChanged and will load all registered Achievements
+                AchievementList = new ObservableCollection<Achievement>();
+                AchievementManager.Instance.AchievementsChanged += InstanceAchievementsChanged;
+                return;
+            }
+
+            AchievementList = new ObservableCollection<Achievement>(achievements);
+        }
+
+        private void InstanceAchievementsChanged()
+        {
+            AchievementList = new ObservableCollection<Achievement>(AchievementManager.Instance.AchievementList);
         }
 
         /// <summary>
@@ -123,40 +121,40 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public void Refresh()
         {
-            AchievementList = new List<Achievement>(AchievementManager.Instance.AchievementList);
-
             IcUnlocked.Items.Clear();
-            foreach (Achievement achievement in achievementList.FindAll(x => x.Unlocked))
+            foreach (Achievement achievement in AchievementList.Where(x => x.Unlocked))
                 IcUnlocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
 
             IcLocked.Items.Clear();
-            foreach (Achievement achievement in achievementList.FindAll(x => !x.Unlocked))
+            foreach (Achievement achievement in AchievementList.Where(x => !x.Unlocked))
                 IcLocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
 
-            if (achievementList.FindAll(x => x.Unlocked).Count > 0)
+            if (AchievementList.Any(x => x.Unlocked))
                 UnlockedAchievementsVisibility = Visibility.Visible;
             else
                 UnlockedAchievementsVisibility = Visibility.Collapsed;
 
-            if (achievementList.FindAll(x => !x.Unlocked).Count > 0)
+            if (AchievementList.Any(x => !x.Unlocked))
                 LockedAchievementsVisibility = Visibility.Visible;
             else
                 LockedAchievementsVisibility = Visibility.Collapsed;
 
-            if (achievementList.FindAll(x => x.Unlocked).Count > 0 && achievementList.FindAll(x => !x.Unlocked).Count > 0)
+            if (AchievementList.Any(x => x.Unlocked) && AchievementList.Any(x => !x.Unlocked))
                 SeparatorVisibility = Visibility.Visible;
             else
                 SeparatorVisibility = Visibility.Collapsed;
         }
 
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]
-        protected virtual void InvokePropertyChanged([CallerMemberName] string propertyName = null)
+        private void InvokePropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
     }
 }
