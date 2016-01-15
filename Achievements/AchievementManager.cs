@@ -26,9 +26,15 @@ namespace sebingel.sharpchievements
     /// </summary>
     public class AchievementManager
     {
+        #region Fields
+
         private static AchievementManager instance;
         private readonly List<AchievementCondition> registeredAchievementConditions;
         private List<Achievement> registeredAchievements;
+
+        #endregion
+
+        #region Events
 
         public event AchievementCompleteHandler AchievementCompleted;
         private void InvokeAchievementCompleted(Achievement achievement)
@@ -47,14 +53,9 @@ namespace sebingel.sharpchievements
                 AchievementsChanged();
         }
 
-        /// <summary>
-        /// Central management class for everything achievement related
-        /// </summary>
-        private AchievementManager()
-        {
-            registeredAchievementConditions = new List<AchievementCondition>();
-            registeredAchievements = new List<Achievement>();
-        }
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Singleton access
@@ -69,6 +70,31 @@ namespace sebingel.sharpchievements
                 return instance;
             }
         }
+
+        /// <summary>
+        /// Returns a ReadOnlyCollection of all registered Achievements
+        /// </summary>
+        /// <returns>A ReadOnlyCollection of all registered Achievements</returns>
+        public ReadOnlyCollection<Achievement> AchievementList
+        {
+            get
+            {
+                return new ReadOnlyCollection<Achievement>(registeredAchievements);
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Central management class for everything achievement related
+        /// </summary>
+        private AchievementManager()
+        {
+            registeredAchievementConditions = new List<AchievementCondition>();
+            registeredAchievements = new List<Achievement>();
+        }
+
+        #region Methods
 
         /// <summary>
         /// Register an AchievementCondition
@@ -195,18 +221,6 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
-        /// Returns a ReadOnlyCollection of all registered Achievements
-        /// </summary>
-        /// <returns>A ReadOnlyCollection of all registered Achievements</returns>
-        public ReadOnlyCollection<Achievement> AchievementList
-        {
-            get
-            {
-                return new ReadOnlyCollection<Achievement>(registeredAchievements);
-            }
-        }
-
-        /// <summary>
         /// Deletes an Achievement by its UniqueId
         /// </summary>
         /// <param name="uniqueId">UniqueId of Achievement that should be deleted</param>
@@ -255,5 +269,7 @@ namespace sebingel.sharpchievements
             registeredAchievements.Clear();
             registeredAchievementConditions.Clear();
         }
+
+        #endregion
     }
 }

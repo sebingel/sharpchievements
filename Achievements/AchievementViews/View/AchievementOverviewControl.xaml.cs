@@ -33,7 +33,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <summary>
         /// A list containing Achievements that are displayed
         /// </summary>
-        public List<Achievement> AchievementList
+        public IEnumerable<Achievement> AchievementList
         {
             get
             {
@@ -41,7 +41,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
             }
             set
             {
-                achievementList = value;
+                achievementList = new List<Achievement>(value);
                 InvokePropertyChanged();
             }
         }
@@ -126,24 +126,24 @@ namespace sebingel.sharpchievements.AchievementViews.View
             AchievementList = new List<Achievement>(AchievementManager.Instance.AchievementList);
 
             IcUnlocked.Items.Clear();
-            foreach (Achievement achievement in AchievementList.FindAll(x => x.Unlocked))
+            foreach (Achievement achievement in achievementList.FindAll(x => x.Unlocked))
                 IcUnlocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
 
             IcLocked.Items.Clear();
-            foreach (Achievement achievement in AchievementList.FindAll(x => !x.Unlocked))
+            foreach (Achievement achievement in achievementList.FindAll(x => !x.Unlocked))
                 IcLocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
 
-            if (AchievementList.FindAll(x => x.Unlocked).Count > 0)
+            if (achievementList.FindAll(x => x.Unlocked).Count > 0)
                 UnlockedAchievementsVisibility = Visibility.Visible;
             else
                 UnlockedAchievementsVisibility = Visibility.Collapsed;
 
-            if (AchievementList.FindAll(x => !x.Unlocked).Count > 0)
+            if (achievementList.FindAll(x => !x.Unlocked).Count > 0)
                 LockedAchievementsVisibility = Visibility.Visible;
             else
                 LockedAchievementsVisibility = Visibility.Collapsed;
 
-            if (AchievementList.FindAll(x => x.Unlocked).Count > 0 && AchievementList.FindAll(x => !x.Unlocked).Count > 0)
+            if (achievementList.FindAll(x => x.Unlocked).Count > 0 && achievementList.FindAll(x => !x.Unlocked).Count > 0)
                 SeparatorVisibility = Visibility.Visible;
             else
                 SeparatorVisibility = Visibility.Collapsed;
