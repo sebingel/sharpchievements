@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using sebingel.sharpchievements.Annotations;
 using Point = System.Windows.Point;
 
 namespace sebingel.sharpchievements.AchievementViews.View
@@ -84,8 +85,13 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         /// <param name="achievement">The unlocked Achievement</param>
         /// <param name="window">The Window in which the Notification should be displayed</param>
-        public AchievementNotificationWindow(Achievement achievement, Window window)
+        public AchievementNotificationWindow([NotNull] Achievement achievement, [NotNull] Window window)
         {
+            if (achievement == null)
+                throw new ArgumentNullException("achievement");
+            if (window == null)
+                throw new ArgumentNullException("window");
+
             window.Closing += WindowClosing;
 
             double left;
