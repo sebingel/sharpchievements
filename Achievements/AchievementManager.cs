@@ -198,9 +198,12 @@ namespace sebingel.sharpchievements
         /// Returns a ReadOnlyCollection of all registered Achievements
         /// </summary>
         /// <returns>A ReadOnlyCollection of all registered Achievements</returns>
-        public ReadOnlyCollection<Achievement> GetAchievementList()
+        public ReadOnlyCollection<Achievement> AchievementList
         {
-            return new ReadOnlyCollection<Achievement>(registeredAchievements);
+            get
+            {
+                return new ReadOnlyCollection<Achievement>(registeredAchievements);
+            }
         }
 
         /// <summary>

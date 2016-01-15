@@ -123,7 +123,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public void Refresh()
         {
-            AchievementList = new List<Achievement>(AchievementManager.Instance.GetAchievementList());
+            AchievementList = new List<Achievement>(AchievementManager.Instance.AchievementList);
 
             IcUnlocked.Items.Clear();
             foreach (Achievement achievement in AchievementList.FindAll(x => x.Unlocked))
