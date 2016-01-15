@@ -30,7 +30,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         private Visibility unlockedAchievementsVisibility;
         private Visibility separatorVisibility;
         private Visibility lockedAchievementsVisibility;
-        private ObservableCollection<Achievement> achievementList;
+        private readonly ObservableCollection<Achievement> achievementList;
 
         /// <summary>
         /// A list containing Achievements that are displayed
