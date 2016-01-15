@@ -16,7 +16,7 @@ using System;
 
 namespace sebingel.sharpchievements
 {
-    public class AchievementSaveException : Exception
+    public sealed class AchievementSaveException : Exception
     {
         public AchievementSaveException(string message)
             : base(message)
