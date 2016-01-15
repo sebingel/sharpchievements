@@ -30,11 +30,18 @@ namespace sebingel.sharpchievements.AchievementViews.View
         private Visibility unlockedAchievementsVisibility;
         private Visibility separatorVisibility;
         private Visibility lockedAchievementsVisibility;
+        private ObservableCollection<Achievement> achievementList;
 
         /// <summary>
         /// A list containing Achievements that are displayed
         /// </summary>
-        public ObservableCollection<Achievement> AchievementList { get; set; }
+        public ObservableCollection<Achievement> AchievementList
+        {
+            get
+            {
+                return achievementList;
+            }
+        }
 
         /// <summary>
         /// State of the visibility of unlocked Achievements
@@ -99,21 +106,28 @@ namespace sebingel.sharpchievements.AchievementViews.View
         {
             InitializeComponent();
 
+            // initialize the achievementList
+            achievementList = new ObservableCollection<Achievement>();
+
             if (achievements == null)
             {
                 // If the Control is invoked without a list of Achivements to display it will register
                 // to AchievementManager.Instance.AchievementsChanged and will load all registered Achievements
-                AchievementList = new ObservableCollection<Achievement>();
-                AchievementManager.Instance.AchievementsChanged += InstanceAchievementsChanged;
+                AchievementManager.Instance.AchievementRegistered += AchievementRegisteredHandler;
                 return;
             }
 
-            AchievementList = new ObservableCollection<Achievement>(achievements);
+            // Add all Achievements to our List
+            foreach (Achievement achievement in achievements)
+                AchievementList.Add(achievement);
         }
 
-        private void InstanceAchievementsChanged()
+        /// <summary>
+        /// When the AchievementManager class fires the AchievementRegistered event the newly registered Achievement will be added to our AchievementList
+        /// </summary>
+        private void AchievementRegisteredHandler(Achievement a)
         {
-            AchievementList = new ObservableCollection<Achievement>(AchievementManager.Instance.AchievementList);
+            AchievementList.Add(a);
         }
 
         /// <summary>
