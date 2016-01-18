@@ -52,6 +52,17 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
+        /// The current absoute progress of the AchievementCondition
+        /// </summary>
+        public int ProgressCount
+        {
+            get
+            {
+                return progressCount;
+            }
+        }
+
+        /// <summary>
         /// Gets the number of progresses that needs to be made to complete this AchievementCondition
         /// </summary>
         public int CountToUnlock
