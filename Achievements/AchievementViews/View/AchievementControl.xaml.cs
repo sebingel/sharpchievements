@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using Humanizer;
 using sebingel.sharpchievements.Annotations;
 
 namespace sebingel.sharpchievements.AchievementViews.View
@@ -61,6 +62,8 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public string ProgressString { get; private set; }
 
+        public string UnlockString { get; private set; }
+
         /// <summary>
         /// A control to display an Achievement
         /// </summary>
@@ -80,6 +83,13 @@ namespace sebingel.sharpchievements.AchievementViews.View
             {
                 Description = achievement.Description;
                 ImagePath = achievement.ImagePath;
+
+                // Display UnlockedString: If achievement was unlocked within the last six hours we "Humanize" the Timestamp.
+                // If it was unlocked more than 6 hours ago we show only the day.
+                if ((DateTime.UtcNow - achievement.UnlockTimeStamp) > new TimeSpan(6, 0, 0))
+                    UnlockString = "Unlocked: " + achievement.UnlockTimeStamp.ToLocalTime().ToShortDateString();
+                else
+                    UnlockString = "Unlocked: " + achievement.UnlockTimeStamp.Humanize();
             }
             else
             {
@@ -124,6 +134,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
             InvokePropertyChanged("Progress");
             InvokePropertyChanged("ProgressVisibility");
             InvokePropertyChanged("ProgressString");
+            InvokePropertyChanged("UnlockString");
         }
 
         #region INotifyPropertyChanged
