@@ -141,19 +141,22 @@ namespace sebingel.sharpchievements.AchievementViews.View
 
             IcLocked.Items.Clear();
             foreach (Achievement achievement in AchievementList.Where(x => !x.Unlocked))
-                IcLocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
+            {
+                if (!achievement.Hidden)
+                    IcLocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
+            }
 
             if (AchievementList.Any(x => x.Unlocked))
                 UnlockedAchievementsVisibility = Visibility.Visible;
             else
                 UnlockedAchievementsVisibility = Visibility.Collapsed;
 
-            if (AchievementList.Any(x => !x.Unlocked))
+            if (AchievementList.Any(x => !x.Unlocked && !x.Hidden))
                 LockedAchievementsVisibility = Visibility.Visible;
             else
                 LockedAchievementsVisibility = Visibility.Collapsed;
 
-            if (AchievementList.Any(x => x.Unlocked) && AchievementList.Any(x => !x.Unlocked))
+            if (AchievementList.Any(x => x.Unlocked) && AchievementList.Any(x => !x.Unlocked && !x.Hidden))
                 SeparatorVisibility = Visibility.Visible;
             else
                 SeparatorVisibility = Visibility.Collapsed;

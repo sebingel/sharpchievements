@@ -67,6 +67,8 @@ namespace sebingel.sharpchievements
         [CanBeNull]
         public string ImagePath { get; private set; }
 
+        public bool Hidden { get; private set; }
+
         #endregion
 
         #region Events
@@ -105,9 +107,9 @@ namespace sebingel.sharpchievements
         /// <param name="titel">Titel of the Achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
-        public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
-            [NotNull] IEnumerable<AchievementCondition> conditions)
-            : this(uniqueId, titel, description, conditions, String.Empty)
+        /// <param name="hidden">Mark the Achievement as hidden (hidden Achievements reveal only when unlocked)</param>
+        public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description, [NotNull] IEnumerable<AchievementCondition> conditions, bool hidden = false)
+            : this(uniqueId, titel, description, conditions, String.Empty, hidden)
         { }
 
         /// <summary>
@@ -118,8 +120,9 @@ namespace sebingel.sharpchievements
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
         /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
+        /// <param name="hidden">Mark the Achievement as hidden (hidden Achievements reveal only when unlocked)</param>
         public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
-            [NotNull] IEnumerable<AchievementCondition> conditions, [CanBeNull] string imagePath)
+            [NotNull] IEnumerable<AchievementCondition> conditions, [CanBeNull] string imagePath, bool hidden = false)
         {
             if (String.IsNullOrWhiteSpace(description))
                 throw new ArgumentException("description can not be null, empty or whitespace only", "description");
@@ -134,6 +137,7 @@ namespace sebingel.sharpchievements
             ImagePath = imagePath;
             Titel = titel;
             Description = description;
+            Hidden = hidden;
 
             // Add AchievementConditions
             List<AchievementCondition> conditionList = new List<AchievementCondition>();
@@ -159,9 +163,10 @@ namespace sebingel.sharpchievements
         /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
+        /// <param name="hidden">Mark the Achievement as hidden (hidden Achievements reveal only when unlocked)</param>
         public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
-            [NotNull] AchievementCondition condition)
-            : this(uniqueId, titel, description, condition, String.Empty)
+            [NotNull] AchievementCondition condition, bool hidden = false)
+            : this(uniqueId, titel, description, condition, String.Empty, hidden)
         { }
 
         /// <summary>
@@ -172,9 +177,10 @@ namespace sebingel.sharpchievements
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
         /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
+        /// <param name="hidden">Mark the Achievement as hidden (hidden Achievements reveal only when unlocked)</param>
         public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
-            [NotNull] AchievementCondition condition, [CanBeNull] string imagePath)
-            : this(uniqueId, titel, description, new List<AchievementCondition> { condition }, imagePath)
+            [NotNull] AchievementCondition condition, [CanBeNull] string imagePath, bool hidden = false)
+            : this(uniqueId, titel, description, new List<AchievementCondition> { condition }, imagePath, hidden)
         { }
 
         #endregion
