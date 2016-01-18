@@ -72,6 +72,8 @@ namespace sebingel.sharpchievements
         /// </summary>
         public bool Hidden { get; private set; }
 
+        public DateTime UnlockTimeStamp { get; private set; }
+
         #endregion
 
         #region Events
@@ -209,6 +211,7 @@ namespace sebingel.sharpchievements
 
             if (Unlocked)
             {
+                UnlockTimeStamp = DateTime.UtcNow;
                 InvokeAchievementCompleted();
             }
         }
