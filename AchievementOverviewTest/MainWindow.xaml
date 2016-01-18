@@ -13,6 +13,7 @@
         <StackPanel Orientation="Horizontal">
             <Button Content="Unlock!" Click="ButtonBase_OnClick" HorizontalAlignment="Left" Margin="5" />
             <Button Content="Unlock 2!" Click="ButtonBase_OnClick2" HorizontalAlignment="Left" Margin="5" />
+            <Button Content="Unlock 3!" Click="ButtonBase_OnClick3" HorizontalAlignment="Left" Margin="5" />
         </StackPanel>
         <view:AchievementOverviewControl Grid.Row="1" Name="AchievementOverviewControl"/>
     </Grid>

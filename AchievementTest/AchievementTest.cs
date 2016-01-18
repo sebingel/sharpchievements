@@ -107,7 +107,7 @@ namespace sebingel.sharpchievements.Tests
             string adescription = "aDescription";
 
             // create Achievement
-            Achievement a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition, achievementCondition2 });
+            Achievement a = new Achievement(uniqueId, atitel, adescription, (IEnumerable<AchievementCondition>)new List<AchievementCondition> { achievementCondition, achievementCondition2 });
             // check of Achievement has both AchievementConditions
             Debug.Assert(a.Conditions.Count() == 2, "a.Conditions.Count == 2");
 
@@ -159,7 +159,7 @@ namespace sebingel.sharpchievements.Tests
 
             #region Constructor 3
 
-            a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition });
+            a = new Achievement(uniqueId, atitel, adescription, (IEnumerable<AchievementCondition>)new List<AchievementCondition> { achievementCondition });
             Debug.Assert(!a.Unlocked, "!a.Unlocked");
             Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
             Debug.Assert(a.Description == adescription, "a.Description==adescription");
@@ -169,11 +169,11 @@ namespace sebingel.sharpchievements.Tests
             Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
             Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
 
-            a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition, achievementCondition });
+            a = new Achievement(uniqueId, atitel, adescription, (IEnumerable<AchievementCondition>)new List<AchievementCondition> { achievementCondition, achievementCondition });
             Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
 
             AchievementCondition achievementCondition2 = new AchievementCondition("acUniqueId2", "acKey", 5);
-            a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition, achievementCondition2 });
+            a = new Achievement(uniqueId, atitel, adescription, (IEnumerable<AchievementCondition>)new List<AchievementCondition> { achievementCondition, achievementCondition2 });
             Debug.Assert(a.Conditions.Count() == 2, "a.Conditions.Count == 2");
 
             #endregion
