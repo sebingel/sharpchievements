@@ -140,26 +140,13 @@ namespace sebingel.sharpchievements.Tests
             Debug.Assert(a.Titel == atitel, "a.Titel==atitel");
             Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
             Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
+            Debug.Assert(!a.Hidden, "!a.Hidden");
 
             #endregion
 
             #region Constructor 2
 
-            a = new Achievement(uniqueId, atitel, adescription, achievementCondition) { ImagePath = aImagepath };
-            Debug.Assert(!a.Unlocked, "!a.Unlocked");
-            Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
-            Debug.Assert(a.Description == adescription, "a.Description==adescription");
-            Debug.Assert(a.ImagePath == aImagepath, "a.ImagePath == aImagepath");
-            Debug.Assert(a.Progress == 0, "a.Progress==0");
-            Debug.Assert(a.Titel == atitel, "a.Titel==atitel");
-            Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
-            Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
-
-            #endregion
-
-            #region Constructor 3
-
-            a = new Achievement(uniqueId, atitel, adescription, (IEnumerable<AchievementCondition>)new List<AchievementCondition> { achievementCondition });
+            a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition });
             Debug.Assert(!a.Unlocked, "!a.Unlocked");
             Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
             Debug.Assert(a.Description == adescription, "a.Description==adescription");
@@ -168,29 +155,15 @@ namespace sebingel.sharpchievements.Tests
             Debug.Assert(a.Titel == atitel, "a.Titel==atitel");
             Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
             Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
-
-            a = new Achievement(uniqueId, atitel, adescription, (IEnumerable<AchievementCondition>)new List<AchievementCondition> { achievementCondition, achievementCondition });
-            Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
-
-            AchievementCondition achievementCondition2 = new AchievementCondition("acUniqueId2", "acKey", 5);
-            a = new Achievement(uniqueId, atitel, adescription, (IEnumerable<AchievementCondition>)new List<AchievementCondition> { achievementCondition, achievementCondition2 });
-            Debug.Assert(a.Conditions.Count() == 2, "a.Conditions.Count == 2");
+            Debug.Assert(!a.Hidden, "!a.Hidden");
 
             #endregion
 
-            #region Constructor 4
+            a.ImagePath = aImagepath;
+            a.Hidden = true;
 
-            a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition }) { ImagePath = aImagepath };
-            Debug.Assert(!a.Unlocked, "!a.Unlocked");
-            Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
-            Debug.Assert(a.Description == adescription, "a.Description==adescription");
-            Debug.Assert(a.ImagePath == aImagepath, "a.ImagePath==aImagepath");
-            Debug.Assert(a.Progress == 0, "a.Progress==0");
-            Debug.Assert(a.Titel == atitel, "a.Titel==atitel");
-            Debug.Assert(a.UniqueId == uniqueId, "a.UniqueId == uniqueId");
-            Debug.Assert(a.Conditions.Any(), "a.Conditions.Count == 1");
-
-            #endregion
+            Debug.Assert(a.ImagePath == aImagepath, "a.ImagePath == aImagepath");
+            Debug.Assert(a.Hidden, "a.Hidden");
         }
     }
 }

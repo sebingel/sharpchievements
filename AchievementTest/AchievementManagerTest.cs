@@ -9,6 +9,7 @@ namespace sebingel.sharpchievements.Tests
     internal static class AchievementManagerTest
     {
         private static Achievement completed;
+        private static bool registered;
 
         /// <summary>
         /// Executes the Test
@@ -29,12 +30,15 @@ namespace sebingel.sharpchievements.Tests
 
             AchievementManager am = AchievementManager.Instance;
             am.AchievementCompleted += AmAchievementCompleted;
+            am.AchievementRegistered += AmAchievementRegistered;
 
             // create and register first Achievement/AchievementCondition
             AchievementCondition achievementCondition1 = new AchievementCondition("aCUniqueId1", "aCConditionKey1", 1);
             Achievement achievement1 = new Achievement("aUniqueId1", "aTitel", "aDescription", achievementCondition1);
             am.RegisterAchievementCondition(achievementCondition1);
             am.RegisterAchievement(achievement1);
+
+            Debug.Assert(registered, "registered");
 
             // Check if first Achievement is in place
             Debug.Assert(am.AchievementList.Count == 1, "am.AchievementList().Count == 1");
@@ -85,6 +89,11 @@ namespace sebingel.sharpchievements.Tests
 
             // clear remains
             File.Delete(saveFilePath);
+        }
+
+        static void AmAchievementRegistered(Achievement achievementCondition)
+        {
+            registered = true;
         }
 
         static void AmAchievementCompleted(Achievement achievement)

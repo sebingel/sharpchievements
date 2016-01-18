@@ -80,6 +80,9 @@ namespace sebingel.sharpchievements.Tests
             // MakeProgress
             ac.MakeProgress();
 
+            Debug.Assert(ac.Progress == 20, "ac.Progress==20");
+            Debug.Assert(ac.ProgressCount == 1, "ac.ProgressCount==1");
+
             // Check of progress was made
             Debug.Assert(madeProgress, "madeProgress");
         }
@@ -103,6 +106,7 @@ namespace sebingel.sharpchievements.Tests
             Debug.Assert(ac.UniqueId == uniqueId, "ac.UniqueId==uniqueId");
             Debug.Assert(ac.Unlocked == false, "ac.Unlocked==false");
             Debug.Assert(ac.AchievementConditionKey == achievementConditionKey, "ac.AchievementConditionKey==achievementConditionKey");
+            Debug.Assert(ac.CountToUnlock == 5, "ac.CountToUnlock==5");
         }
     }
 }
