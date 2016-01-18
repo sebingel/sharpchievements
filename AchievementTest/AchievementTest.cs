@@ -145,7 +145,7 @@ namespace sebingel.sharpchievements.Tests
 
             #region Constructor 2
 
-            a = new Achievement(uniqueId, atitel, adescription, achievementCondition, aImagepath);
+            a = new Achievement(uniqueId, atitel, adescription, achievementCondition) { ImagePath = aImagepath };
             Debug.Assert(!a.Unlocked, "!a.Unlocked");
             Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
             Debug.Assert(a.Description == adescription, "a.Description==adescription");
@@ -180,8 +180,7 @@ namespace sebingel.sharpchievements.Tests
 
             #region Constructor 4
 
-            a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition },
-                aImagepath);
+            a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition }) { ImagePath = aImagepath };
             Debug.Assert(!a.Unlocked, "!a.Unlocked");
             Debug.Assert(a.Conditions.ToList()[0] == achievementCondition, "a.Conditions[0]==achievementCondition");
             Debug.Assert(a.Description == adescription, "a.Description==adescription");
