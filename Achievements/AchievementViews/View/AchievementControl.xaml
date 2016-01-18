@@ -22,6 +22,45 @@ limitations under the License.-->
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              BorderThickness="1" BorderBrush="Black" Background="#4b4b4b">
 
+    <UserControl.Resources>
+        <Style TargetType="{x:Type ProgressBar}" x:Key="ProgressBarStyle">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <SolidColorBrush Color="#B0B0B0" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="#4b4b4b" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Rectangle x:Name="opacityMask" Fill="{TemplateBinding Background}" />
+                            <Grid>
+                                <Grid.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=opacityMask}" />
+                                </Grid.OpacityMask>
+                                <Rectangle x:Name="PART_Track"
+                                           RadiusX="{Binding ElementName=opacityMask, Path=RadiusX}"
+                                           RadiusY="{Binding ElementName=opacityMask, Path=RadiusY}"
+                                           Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1"
+                                           Fill="{TemplateBinding Background}" />
+                                <Rectangle x:Name="PART_Indicator"
+                                           RadiusX="{Binding ElementName=opacityMask, Path=RadiusX}"
+                                           RadiusY="{Binding ElementName=opacityMask, Path=RadiusY}"
+                                           Stroke="{TemplateBinding BorderBrush}" StrokeThickness="1"
+                                           HorizontalAlignment="Left" Fill="{TemplateBinding Foreground}" />
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -47,8 +86,11 @@ limitations under the License.-->
                 <ColumnDefinition Width="*" MaxWidth="250" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ProgressBar Value="{Binding Progress}" Margin="5" Height="15" Visibility="{Binding ProgressVisibility}"/>
-            
+            <ProgressBar Grid.Row="0" Grid.Column="0" Value="{Binding Progress}" Margin="5" Height="10"
+                         Visibility="{Binding ProgressVisibility}"
+                         Style="{StaticResource ProgressBarStyle}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ProgressString}" Foreground="#B0B0B0" Visibility="{Binding ProgressVisibility}"/>
+
         </Grid>
 
     </Grid>
