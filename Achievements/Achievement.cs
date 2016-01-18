@@ -67,6 +67,9 @@ namespace sebingel.sharpchievements
         [CanBeNull]
         public string ImagePath { get; private set; }
 
+        /// <summary>
+        /// Gets the Hidden-Flag. Hidden Achievements reveal only when unlocked.
+        /// </summary>
         public bool Hidden { get; private set; }
 
         #endregion
