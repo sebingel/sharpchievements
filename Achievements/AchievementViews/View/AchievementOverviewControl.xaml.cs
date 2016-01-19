@@ -114,7 +114,9 @@ namespace sebingel.sharpchievements.AchievementViews.View
                 // If the Control is invoked without a list of Achivements to display it will register
                 // to AchievementManager.Instance.AchievementsChanged and will load all registered Achievements
                 AchievementManager.Instance.AchievementRegistered += AchievementRegisteredHandler;
-                return;
+
+                // Get all already registered Achievements and add them to the list
+                achievements = AchievementManager.Instance.AchievementList;
             }
 
             // Add all Achievements to our List
