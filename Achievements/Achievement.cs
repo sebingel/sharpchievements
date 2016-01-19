@@ -169,6 +169,15 @@ namespace sebingel.sharpchievements
         /// <param name="achievementCondition">AchievementCondition thath fired the event</param>
         private void ConditionCompleted(AchievementCondition achievementCondition)
         {
+            CheckUnlockStatus();
+        }
+
+        /// <summary>
+        /// Checks the status of all assigned AchievementConditions and determines if the Achievement unlocks
+        /// </summary>
+        /// <remarks>Is useful to evaluate if a newly added Achievement should be unlocked without having to make progress again</remarks>
+        public void CheckUnlockStatus()
+        {
             if (Unlocked)
                 return;
 
