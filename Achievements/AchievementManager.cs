@@ -284,7 +284,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Checks the status of all locked Achievements by checking all assigned AchievementConditions and determines if the Achievement unlocks
         /// </summary>
-        public void ReEvaluateUnlockStatus()
+        public void ReevaluateUnlockStatus()
         {
             AchievementList.ToList().FindAll(x => !x.Unlocked).ForEach(x => x.CheckUnlockStatus());
         }

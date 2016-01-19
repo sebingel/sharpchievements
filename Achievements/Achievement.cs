@@ -187,6 +187,7 @@ namespace sebingel.sharpchievements
                 if (!condition.Unlocked)
                     allConditionsCompleted = false;
             }
+
             Unlocked = allConditionsCompleted;
 
             if (Unlocked)
