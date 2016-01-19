@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace sebingel.sharpchievements.Tests
@@ -89,6 +90,24 @@ namespace sebingel.sharpchievements.Tests
 
             // clear remains
             File.Delete(saveFilePath);
+
+            // Add new Achievements with old and unlocked AchievementConditions
+            Achievement achievement = new Achievement("anotherObnoxiouslyLongUniqueIdToEnsureWeHaveNoDuplicates", "Name", "DUMMY", achievementCondition1);
+            am.RegisterAchievement(achievement);
+            Achievement achievement2 = new Achievement("anotherObnoxiouslyLongUniqueIdToEnsureWeHaveNoDuplicates2", "Name", "DUMMY", achievementCondition5);
+            am.RegisterAchievement(achievement2);
+            Achievement achievement3 = new Achievement("anotherObnoxiouslyLongUniqueIdToEnsureWeHaveNoDuplicates3", "Name", "DUMMY", new List<AchievementCondition> { achievementCondition1, achievementCondition5 });
+            am.RegisterAchievement(achievement3);
+
+            Debug.Assert(!achievement.Unlocked, "!achievement.Unlocked");
+            Debug.Assert(!achievement2.Unlocked, "!achievement2.Unlocked");
+            Debug.Assert(!achievement3.Unlocked, "!achievement3.Unlocked");
+
+            am.ReevaluateUnlockStatus();
+
+            Debug.Assert(achievement.Unlocked, "achievement.Unlocked");
+            Debug.Assert(achievement2.Unlocked, "achievement2.Unlocked");
+            Debug.Assert(achievement3.Unlocked, "achievement3.Unlocked");
         }
 
         static void AmAchievementRegistered(Achievement achievementCondition)
