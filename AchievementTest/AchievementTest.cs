@@ -22,6 +22,7 @@ namespace sebingel.sharpchievements.Tests
             ClearAchievementTest();
             CompleteAchievementTest();
             AchievementProgressTest();
+            CheckAchievementUnlockStatusTest();
         }
 
         private static void AchievementProgressTest()
@@ -107,7 +108,7 @@ namespace sebingel.sharpchievements.Tests
             string adescription = "aDescription";
 
             // create Achievement
-            Achievement a = new Achievement(uniqueId, atitel, adescription, (IEnumerable<AchievementCondition>)new List<AchievementCondition> { achievementCondition, achievementCondition2 });
+            Achievement a = new Achievement(uniqueId, atitel, adescription, new List<AchievementCondition> { achievementCondition, achievementCondition2 });
             // check of Achievement has both AchievementConditions
             Debug.Assert(a.Conditions.Count() == 2, "a.Conditions.Count == 2");
 
@@ -164,6 +165,35 @@ namespace sebingel.sharpchievements.Tests
 
             Debug.Assert(a.ImagePath == aImagepath, "a.ImagePath == aImagepath");
             Debug.Assert(a.Hidden, "a.Hidden");
+        }
+
+        private static void CheckAchievementUnlockStatusTest()
+        {
+            // Create a new AchievementCondition with an obnoxiously long name to minimize the chance of having a duplicate
+            AchievementCondition checkAchievementUnlockStatusTestAchievementCondition =
+                new AchievementCondition("checkAchievementUnlockStatusTestAchievementCondition",
+                    "checkAchievementUnlockStatusTestAchievementCondition", 1);
+
+            // Register the AchievementCondition with the obnoxiously long name
+            AchievementManager.Instance.RegisterAchievementCondition(checkAchievementUnlockStatusTestAchievementCondition);
+
+            // Report Progress and unlock the AchievementCondition with the obnoxiously long name
+            AchievementManager.Instance.ReportProgress("checkAchievementUnlockStatusTestAchievementCondition");
+
+            // After completing the AchievementCondition with the obnoxiously long name add it to a new Achievement with an obnoxiously long name (to minimize the chance of having a duplicate, you know?)
+            Achievement checkAchievementUnlockStatusTestAchievement =
+                new Achievement("CheckAchievementUnlockStatusTestAchievement",
+                    "Achievement with an obnoxiously long name", "DUMMY",
+                    checkAchievementUnlockStatusTestAchievementCondition);
+
+            // The new Achievement is still locked
+            Debug.Assert(!checkAchievementUnlockStatusTestAchievement.Unlocked, "!CheckAchievementUnlockStatusTestAchievement.Unlocked");
+
+            // ReEvaluate Lock-Status
+            checkAchievementUnlockStatusTestAchievement.CheckUnlockStatus();
+
+            // The Achievement should now be unlocked
+            Debug.Assert(checkAchievementUnlockStatusTestAchievement.Unlocked, "CheckAchievementUnlockStatusTestAchievement.Unlocked");
         }
     }
 }
