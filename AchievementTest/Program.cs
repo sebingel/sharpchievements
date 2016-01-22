@@ -7,6 +7,8 @@ namespace sebingel.sharpchievements.Tests
     {
         static void Main()
         {
+            //AchievementManager.Instance.LoadAchievements(@"C:\Test\OldAchievements.bin", false);
+
             Stopwatch sw = Stopwatch.StartNew();
             Console.WriteLine(DateTime.Now.ToLongTimeString() + " Starting Tests");
 

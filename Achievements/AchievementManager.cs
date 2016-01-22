@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using DansCSharpLibrary.Serialization;
 
 namespace sebingel.sharpchievements
@@ -216,7 +217,11 @@ namespace sebingel.sharpchievements
                 return false;
             }
 
+            // retain compatibility with pre-strong-named assembly
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
             registeredAchievements = BinarySerialization.ReadFromBinaryFile<List<Achievement>>(path);
+            AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomainAssemblyResolve;
+
             foreach (Achievement registeredAchievement in registeredAchievements)
             {
                 registeredAchievement.AchievementCompleted += AchievementAchievementCompleted;
@@ -229,6 +234,11 @@ namespace sebingel.sharpchievements
             }
 
             return true;
+        }
+
+        private static Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            return Assembly.GetAssembly(typeof(Achievement));
         }
 
         /// <summary>
