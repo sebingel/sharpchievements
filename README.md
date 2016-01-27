@@ -1,6 +1,7 @@
 sharpchievements
 ================
 
+[![Build Status](https://travis-ci.org/sebingel/sharpchievements.svg?branch=master)](https://travis-ci.org/sebingel/sharpchievements)
 simple but flexible achievement system written in C\#
 
 Get started
