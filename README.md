@@ -1,6 +1,7 @@
 sharpchievements
 ================
 
+[![Build status](https://ci.appveyor.com/api/projects/status/vj9agarojbalyr47?svg=true)](https://ci.appveyor.com/project/sebingel/sharpchievements)
 simple but flexible achievement system written in C\#
 
 Get started
