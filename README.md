@@ -1,7 +1,7 @@
 sharpchievements
 ================
 
-[![Build status](https://ci.appveyor.com/api/projects/status/vj9agarojbalyr47?svg=true)](https://ci.appveyor.com/project/sebingel/sharpchievements)
+[![Build status](https://ci.appveyor.com/api/projects/status/vj9agarojbalyr47?svg=true)](https://ci.appveyor.com/project/sebingel/sharpchievements) [![Issue Count](https://codeclimate.com/github/sebingel/sharpchievements/badges/issue_count.svg)](https://codeclimate.com/github/sebingel/sharpchievements)
 simple but flexible achievement system written in C\#
 
 Get started
