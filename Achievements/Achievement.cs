@@ -83,6 +83,7 @@ namespace sebingel.sharpchievements
         /// </summary>
         [field: NonSerialized]
         public event AchievementProgressChangedHandler ProgressChanged;
+
         private void InvokeProgressChanged(int progressCount)
         {
             if (ProgressChanged != null)
@@ -94,6 +95,7 @@ namespace sebingel.sharpchievements
         /// </summary>
         [field: NonSerialized]
         public event AchievementCompleteHandler AchievementCompleted;
+
         private void InvokeAchievementCompleted()
         {
             Unlocked = true;
@@ -112,7 +114,6 @@ namespace sebingel.sharpchievements
         /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
-        /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
         public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
             [NotNull] IEnumerable<AchievementCondition> conditions)
         {
@@ -157,7 +158,7 @@ namespace sebingel.sharpchievements
         public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
             [NotNull] AchievementCondition condition)
             : this(uniqueId, titel, description, new List<AchievementCondition> { condition })
-        { }
+        {}
 
         #endregion
 
@@ -213,8 +214,6 @@ namespace sebingel.sharpchievements
             InvokeProgressChanged(Progress);
         }
 
-        #endregion
-
         public void Clear()
         {
             foreach (AchievementCondition achievementCondition in Conditions)
@@ -225,5 +224,7 @@ namespace sebingel.sharpchievements
 
             Conditions = Enumerable.Empty<AchievementCondition>();
         }
+
+        #endregion
     }
 }
