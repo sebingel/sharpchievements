@@ -20,7 +20,7 @@ namespace sebingel.sharpchievements
     /// Condition that describes the requirements that must be met to unlock an achievement and can track the iProgressCount.
     /// </summary>
     [Serializable]
-    public class AchievementCondition
+    public class AchievementCondition : IAchievementCondition
     {
         private readonly int countToUnlock;
         private int progressCount;

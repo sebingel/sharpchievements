@@ -1,0 +1,201 @@
+﻿using System;
+using System.Collections.Generic;
+using Moq;
+using NUnit.Framework;
+using sebingel.sharpchievements;
+
+namespace sharpchievements.UnitTest
+{
+    [TestFixture]
+    public class AchievementTests
+    {
+        [Test]
+        public void Constructor_GivenAllNecessaryParameters_CanCreateInstance()
+        {
+            // Arrange
+            Achievement a;
+
+            // Act
+            a = new Achievement("uniqueId", "titel", "description", new Mock<IAchievementCondition>().Object);
+
+            // Assert
+            Assert.IsNotNull(a);
+        }
+
+        [Test]
+        public void Constructor2_GivenAllNecessaryParameters_CanCreateInstance()
+        {
+            // Arrange
+            Achievement a;
+
+            // Act
+            a = new Achievement("uniqueId", "titel", "description",
+                new List<IAchievementCondition> { new Mock<IAchievementCondition>().Object });
+
+            // Assert
+            Assert.IsNotNull(a);
+        }
+
+        [TestCase(null, "titel", "description", "uniqueId", typeof (ArgumentOutOfRangeException))]
+        [TestCase("", "titel", "description", "uniqueId", typeof (ArgumentOutOfRangeException))]
+        [TestCase("   ", "titel", "description", "uniqueId", typeof (ArgumentOutOfRangeException))]
+        [TestCase("uniqueId", null, "description", "titel", typeof (ArgumentOutOfRangeException))]
+        [TestCase("uniqueId", "", "description", "titel", typeof (ArgumentOutOfRangeException))]
+        [TestCase("uniqueId", "   ", "description", "titel", typeof (ArgumentOutOfRangeException))]
+        [TestCase("uniqueId", "titel", null, "description", typeof (ArgumentOutOfRangeException))]
+        [TestCase("uniqueId", "titel", "", "description", typeof (ArgumentOutOfRangeException))]
+        [TestCase("uniqueId", "titel", "   ", "description", typeof (ArgumentOutOfRangeException))]
+        public void Constructor_GivenEmptyOrNullParameters_ShouldThrowException(string uniqueId, string titel,
+            string description, string expectedArgument, Type expectedExceptionType)
+        {
+            // Arrange
+            // Nothing to arrange here
+
+            // Act
+            try
+            {
+                new Achievement(uniqueId, titel, description, new Mock<IAchievementCondition>().Object);
+                Assert.Fail("Should throw Exception");
+            }
+            catch (Exception e)
+            {
+                // Assert
+                ArgumentNullException argumentNullException = e as ArgumentNullException;
+                if (argumentNullException != null)
+                {
+                    Assert.AreEqual(typeof (ArgumentNullException), expectedExceptionType);
+                    Assert.AreEqual(expectedArgument, argumentNullException.ParamName);
+                    return;
+                }
+
+                ArgumentOutOfRangeException argumentOutOfRangeException = e as ArgumentOutOfRangeException;
+                if (argumentOutOfRangeException != null)
+                {
+                    Assert.AreEqual(typeof (ArgumentOutOfRangeException), expectedExceptionType);
+                    Assert.AreEqual(expectedArgument, argumentOutOfRangeException.ParamName);
+                    return;
+                }
+
+                ArgumentException argumentException = e as ArgumentException;
+                if (argumentException != null)
+                {
+                    Assert.AreEqual(typeof (ArgumentException), expectedExceptionType);
+                    Assert.AreEqual(expectedArgument, argumentException.ParamName);
+                    return;
+                }
+
+                Assert.Fail("No matching Exceptiontype found");
+            }
+        }
+
+        [Test]
+        public void Constructor_GivenIAchievementConditionNull_ShouldThrowException()
+        {
+            // Arrange
+            IAchievementCondition achievementCondition = null;
+
+            // Act
+            try
+            {
+                new Achievement("uniqueId", "titel", "description", achievementCondition);
+                Assert.Fail("Soll Exception werfen.");
+            }
+            catch (Exception e)
+            {
+                // Assert
+                ArgumentNullException ane = e as ArgumentNullException;
+                Assert.IsNotNull(ane);
+                Assert.AreEqual("condition", ane.ParamName);
+            }
+        }
+
+        [Test]
+        public void Constructor_GivenListIAchievementConditionNull_ShouldThrowException()
+        {
+            // Arrange
+            List<IAchievementCondition> achievementConditions = null;
+
+            // Act
+            try
+            {
+                new Achievement("uniqueId", "titel", "description", achievementConditions);
+                Assert.Fail("Soll Exception werfen.");
+            }
+            catch (Exception e)
+            {
+                // Assert
+                ArgumentNullException ane = e as ArgumentNullException;
+                Assert.IsNotNull(ane);
+                Assert.AreEqual("conditions", ane.ParamName);
+            }
+        }
+
+        [Test]
+        public void CheckUnlockStatus_EveryIAchievementConditionIsUnlocked_ShouldFireAchievementCompletedEvent()
+        {
+            // Arrange
+            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            achievementConditionMock1.SetupGet(x => x.Unlocked).Returns(true);
+            achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
+
+            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(true);
+            achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
+
+            Mock<IAchievementCondition> achievementConditionMock3 = new Mock<IAchievementCondition>();
+            achievementConditionMock3.SetupGet(x => x.Unlocked).Returns(true);
+            achievementConditionMock3.SetupGet(x => x.UniqueId).Returns("ac3");
+
+            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            {
+                achievementConditionMock1.Object,
+                achievementConditionMock2.Object,
+                achievementConditionMock3.Object
+            };
+            Achievement achievement = new Achievement("uniqueId", "titel", "description", achievementConditions);
+
+            Achievement reportedAchievement = null;
+            achievement.AchievementCompleted += delegate (Achievement a) { reportedAchievement = a; };
+
+            // Act
+            achievement.CheckUnlockStatus();
+
+            // Assert
+            Assert.AreEqual(achievement, reportedAchievement);
+        }
+
+        [Test]
+        public void CheckUnlockStatus_NotEveryIAchievementConditionIsUnlocked_ShouldNotFireAchievementCompletedEvent()
+        {
+            // Arrange
+            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            achievementConditionMock1.SetupGet(x => x.Unlocked).Returns(true);
+            achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
+
+            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(false);
+            achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
+
+            Mock<IAchievementCondition> achievementConditionMock3 = new Mock<IAchievementCondition>();
+            achievementConditionMock3.SetupGet(x => x.Unlocked).Returns(true);
+            achievementConditionMock3.SetupGet(x => x.UniqueId).Returns("ac3");
+
+            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            {
+                achievementConditionMock1.Object,
+                achievementConditionMock2.Object,
+                achievementConditionMock3.Object
+            };
+            Achievement achievement = new Achievement("uniqueId", "titel", "description", achievementConditions);
+
+            Achievement reportedAchievement = null;
+            achievement.AchievementCompleted += delegate (Achievement a) { reportedAchievement = a; };
+
+            // Act
+            achievement.CheckUnlockStatus();
+
+            // Assert
+            Assert.IsNull(reportedAchievement);
+        }
+    }
+}

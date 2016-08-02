@@ -37,7 +37,7 @@ namespace sebingel.sharpchievements
         /// List of conditions which must be met to unlock the achievement
         /// </summary>
         [NotNull]
-        public IEnumerable<AchievementCondition> Conditions { get; private set; }
+        public IEnumerable<IAchievementCondition> Conditions { get; private set; }
 
         /// <summary>
         /// The Titel of the Achievement
@@ -115,24 +115,30 @@ namespace sebingel.sharpchievements
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
         public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
-            [NotNull] IEnumerable<AchievementCondition> conditions)
+            [NotNull] IEnumerable<IAchievementCondition> conditions)
         {
-            if (String.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("description can not be null, empty or whitespace only", "description");
             if (conditions == null)
-                throw new ArgumentNullException("conditions");
+                throw new ArgumentNullException(nameof(conditions));
+            if (String.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentOutOfRangeException(nameof(description),
+                    "description can not be null, empty or whitespace only");
+            }
             if (String.IsNullOrWhiteSpace(uniqueId))
-                throw new ArgumentException("uniqueId can not be null, empty or whitespace only", "uniqueId");
+            {
+                throw new ArgumentOutOfRangeException(nameof(uniqueId),
+                    "uniqueId can not be null, empty or whitespace only");
+            }
             if (String.IsNullOrWhiteSpace(titel))
-                throw new ArgumentException("titel can not be null, empty or whitespace only", "titel");
+                throw new ArgumentOutOfRangeException(nameof(titel), "titel can not be null, empty or whitespace only");
 
             UniqueId = uniqueId;
             Titel = titel;
             Description = description;
 
             // Add AchievementConditions
-            List<AchievementCondition> conditionList = new List<AchievementCondition>();
-            foreach (AchievementCondition achievementCondition in conditions)
+            List<IAchievementCondition> conditionList = new List<IAchievementCondition>();
+            foreach (IAchievementCondition achievementCondition in conditions)
             {
                 // but only of not already added
                 if (conditionList.Find(x => x.UniqueId == achievementCondition.UniqueId) == null)
@@ -140,10 +146,13 @@ namespace sebingel.sharpchievements
             }
             Conditions = conditionList;
 
-            foreach (AchievementCondition condition in Conditions)
+            foreach (IAchievementCondition condition in Conditions)
             {
-                condition.ProgressChanged += ConditionProgressChanged;
-                condition.ConditionCompleted += ConditionCompleted;
+                if (condition != null)
+                {
+                    condition.ProgressChanged += ConditionProgressChanged;
+                    condition.ConditionCompleted += ConditionCompleted;
+                }
             }
         }
 
@@ -156,9 +165,12 @@ namespace sebingel.sharpchievements
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
         /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
         public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
-            [NotNull] AchievementCondition condition)
-            : this(uniqueId, titel, description, new List<AchievementCondition> { condition })
-        {}
+            [NotNull] IAchievementCondition condition)
+            : this(uniqueId, titel, description, new List<IAchievementCondition> { condition })
+        {
+            if (condition == null)
+                throw new ArgumentNullException(nameof(condition));
+        }
 
         #endregion
 
@@ -167,8 +179,8 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// This method is tied to the ConditionCompleted events in the AchievementConditions of this Achievement
         /// </summary>
-        /// <param name="achievementCondition">AchievementCondition thath fired the event</param>
-        private void ConditionCompleted(AchievementCondition achievementCondition)
+        /// <param name="achievementCondition">IAchievementCondition that fired the event</param>
+        private void ConditionCompleted(IAchievementCondition achievementCondition)
         {
             CheckUnlockStatus();
         }
@@ -182,14 +194,7 @@ namespace sebingel.sharpchievements
             if (Unlocked)
                 return;
 
-            bool allConditionsCompleted = true;
-            foreach (AchievementCondition condition in Conditions)
-            {
-                if (!condition.Unlocked)
-                    allConditionsCompleted = false;
-            }
-
-            Unlocked = allConditionsCompleted;
+            Unlocked = Conditions.All(condition => condition.Unlocked);
 
             if (Unlocked)
             {
@@ -201,9 +206,9 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// This method is tied to the ProgressChanged events in the AchievementConditions of this Achievement
         /// </summary>
-        /// <param name="sender">AchievementCondition thath fired the event</param>
+        /// <param name="sender">IAchievementCondition thath fired the event</param>
         /// <param name="args">Parameters that are important for this event</param>
-        private void ConditionProgressChanged(AchievementCondition sender, AchievementConditionProgressChangedArgs args)
+        private void ConditionProgressChanged(IAchievementCondition sender, AchievementConditionProgressChangedArgs args)
         {
             if (sender.Unlocked)
                 return;
@@ -216,13 +221,13 @@ namespace sebingel.sharpchievements
 
         public void Clear()
         {
-            foreach (AchievementCondition achievementCondition in Conditions)
+            foreach (IAchievementCondition achievementCondition in Conditions)
             {
                 achievementCondition.ProgressChanged -= ConditionProgressChanged;
                 achievementCondition.ConditionCompleted -= ConditionCompleted;
             }
 
-            Conditions = Enumerable.Empty<AchievementCondition>();
+            Conditions = Enumerable.Empty<IAchievementCondition>();
         }
 
         #endregion

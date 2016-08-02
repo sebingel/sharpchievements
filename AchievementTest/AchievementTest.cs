@@ -169,16 +169,18 @@ namespace sebingel.sharpchievements.Tests
 
         private static void CheckAchievementUnlockStatusTest()
         {
+            AchievementManager am = new AchievementManager();
+
             // Create a new AchievementCondition with an obnoxiously long name to minimize the chance of having a duplicate
             AchievementCondition checkAchievementUnlockStatusTestAchievementCondition =
                 new AchievementCondition("checkAchievementUnlockStatusTestAchievementCondition",
                     "checkAchievementUnlockStatusTestAchievementCondition", 1);
 
             // Register the AchievementCondition with the obnoxiously long name
-            AchievementManager.Instance.RegisterAchievementCondition(checkAchievementUnlockStatusTestAchievementCondition);
+            am.RegisterAchievementCondition(checkAchievementUnlockStatusTestAchievementCondition);
 
             // Report Progress and unlock the AchievementCondition with the obnoxiously long name
-            AchievementManager.Instance.ReportProgress("checkAchievementUnlockStatusTestAchievementCondition");
+            am.ReportProgress("checkAchievementUnlockStatusTestAchievementCondition");
 
             // After completing the AchievementCondition with the obnoxiously long name add it to a new Achievement with an obnoxiously long name (to minimize the chance of having a duplicate, you know?)
             Achievement checkAchievementUnlockStatusTestAchievement =

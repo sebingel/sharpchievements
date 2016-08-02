@@ -69,20 +69,6 @@ namespace sebingel.sharpchievements
         #region Properties
 
         /// <summary>
-        /// Singleton access
-        /// </summary>
-        /// <returns>The only existing instance</returns>
-        public static AchievementManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new AchievementManager();
-                return instance;
-            }
-        }
-
-        /// <summary>
         /// Returns a ReadOnlyCollection of all registered Achievements
         /// </summary>
         /// <returns>A ReadOnlyCollection of all registered Achievements</returns>
@@ -99,7 +85,7 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Central management class for everything achievement related
         /// </summary>
-        private AchievementManager()
+        public AchievementManager()
         {
             registeredAchievementConditions = new List<AchievementCondition>();
             registeredAchievements = new List<Achievement>();

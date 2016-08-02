@@ -27,6 +27,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
     /// </summary>
     public partial class AchievementOverviewControl : INotifyPropertyChanged
     {
+        private readonly AchievementManager achievementManager;
         private Visibility unlockedAchievementsVisibility;
         private Visibility separatorVisibility;
         private Visibility lockedAchievementsVisibility;
@@ -95,15 +96,17 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// This construcor purely exists because a Usercontrol needs a parameterless constructor
         /// </summary>
         public AchievementOverviewControl()
-            : this(null)
+            : this(null, null)
         { }
 
         /// <summary>
         /// A basic overview of a set of Achievements
         /// </summary>
         /// <param name="achievements">A set of Achievements to be desplyed</param>
-        public AchievementOverviewControl(IEnumerable<Achievement> achievements)
+        /// <param name="achievementManager">The AchievementManager to get all the infos from</param>
+        public AchievementOverviewControl(IEnumerable<Achievement> achievements, AchievementManager achievementManager)
         {
+            this.achievementManager = achievementManager;
             InitializeComponent();
 
             // initialize the achievementList
@@ -113,10 +116,10 @@ namespace sebingel.sharpchievements.AchievementViews.View
             {
                 // If the Control is invoked without a list of Achivements to display it will register
                 // to AchievementManager.Instance.AchievementsChanged and will load all registered Achievements
-                AchievementManager.Instance.AchievementRegistered += AchievementRegisteredHandler;
+                achievementManager.AchievementRegistered += AchievementRegisteredHandler;
 
                 // Get all already registered Achievements and add them to the list
-                achievements = AchievementManager.Instance.AchievementList;
+                achievements = achievementManager.AchievementList;
             }
 
             // Add all Achievements to our List

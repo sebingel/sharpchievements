@@ -9,11 +9,13 @@ namespace AchievementOverviewTest
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly AchievementManager am;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            AchievementManager am = AchievementManager.Instance;
+            am = new AchievementManager();
 
             AchievementCondition con1 = new AchievementCondition("con1", "con1", 1);
             AchievementCondition con2 = new AchievementCondition("con2", "con2", 2);
@@ -57,19 +59,19 @@ namespace AchievementOverviewTest
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            AchievementManager.Instance.ReportProgress("con2");
+            am.ReportProgress("con2");
             AchievementOverviewControl.Refresh();
         }
 
         private void ButtonBase_OnClick2(object sender, RoutedEventArgs e)
         {
-            AchievementManager.Instance.ReportProgress("con1");
+            am.ReportProgress("con1");
             AchievementOverviewControl.Refresh();
         }
 
         private void ButtonBase_OnClick3(object sender, RoutedEventArgs e)
         {
-            AchievementManager.Instance.ReportProgress("con3");
+            am.ReportProgress("con3");
             AchievementOverviewControl.Refresh();
         }
     }
