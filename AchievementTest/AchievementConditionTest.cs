@@ -28,7 +28,7 @@ namespace sebingel.sharpchievements.Tests
         /// sets completed variable true, when an AchievementCondition is completed
         /// </summary>
         /// <param name="achievementCondition"></param>
-        private static void AcConditionCompleted(AchievementCondition achievementCondition)
+        private static void AcConditionCompleted(IAchievementCondition achievementCondition)
         {
             completed = true;
         }

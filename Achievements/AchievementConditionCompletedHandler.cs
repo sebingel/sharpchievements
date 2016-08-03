@@ -18,5 +18,5 @@ namespace sebingel.sharpchievements
     /// Delegate for the event that is fired when an AchievementCondition is completed
     /// </summary>
     /// <param name="achievementCondition">The completed AchievementCondition</param>
-    public delegate void AchievementConditionCompletedHandler(AchievementCondition achievementCondition);
+    public delegate void AchievementConditionCompletedHandler(IAchievementCondition achievementCondition);
 }
