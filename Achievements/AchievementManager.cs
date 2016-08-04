@@ -28,8 +28,8 @@ namespace sebingel.sharpchievements
     public class AchievementManager
     {
         #region Fields
-        
-        private readonly List<AchievementCondition> registeredAchievementConditions;
+
+        private readonly List<IAchievementCondition> registeredAchievementConditions;
         private List<Achievement> registeredAchievements;
 
         #endregion
@@ -91,7 +91,7 @@ namespace sebingel.sharpchievements
         /// </summary>
         public AchievementManager()
         {
-            registeredAchievementConditions = new List<AchievementCondition>();
+            registeredAchievementConditions = new List<IAchievementCondition>();
             registeredAchievements = new List<Achievement>();
         }
 
@@ -100,11 +100,11 @@ namespace sebingel.sharpchievements
         #region Methods
 
         /// <summary>
-        /// Register an AchievementCondition
+        /// Register an IAchievementCondition
         /// </summary>
         /// <remarks>Only registered AchievementConditions can be tracked!</remarks>
-        /// <param name="achievementCondition">The AchievementCondition that should be registered</param>
-        public void RegisterAchievementCondition(AchievementCondition achievementCondition)
+        /// <param name="achievementCondition">The IAchievementCondition that should be registered</param>
+        public void RegisterAchievementCondition(IAchievementCondition achievementCondition)
         {
             if (registeredAchievementConditions.All(x => x.UniqueId != achievementCondition.UniqueId))
                 registeredAchievementConditions.Add(achievementCondition);
@@ -138,12 +138,12 @@ namespace sebingel.sharpchievements
         }
 
         /// <summary>
-        /// Report progress of an AchievementCondition
+        /// Report progress of an IAchievementCondition
         /// </summary>
-        /// <param name="achviementConditionKey">The AchievementCondition that should make a progress</param>
+        /// <param name="achviementConditionKey">The IAchievementCondition that should make a progress</param>
         public void ReportProgress(string achviementConditionKey)
         {
-            foreach (AchievementCondition condition in registeredAchievementConditions)
+            foreach (IAchievementCondition condition in registeredAchievementConditions)
             {
                 if (condition.AchievementConditionKey == achviementConditionKey)
                 {
@@ -216,7 +216,7 @@ namespace sebingel.sharpchievements
             {
                 registeredAchievement.AchievementCompleted += AchievementAchievementCompleted;
 
-                foreach (AchievementCondition achievementCondition in registeredAchievement.Conditions)
+                foreach (IAchievementCondition achievementCondition in registeredAchievement.Conditions)
                 {
                     if (!registeredAchievementConditions.Contains(achievementCondition))
                         registeredAchievementConditions.Add(achievementCondition);
@@ -253,19 +253,19 @@ namespace sebingel.sharpchievements
         /// </summary>
         private void CleanUpAchievementConditions()
         {
-            List<AchievementCondition> toDelete = new List<AchievementCondition>();
-            foreach (AchievementCondition achievementCondition in registeredAchievementConditions)
+            List<IAchievementCondition> toDelete = new List<IAchievementCondition>();
+            foreach (IAchievementCondition achievementCondition in registeredAchievementConditions)
             {
                 if (registeredAchievements.Find(x => x.Conditions.Contains(achievementCondition)) == null)
                     toDelete.Add(achievementCondition);
             }
 
-            foreach (AchievementCondition achievementCondition in toDelete)
+            foreach (IAchievementCondition achievementCondition in toDelete)
                 registeredAchievementConditions.Remove(achievementCondition);
         }
 
         /// <summary>
-        /// Deletes every Achievement and every AchievementCondition
+        /// Deletes every Achievement and every IAchievementCondition
         /// </summary>
         public void Reset()
         {
