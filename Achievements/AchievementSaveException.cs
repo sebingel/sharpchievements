@@ -13,17 +13,24 @@
 //limitations under the License.
 
 using System;
+using System.Runtime.Serialization;
 
 namespace sebingel.sharpchievements
 {
-    public sealed class AchievementSaveException : Exception
+    public class AchievementSaveException : Exception
     {
+        public AchievementSaveException()
+        {}
+
         public AchievementSaveException(string message)
             : base(message)
-        { }
+        {}
 
         public AchievementSaveException(string message, Exception innerException)
             : base(message, innerException)
-        { }
+        {}
+
+        protected AchievementSaveException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {}
     }
 }

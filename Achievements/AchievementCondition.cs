@@ -22,8 +22,14 @@ namespace sebingel.sharpchievements
     [Serializable]
     public class AchievementCondition : IAchievementCondition
     {
+        #region Fields
+
         private readonly int countToUnlock;
         private int progressCount;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Applicationwide Unique uniqueId of the AchievementCondition
@@ -73,10 +79,15 @@ namespace sebingel.sharpchievements
             }
         }
 
+        #endregion
+
+        #region Events
+
         /// <summary>
         /// Event that fires when the iProgressCount of an AchievementCondition is changed.
         /// </summary>
         public event AchievementConditionProgressChangedHandler ProgressChanged;
+
         private void InvokeProgressChanged(int iProgressCount)
         {
             if (ProgressChanged != null)
@@ -87,12 +98,17 @@ namespace sebingel.sharpchievements
         /// Event that fires when an AchievementCondition is completed.
         /// </summary>
         public event AchievementConditionCompletedHandler ConditionCompleted;
+
         private void InvokeConditionCompleted()
         {
             Unlocked = true;
             if (ConditionCompleted != null)
                 ConditionCompleted(this);
         }
+
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// Condition that describes the requirements that must be met to unlock an achievement and can track the iProgressCount.
@@ -108,6 +124,10 @@ namespace sebingel.sharpchievements
             Unlocked = false;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Adds one iProgressCount step for this AchievementCondition
         /// </summary>
@@ -119,5 +139,7 @@ namespace sebingel.sharpchievements
             if (progressCount >= countToUnlock)
                 InvokeConditionCompleted();
         }
+
+        #endregion
     }
 }

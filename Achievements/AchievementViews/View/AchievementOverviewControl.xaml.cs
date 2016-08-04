@@ -18,7 +18,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using sebingel.sharpchievements.Annotations;
 
 namespace sebingel.sharpchievements.AchievementViews.View
 {
@@ -170,7 +169,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
-        [NotifyPropertyChangedInvocator]
+        
         private void InvokePropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)

@@ -18,7 +18,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using Humanizer;
-using sebingel.sharpchievements.Annotations;
 
 namespace sebingel.sharpchievements.AchievementViews.View
 {
@@ -68,7 +67,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// A control to display an Achievement
         /// </summary>
         /// <param name="achievement">Achievement to display</param>
-        public AchievementControl([NotNull] Achievement achievement)
+        public AchievementControl(Achievement achievement)
         {
             if (achievement == null)
                 throw new ArgumentNullException("achievement");
@@ -140,8 +139,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
+        
         private void InvokePropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)

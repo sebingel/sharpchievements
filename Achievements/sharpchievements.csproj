@@ -81,7 +81,6 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IAchievementCondition.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

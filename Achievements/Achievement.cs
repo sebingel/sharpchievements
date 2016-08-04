@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using sebingel.sharpchievements.Annotations;
 
 namespace sebingel.sharpchievements
 {
@@ -30,25 +29,21 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Applicationwide unique uniqueId of the achievement
         /// </summary>
-        [NotNull]
         public string UniqueId { get; private set; }
 
         /// <summary>
         /// List of conditions which must be met to unlock the achievement
         /// </summary>
-        [NotNull]
         public IEnumerable<IAchievementCondition> Conditions { get; private set; }
 
         /// <summary>
         /// The Titel of the Achievement
         /// </summary>
-        [NotNull]
         public string Titel { get; private set; }
 
         /// <summary>
         /// Description of the Achievement
         /// </summary>
-        [NotNull]
         public string Description { get; private set; }
 
         /// <summary>
@@ -64,7 +59,6 @@ namespace sebingel.sharpchievements
         /// <summary>
         /// Path to the Image that is displayed in notifications etc.
         /// </summary>
-        [CanBeNull]
         public string ImagePath { get; set; }
 
         /// <summary>
@@ -114,8 +108,8 @@ namespace sebingel.sharpchievements
         /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="conditions">List of conditions which must be met to unlock the achievement</param>
-        public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
-            [NotNull] IEnumerable<IAchievementCondition> conditions)
+        public Achievement(string uniqueId, string titel, string description,
+            IEnumerable<IAchievementCondition> conditions)
         {
             if (conditions == null)
                 throw new ArgumentNullException(nameof(conditions));
@@ -163,9 +157,7 @@ namespace sebingel.sharpchievements
         /// <param name="titel">Applicationwide unique uniqueId of the achievement</param>
         /// <param name="description">Description of the achievement</param>
         /// <param name="condition">Condition that must be met to unlock the achievement</param>
-        /// <param name="imagePath">Path to the image that is displayed in notifivations</param>
-        public Achievement([NotNull] string uniqueId, [NotNull] string titel, [NotNull] string description,
-            [NotNull] IAchievementCondition condition)
+        public Achievement(string uniqueId, string titel, string description, IAchievementCondition condition)
             : this(uniqueId, titel, description, new List<IAchievementCondition> { condition })
         {
             if (condition == null)
