@@ -281,7 +281,8 @@ namespace sharpchievements.UnitTest
         }
 
         [Test]
-        public void ConditionCompleted_RaiseEventOnOneOfManyConditionsAndNotAllConditionsAreUnlocked_DoNotUnlockAchievement()
+        public void
+            ConditionCompleted_RaiseEventOnOneOfManyConditionsAndNotAllConditionsAreUnlocked_DoNotUnlockAchievement()
         {
             // Arrange
             Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
@@ -306,7 +307,7 @@ namespace sharpchievements.UnitTest
             Achievement achievement = new Achievement("uniqueId", "titel", "description", achievementConditions);
 
             List<Achievement> reportedAchievements = new List<Achievement>();
-            achievement.AchievementCompleted += delegate (Achievement a) { reportedAchievements.Add(a); };
+            achievement.AchievementCompleted += delegate(Achievement a) { reportedAchievements.Add(a); };
 
             // Act
             achievementConditionMock1.Raise(x => x.ConditionCompleted += null, achievementConditions[0]);
@@ -342,7 +343,7 @@ namespace sharpchievements.UnitTest
             Achievement achievement = new Achievement("uniqueId", "titel", "description", achievementConditions);
 
             List<Achievement> reportedAchievements = new List<Achievement>();
-            achievement.AchievementCompleted += delegate (Achievement a) { reportedAchievements.Add(a); };
+            achievement.AchievementCompleted += delegate(Achievement a) { reportedAchievements.Add(a); };
 
             // Act
             achievementConditionMock1.Raise(x => x.ConditionCompleted += null, achievementConditions[0]);
@@ -350,6 +351,136 @@ namespace sharpchievements.UnitTest
             // Assert
             Assert.AreEqual(1, reportedAchievements.Count);
             Assert.IsTrue(achievement.Unlocked);
+        }
+
+        [TestCase(50, 25)]
+        [TestCase(100, 50)]
+        [TestCase(1, 0)]
+        [TestCase(2, 1)]
+        [TestCase(99, 49)]
+        public void ConditionProgressChanged_GivenSomeProgress_CalculatesProgressAndFiresProgressChangedEvent(
+            int conditionProgress, int expectedAchievementProgress)
+        {
+            // Arrange
+            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
+            achievementConditionMock1.SetupGet(x => x.Progress).Returns(0);
+
+            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
+            achievementConditionMock2.SetupGet(x => x.Progress).Returns(conditionProgress);
+
+            IAchievementCondition ac1 = achievementConditionMock1.Object;
+            IAchievementCondition ac2 = achievementConditionMock2.Object;
+            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            {
+                ac1,
+                ac2
+            };
+
+            Achievement achievement = new Achievement("uniqueId", "titel", "description", achievementConditions);
+
+            int reportedProgress = 0;
+            Achievement reportedAchievement = null;
+            achievement.ProgressChanged += delegate(Achievement a, AchievementProgressChangedArgs args)
+            {
+                reportedProgress = args.ProgressCount;
+                reportedAchievement = a;
+            };
+
+            // Act
+            achievementConditionMock2.Raise(x => x.ProgressChanged += null, ac1,
+                new AchievementConditionProgressChangedArgs(conditionProgress));
+
+            // Assert
+            Assert.AreEqual(achievement, reportedAchievement);
+            Assert.AreEqual(expectedAchievementProgress, achievement.Progress);
+            Assert.AreEqual(expectedAchievementProgress, reportedProgress);
+        }
+
+        [Test]
+        public void ConditionProgressChanged_GivenAlreadyUnlockedAchievementCondition_DoNothing()
+        {
+            // Arrange
+            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
+            achievementConditionMock1.SetupGet(x => x.Progress).Returns(0);
+
+            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
+            achievementConditionMock2.SetupGet(x => x.Progress).Returns(150);
+            achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(true);
+
+            IAchievementCondition ac1 = achievementConditionMock1.Object;
+            IAchievementCondition ac2 = achievementConditionMock2.Object;
+            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            {
+                ac1,
+                ac2
+            };
+
+            Achievement achievement = new Achievement("uniqueId", "titel", "description", achievementConditions);
+
+            int reportedProgress = 0;
+            Achievement reportedAchievement = null;
+            achievement.ProgressChanged += delegate(Achievement a, AchievementProgressChangedArgs args)
+            {
+                reportedProgress = args.ProgressCount;
+                reportedAchievement = a;
+            };
+
+            // Act
+            achievementConditionMock2.Raise(x => x.ProgressChanged += null, ac2,
+                new AchievementConditionProgressChangedArgs(150));
+
+            // Assert
+            Assert.AreEqual(0, reportedProgress);
+            Assert.IsNull(reportedAchievement);
+        }
+
+        [Test]
+        public void Clear_GivenAnAchievementWithSeveralConditions_ClearsTheAchievement()
+        {
+            // Arrange
+            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
+            achievementConditionMock1.SetupGet(x => x.Progress).Returns(0);
+
+            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
+            achievementConditionMock2.SetupGet(x => x.Progress).Returns(50);
+
+            IAchievementCondition ac1 = achievementConditionMock1.Object;
+            IAchievementCondition ac2 = achievementConditionMock2.Object;
+            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            {
+                ac1,
+                ac2
+            };
+
+            Achievement achievement = new Achievement("uniqueId", "titel", "description", achievementConditions);
+
+            int reportedProgress = 0;
+            Achievement reportedAchievementProgressChanged = null;
+            achievement.ProgressChanged += delegate(Achievement a, AchievementProgressChangedArgs args)
+            {
+                reportedProgress = args.ProgressCount;
+                reportedAchievementProgressChanged = a;
+            };
+            Achievement reportedAchievementCompleted = null;
+            achievement.AchievementCompleted += delegate(Achievement a) { reportedAchievementCompleted = a; };
+
+            // Act
+            achievement.Clear();
+            achievementConditionMock2.Raise(x => x.ProgressChanged += null, ac2,
+                new AchievementConditionProgressChangedArgs(50));
+            achievementConditionMock2.Raise(x => x.ConditionCompleted += null, ac2);
+
+            // Assert
+            Assert.AreEqual(0, achievement.Conditions.Count());
+            Assert.AreEqual(0, reportedProgress);
+            Assert.AreEqual(null, reportedAchievementProgressChanged);
+            Assert.AreEqual(null, reportedAchievementCompleted);
         }
     }
 }

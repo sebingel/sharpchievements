@@ -19,5 +19,5 @@ namespace sebingel.sharpchievements
     /// </summary>
     /// <param name="sender">The AchievementCondition which progress is changed</param>
     /// <param name="args">Parameters containing further information of the progress change</param>
-    public delegate void AchievementConditionProgressChangedHandler(AchievementCondition sender, AchievementConditionProgressChangedArgs args);
+    public delegate void AchievementConditionProgressChangedHandler(IAchievementCondition sender, AchievementConditionProgressChangedArgs args);
 }

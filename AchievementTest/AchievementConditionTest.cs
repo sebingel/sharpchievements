@@ -92,7 +92,7 @@ namespace sebingel.sharpchievements.Tests
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private static void AcProgressChanged(AchievementCondition sender, AchievementConditionProgressChangedArgs args)
+        private static void AcProgressChanged(IAchievementCondition sender, AchievementConditionProgressChangedArgs args)
         {
             madeProgress = true;
         }
