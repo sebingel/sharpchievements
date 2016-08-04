@@ -28,8 +28,7 @@ namespace sebingel.sharpchievements
     public class AchievementManager
     {
         #region Fields
-
-        private static AchievementManager instance;
+        
         private readonly List<AchievementCondition> registeredAchievementConditions;
         private List<Achievement> registeredAchievements;
 
@@ -38,6 +37,7 @@ namespace sebingel.sharpchievements
         #region Events
 
         public event AchievementCompleteHandler AchievementCompleted;
+
         private void InvokeAchievementCompleted(Achievement achievement)
         {
             if (AchievementCompleted != null)
@@ -48,6 +48,7 @@ namespace sebingel.sharpchievements
         /// Event that fires when anything is changed in any registered Achievement
         /// </summary>
         public event Action AchievementsChanged;
+
         private void InvokeAchievementsChanged()
         {
             if (AchievementsChanged != null)
@@ -58,6 +59,7 @@ namespace sebingel.sharpchievements
         /// Event that fires when a new Achievement is registered
         /// </summary>
         public event AchievementRegisteredHandler AchievementRegistered;
+
         private void InvokeAchievementRegistered(Achievement a)
         {
             if (AchievementRegistered != null)
@@ -82,6 +84,8 @@ namespace sebingel.sharpchievements
 
         #endregion
 
+        #region Constructor
+
         /// <summary>
         /// Central management class for everything achievement related
         /// </summary>
@@ -90,6 +94,8 @@ namespace sebingel.sharpchievements
             registeredAchievementConditions = new List<AchievementCondition>();
             registeredAchievements = new List<Achievement>();
         }
+
+        #endregion
 
         #region Methods
 
@@ -101,9 +107,7 @@ namespace sebingel.sharpchievements
         public void RegisterAchievementCondition(AchievementCondition achievementCondition)
         {
             if (registeredAchievementConditions.All(x => x.UniqueId != achievementCondition.UniqueId))
-            {
                 registeredAchievementConditions.Add(achievementCondition);
-            }
         }
 
         /// <summary>
@@ -224,7 +228,7 @@ namespace sebingel.sharpchievements
 
         private static Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            return Assembly.GetAssembly(typeof(Achievement));
+            return Assembly.GetAssembly(typeof (Achievement));
         }
 
         /// <summary>
@@ -257,9 +261,7 @@ namespace sebingel.sharpchievements
             }
 
             foreach (AchievementCondition achievementCondition in toDelete)
-            {
                 registeredAchievementConditions.Remove(achievementCondition);
-            }
         }
 
         /// <summary>
