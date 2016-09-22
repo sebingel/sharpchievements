@@ -94,7 +94,7 @@ limitations under the License.-->
                 <ColumnDefinition Width="*" MaxWidth="250" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ProgressBar Grid.Row="0" Grid.Column="0" Value="{Binding Progress}" Margin="5" Height="10"
+            <ProgressBar Grid.Row="0" Grid.Column="0" Value="{Binding Progress, Mode=OneWay}" Margin="5" Height="10"
                          Visibility="{Binding ProgressVisibility}"
                          Style="{StaticResource ProgressBarStyle}" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ProgressString}" Foreground="#B0B0B0"
