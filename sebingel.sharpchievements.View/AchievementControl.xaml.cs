@@ -19,7 +19,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using Humanizer;
 
-namespace sebingel.sharpchievements.AchievementViews.View
+namespace sebingel.sharpchievements.View
 {
     /// <summary>
     /// A control to display an Achievement
@@ -72,41 +72,41 @@ namespace sebingel.sharpchievements.AchievementViews.View
             if (achievement == null)
                 throw new ArgumentNullException("achievement");
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             // Set the title
-            Titel = achievement.Titel;
+            this.Titel = achievement.Titel;
 
             // set Description and Image according to the unlock status of the Achievement
             if (achievement.Unlocked)
             {
-                Description = achievement.Description;
-                ImagePath = achievement.ImagePath;
+                this.Description = achievement.Description;
+                this.ImagePath = achievement.ImagePath;
 
                 // Display UnlockedString: If achievement was unlocked within the last six hours we "Humanize" the Timestamp.
                 // If it was unlocked more than 6 hours ago we show only the day.
                 if ((DateTime.UtcNow - achievement.UnlockTimeStamp) > new TimeSpan(6, 0, 0))
-                    UnlockString = "Unlocked: " + achievement.UnlockTimeStamp.ToLocalTime().ToShortDateString();
+                    this.UnlockString = "Unlocked: " + achievement.UnlockTimeStamp.ToLocalTime().ToShortDateString();
                 else
-                    UnlockString = "Unlocked: " + achievement.UnlockTimeStamp.Humanize();
+                    this.UnlockString = "Unlocked: " + achievement.UnlockTimeStamp.Humanize();
             }
             else
             {
-                Description = String.Empty;
-                ImagePath = "/sebingel.sharpchievements;component/Images/question30.png";
+                this.Description = String.Empty;
+                this.ImagePath = "/sebingel.sharpchievements;component/Images/question30.png";
             }
 
             // Show or hide the image
             if (String.IsNullOrEmpty(achievement.ImagePath))
-                ImageVisibility = Visibility.Collapsed;
+                this.ImageVisibility = Visibility.Collapsed;
             else
-                ImageVisibility = Visibility.Visible;
+                this.ImageVisibility = Visibility.Visible;
 
             // Display the progress
             if (achievement.Conditions.Count() > 1 || achievement.Conditions.ToList()[0].CountToUnlock > 1)
             {
-                Progress = achievement.Progress;
-                ProgressVisibility = Visibility.Visible;
+                this.Progress = achievement.Progress;
+                this.ProgressVisibility = Visibility.Visible;
 
                 // calculate the overall Progress of the Achievement in a X/Y format
                 int overallNeeded = 0;
@@ -121,19 +121,19 @@ namespace sebingel.sharpchievements.AchievementViews.View
                 if (achievement.Unlocked)
                     overallProgress = overallNeeded;
 
-                ProgressString = overallProgress + " / " + overallNeeded;
+                this.ProgressString = overallProgress + " / " + overallNeeded;
             }
             else
-                ProgressVisibility = Visibility.Collapsed;
+                this.ProgressVisibility = Visibility.Collapsed;
 
-            InvokePropertyChanged("Titel");
-            InvokePropertyChanged("Description");
-            InvokePropertyChanged("ImagePath");
-            InvokePropertyChanged("ImageVisibility");
-            InvokePropertyChanged("Progress");
-            InvokePropertyChanged("ProgressVisibility");
-            InvokePropertyChanged("ProgressString");
-            InvokePropertyChanged("UnlockString");
+            this.InvokePropertyChanged("Titel");
+            this.InvokePropertyChanged("Description");
+            this.InvokePropertyChanged("ImagePath");
+            this.InvokePropertyChanged("ImageVisibility");
+            this.InvokePropertyChanged("Progress");
+            this.InvokePropertyChanged("ProgressVisibility");
+            this.InvokePropertyChanged("ProgressString");
+            this.InvokePropertyChanged("UnlockString");
         }
 
         #region INotifyPropertyChanged
@@ -142,8 +142,8 @@ namespace sebingel.sharpchievements.AchievementViews.View
         
         private void InvokePropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

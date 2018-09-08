@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sharpchievements", "Achievements\sharpchievements.csproj", "{A7476C97-D350-475D-AC02-991CAFB9F221}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sebingel.sharpchievements.Model", "Achievements\sebingel.sharpchievements.Model.csproj", "{A7476C97-D350-475D-AC02-991CAFB9F221}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sharpchievements.Tests", "AchievementTest\sharpchievements.Tests.csproj", "{661CF93C-654C-49B3-95A7-3AAF8FFB3E2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AchievementOverviewTest", "AchievementOverviewTest\AchievementOverviewTest.csproj", "{D025C8DB-4E98-4AAA-B0FD-70A5CBF3C127}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sharpchievements.UnitTest", "sharpchievements.UnitTest\sharpchievements.UnitTest.csproj", "{A0B4DE10-93A2-40D4-A358-284C30607DD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sebingel.sharpchievements.View", "sebingel.sharpchievements.View\sebingel.sharpchievements.View.csproj", "{B532E824-EB31-4FE1-BAD8-9B9050D97609}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{A0B4DE10-93A2-40D4-A358-284C30607DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0B4DE10-93A2-40D4-A358-284C30607DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0B4DE10-93A2-40D4-A358-284C30607DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B532E824-EB31-4FE1-BAD8-9B9050D97609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B532E824-EB31-4FE1-BAD8-9B9050D97609}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B532E824-EB31-4FE1-BAD8-9B9050D97609}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B532E824-EB31-4FE1-BAD8-9B9050D97609}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0FFC221-6ABD-4774-9055-35EF59A6BD4C}
 	EndGlobalSection
 EndGlobal

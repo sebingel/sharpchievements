@@ -25,17 +25,17 @@ namespace sharpchievements.UnitTest
             // Arrange
             AchievementCondition ac = new AchievementCondition("", "", 2);
 
-            IAchievementCondition reportedAchievementConditionProgressChanged = null;
+            AchievementCondition reportedAchievementConditionProgressChanged = null;
             int reportedProgressCount = 0;
-            ac.ProgressChanged += delegate(IAchievementCondition iac, AchievementConditionProgressChangedArgs args)
+            ac.ProgressChanged += delegate(AchievementCondition iac, AchievementConditionProgressChangedArgs args)
             {
                 reportedAchievementConditionProgressChanged = iac;
                 reportedProgressCount = args.ProgressCount;
             };
 
-            IAchievementCondition reportedAchievementConditionCompleted = null;
+            AchievementCondition reportedAchievementConditionCompleted = null;
             ac.ConditionCompleted +=
-                delegate(IAchievementCondition iac) { reportedAchievementConditionCompleted = iac; };
+                delegate(AchievementCondition iac) { reportedAchievementConditionCompleted = iac; };
 
             // Act
             ac.MakeProgress();
@@ -54,17 +54,17 @@ namespace sharpchievements.UnitTest
             // Arrange
             AchievementCondition ac = new AchievementCondition("", "", 1);
 
-            IAchievementCondition reportedAchievementConditionProgressChanged = null;
+            AchievementCondition reportedAchievementConditionProgressChanged = null;
             int reportedProgressCount = 0;
-            ac.ProgressChanged += delegate(IAchievementCondition iac, AchievementConditionProgressChangedArgs args)
+            ac.ProgressChanged += delegate(AchievementCondition iac, AchievementConditionProgressChangedArgs args)
             {
                 reportedAchievementConditionProgressChanged = iac;
                 reportedProgressCount = args.ProgressCount;
             };
 
-            IAchievementCondition reportedAchievementConditionCompleted = null;
+            AchievementCondition reportedAchievementConditionCompleted = null;
             ac.ConditionCompleted +=
-                delegate(IAchievementCondition iac) { reportedAchievementConditionCompleted = iac; };
+                delegate(AchievementCondition iac) { reportedAchievementConditionCompleted = iac; };
 
             // Act
             ac.MakeProgress();

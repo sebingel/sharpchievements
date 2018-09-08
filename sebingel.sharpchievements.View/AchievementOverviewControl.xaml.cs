@@ -19,14 +19,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace sebingel.sharpchievements.AchievementViews.View
+namespace sebingel.sharpchievements.View
 {
     /// <summary>
     /// A basic overview of a set of Achievements
     /// </summary>
     public partial class AchievementOverviewControl : INotifyPropertyChanged
     {
-        private readonly AchievementManager achievementManager;
+        private readonly AchievementManager _achievementList;
         private Visibility unlockedAchievementsVisibility;
         private Visibility separatorVisibility;
         private Visibility lockedAchievementsVisibility;
@@ -39,7 +39,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         {
             get
             {
-                return achievementList;
+                return this.achievementList;
             }
         }
 
@@ -50,12 +50,12 @@ namespace sebingel.sharpchievements.AchievementViews.View
         {
             get
             {
-                return unlockedAchievementsVisibility;
+                return this.unlockedAchievementsVisibility;
             }
             set
             {
-                unlockedAchievementsVisibility = value;
-                InvokePropertyChanged();
+                this.unlockedAchievementsVisibility = value;
+                this.InvokePropertyChanged();
             }
         }
 
@@ -66,12 +66,12 @@ namespace sebingel.sharpchievements.AchievementViews.View
         {
             get
             {
-                return separatorVisibility;
+                return this.separatorVisibility;
             }
             set
             {
-                separatorVisibility = value;
-                InvokePropertyChanged();
+                this.separatorVisibility = value;
+                this.InvokePropertyChanged();
             }
         }
 
@@ -82,12 +82,12 @@ namespace sebingel.sharpchievements.AchievementViews.View
         {
             get
             {
-                return lockedAchievementsVisibility;
+                return this.lockedAchievementsVisibility;
             }
             set
             {
-                lockedAchievementsVisibility = value;
-                InvokePropertyChanged();
+                this.lockedAchievementsVisibility = value;
+                this.InvokePropertyChanged();
             }
         }
 
@@ -102,28 +102,28 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// A basic overview of a set of Achievements
         /// </summary>
         /// <param name="achievements">A set of Achievements to be desplyed</param>
-        /// <param name="achievementManager">The AchievementManager to get all the infos from</param>
-        public AchievementOverviewControl(IEnumerable<Achievement> achievements, AchievementManager achievementManager)
+        /// <param name="achievementListger">The AchievementManager to get all the infos from</param>
+        public AchievementOverviewControl(IEnumerable<Achievement> achievements, AchievementManager achievementList)
         {
-            this.achievementManager = achievementManager;
-            InitializeComponent();
+            this._achievementList = achievementList;
+            this.InitializeComponent();
 
             // initialize the achievementList
-            achievementList = new ObservableCollection<Achievement>();
+            this.achievementList = new ObservableCollection<Achievement>();
 
             if (achievements == null)
             {
                 // If the Control is invoked without a list of Achivements to display it will register
                 // to AchievementManager.Instance.AchievementsChanged and will load all registered Achievements
-                achievementManager.AchievementRegistered += AchievementRegisteredHandler;
+                achievementList.AchievementRegistered += AchievementRegisteredHandler;
 
                 // Get all already registered Achievements and add them to the list
-                achievements = achievementManager.AchievementList;
+                achievements = achievementList.RegisteredAchievements;
             }
 
             // Add all Achievements to our List
             foreach (Achievement achievement in achievements)
-                AchievementList.Add(achievement);
+                this.AchievementList.Add(achievement);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         private void AchievementRegisteredHandler(Achievement a)
         {
-            AchievementList.Add(a);
+            this.AchievementList.Add(a);
         }
 
         /// <summary>
@@ -139,31 +139,31 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// </summary>
         public void Refresh()
         {
-            IcUnlocked.Items.Clear();
-            foreach (Achievement achievement in AchievementList.Where(x => x.Unlocked))
-                IcUnlocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
+            this.IcUnlocked.Items.Clear();
+            foreach (Achievement achievement in this.AchievementList.Where(x => x.Unlocked))
+                this.IcUnlocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
 
-            IcLocked.Items.Clear();
-            foreach (Achievement achievement in AchievementList.Where(x => !x.Unlocked))
+            this.IcLocked.Items.Clear();
+            foreach (Achievement achievement in this.AchievementList.Where(x => !x.Unlocked))
             {
                 if (!achievement.Hidden)
-                    IcLocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
+                    this.IcLocked.Items.Add(new AchievementControl(achievement) { Margin = new Thickness(5) });
             }
 
-            if (AchievementList.Any(x => x.Unlocked))
-                UnlockedAchievementsVisibility = Visibility.Visible;
+            if (this.AchievementList.Any(x => x.Unlocked))
+                this.UnlockedAchievementsVisibility = Visibility.Visible;
             else
-                UnlockedAchievementsVisibility = Visibility.Collapsed;
+                this.UnlockedAchievementsVisibility = Visibility.Collapsed;
 
-            if (AchievementList.Any(x => !x.Unlocked && !x.Hidden))
-                LockedAchievementsVisibility = Visibility.Visible;
+            if (this.AchievementList.Any(x => !x.Unlocked && !x.Hidden))
+                this.LockedAchievementsVisibility = Visibility.Visible;
             else
-                LockedAchievementsVisibility = Visibility.Collapsed;
+                this.LockedAchievementsVisibility = Visibility.Collapsed;
 
-            if (AchievementList.Any(x => x.Unlocked) && AchievementList.Any(x => !x.Unlocked && !x.Hidden))
-                SeparatorVisibility = Visibility.Visible;
+            if (this.AchievementList.Any(x => x.Unlocked) && this.AchievementList.Any(x => !x.Unlocked && !x.Hidden))
+                this.SeparatorVisibility = Visibility.Visible;
             else
-                SeparatorVisibility = Visibility.Collapsed;
+                this.SeparatorVisibility = Visibility.Collapsed;
         }
 
         #region INotifyPropertyChanged
@@ -172,8 +172,8 @@ namespace sebingel.sharpchievements.AchievementViews.View
         
         private void InvokePropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

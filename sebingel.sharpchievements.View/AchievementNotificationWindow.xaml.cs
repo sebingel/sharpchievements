@@ -21,7 +21,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using Point = System.Windows.Point;
 
-namespace sebingel.sharpchievements.AchievementViews.View
+namespace sebingel.sharpchievements.View
 {
     /// <summary>
     /// Notification Window that can be used to inform the user aabout unlocked achievements
@@ -55,8 +55,8 @@ namespace sebingel.sharpchievements.AchievementViews.View
         public event Action<AchievementNotificationWindow> Completed;
         private void InvokeCompleted()
         {
-            if (Completed != null)
-                Completed(this);
+            if (this.Completed != null)
+                this.Completed(this);
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <param name="height">The height of the application's GUI</param>
         public AchievementNotificationWindow(Achievement achievement, double left, double top, double width, double height)
         {
-            Initialize(left, top, width, height, achievement);
+            this.Initialize(left, top, width, height, achievement);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
             if (window == null)
                 throw new ArgumentNullException("window");
 
-            window.Closing += WindowClosing;
+            window.Closing += this.WindowClosing;
 
             double left;
             double top;
@@ -106,7 +106,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
                 top = window.Top;
             }
 
-            Initialize(left, top, window.ActualWidth, window.ActualHeight, achievement);
+            this.Initialize(left, top, window.ActualWidth, window.ActualHeight, achievement);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <param name="achievement">The unlocked Achievement</param>
         public AchievementNotificationWindow(Achievement achievement)
         {
-            Initialize(0, 0, SystemParameters.WorkArea.Right, SystemParameters.WorkArea.Bottom, achievement);
+            this.Initialize(0, 0, SystemParameters.WorkArea.Right, SystemParameters.WorkArea.Bottom, achievement);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <param name="top">The position of the top border of the Notification</param>
         public AchievementNotificationWindow(Achievement achievement, double left, double top)
         {
-            Initialize(left, top, 0, 0, achievement);
+            this.Initialize(left, top, 0, 0, achievement);
         }
 
         #endregion
@@ -142,8 +142,8 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <param name="e">CancelEventArgs</param>
         private void WindowClosing(object sender, CancelEventArgs e)
         {
-            ((Window)sender).Closing -= WindowClosing;
-            Close();
+            ((Window)sender).Closing -= this.WindowClosing;
+            this.Close();
         }
 
         /// <summary>
@@ -156,31 +156,31 @@ namespace sebingel.sharpchievements.AchievementViews.View
         /// <param name="achievement">The Achievement</param>
         private void Initialize(double left, double top, double width, double height, Achievement achievement)
         {
-            Titel = achievement.Titel;
-            ImagePath = achievement.ImagePath;
+            this.Titel = achievement.Titel;
+            this.ImagePath = achievement.ImagePath;
 
             if (String.IsNullOrEmpty(achievement.ImagePath))
-                ImageVisibility = Visibility.Collapsed;
+                this.ImageVisibility = Visibility.Collapsed;
             else
-                ImageVisibility = Visibility.Visible;
+                this.ImageVisibility = Visibility.Visible;
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             Action method = () =>
             {
                 Matrix transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
                 Point corner = transform.Transform(new Point(left + width, top + height));
 
-                Left = corner.X - ActualWidth;
-                Top = corner.Y - ActualHeight;
+                this.Left = corner.X - this.ActualWidth;
+                this.Top = corner.Y - this.ActualHeight;
             };
 
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, method);
+            this.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, method);
         }
 
         private void Timeline_OnCompleted(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         #endregion

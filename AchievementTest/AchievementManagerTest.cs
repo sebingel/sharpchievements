@@ -42,8 +42,8 @@ namespace sebingel.sharpchievements.Tests
             Debug.Assert(registered, "registered");
 
             // Check if first Achievement is in place
-            Debug.Assert(am.AchievementList.Count == 1, "am.AchievementList().Count == 1");
-            Debug.Assert(am.AchievementList.Contains(achievement1), "am.AchievementList().Contains(achievement1)");
+            Debug.Assert(am.RegisteredAchievements.Count == 1, "am.AchievementList().Count == 1");
+            Debug.Assert(am.RegisteredAchievements.Contains(achievement1), "am.AchievementList().Contains(achievement1)");
 
             // create and register second Achievement/AchievementCondition
             AchievementCondition achievementCondition5 = new AchievementCondition("aCUniqueId5", "aCConditionKey5", 5);
@@ -52,8 +52,8 @@ namespace sebingel.sharpchievements.Tests
             am.RegisterAchievement(achievement5);
 
             // check if second Achievement is in place
-            Debug.Assert(am.AchievementList.Count == 2, "am.AchievementList().Count == 2");
-            Debug.Assert(am.AchievementList.Contains(achievement5), "am.AchievementList().Contains(achievement5)");
+            Debug.Assert(am.RegisteredAchievements.Count == 2, "am.AchievementList().Count == 2");
+            Debug.Assert(am.RegisteredAchievements.Contains(achievement5), "am.AchievementList().Contains(achievement5)");
 
             // check progression
             Debug.Assert(completed == null, "completed==null");
@@ -63,8 +63,8 @@ namespace sebingel.sharpchievements.Tests
 
             // check deletion
             am.DeleteAchievementByUniqueId("aUniqueId1");
-            Debug.Assert(am.AchievementList.Count == 1, "am.AchievementList().Count==1");
-            Debug.Assert(!am.AchievementList.Contains(achievement1));
+            Debug.Assert(am.RegisteredAchievements.Count == 1, "am.AchievementList().Count==1");
+            Debug.Assert(!am.RegisteredAchievements.Contains(achievement1));
 
             // check progression again
             am.ReportProgress("aCConditionKey5");
@@ -81,12 +81,12 @@ namespace sebingel.sharpchievements.Tests
 
             // check resetting
             am.Reset();
-            Debug.Assert(am.AchievementList.Count == 0, "am.AchievementList().Count==0");
+            Debug.Assert(am.RegisteredAchievements.Count == 0, "am.AchievementList().Count==0");
 
             // check loading
             am.LoadAchievements(saveFilePath, true);
-            Debug.Assert(am.AchievementList.Count == 1, "am.AchievementList().Count==1");
-            Debug.Assert(am.AchievementList[0].Unlocked, "am.AchievementList()[0].Unlocked");
+            Debug.Assert(am.RegisteredAchievements.Count == 1, "am.AchievementList().Count==1");
+            Debug.Assert(am.RegisteredAchievements[0].Unlocked, "am.AchievementList()[0].Unlocked");
 
             // clear remains
             File.Delete(saveFilePath);

@@ -19,18 +19,26 @@ namespace sebingel.sharpchievements
 {
     public class AchievementSaveException : Exception
     {
+        #region - Konstruktoren -
+
         public AchievementSaveException()
-        {}
+        {
+        }
 
         public AchievementSaveException(string message)
             : base(message)
-        {}
+        {
+        }
 
         public AchievementSaveException(string message, Exception innerException)
             : base(message, innerException)
-        {}
+        {
+        }
 
         protected AchievementSaveException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {}
+        {
+        }
+
+        #endregion
     }
 }

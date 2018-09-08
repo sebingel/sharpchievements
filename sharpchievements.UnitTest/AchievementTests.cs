@@ -17,7 +17,7 @@ namespace sharpchievements.UnitTest
             Achievement a;
 
             // Act
-            a = new Achievement("uniqueId", "titel", "description", new Mock<IAchievementCondition>().Object);
+            a = new Achievement("uniqueId", "titel", "description", new Mock<AchievementCondition>().Object);
 
             // Assert
             Assert.IsNotNull(a);
@@ -31,7 +31,7 @@ namespace sharpchievements.UnitTest
 
             // Act
             a = new Achievement("uniqueId", "titel", "description",
-                new List<IAchievementCondition> { new Mock<IAchievementCondition>().Object });
+                new List<AchievementCondition> { new Mock<AchievementCondition>().Object });
 
             // Assert
             Assert.IsNotNull(a);
@@ -55,7 +55,7 @@ namespace sharpchievements.UnitTest
             // Act
             try
             {
-                new Achievement(uniqueId, titel, description, new Mock<IAchievementCondition>().Object);
+                new Achievement(uniqueId, titel, description, new Mock<AchievementCondition>().Object);
                 Assert.Fail("Should throw Exception");
             }
             catch (Exception e)
@@ -93,7 +93,7 @@ namespace sharpchievements.UnitTest
         public void Constructor_GivenIAchievementConditionNull_ShouldThrowException()
         {
             // Arrange
-            IAchievementCondition achievementCondition = null;
+            AchievementCondition achievementCondition = null;
 
             // Act
             try
@@ -114,7 +114,7 @@ namespace sharpchievements.UnitTest
         public void Constructor_GivenListIAchievementConditionNull_ShouldThrowException()
         {
             // Arrange
-            List<IAchievementCondition> achievementConditions = null;
+            List<AchievementCondition> achievementConditions = null;
 
             // Act
             try
@@ -135,18 +135,18 @@ namespace sharpchievements.UnitTest
         public void Constructor_GivenMultipleAchievementConsitionsWithSameUniqueId_ShouldOnlyAddOne()
         {
             // Arrange
-            Mock<IAchievementCondition> acMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> acMock1 = new Mock<AchievementCondition>();
             acMock1.SetupGet(x => x.UniqueId).Returns("UID1");
 
-            Mock<IAchievementCondition> acMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> acMock2 = new Mock<AchievementCondition>();
             acMock2.SetupGet(x => x.UniqueId).Returns("UID1");
 
-            Mock<IAchievementCondition> acMock3 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> acMock3 = new Mock<AchievementCondition>();
             acMock3.SetupGet(x => x.UniqueId).Returns("UID1");
 
             // Act
             Achievement achievement = new Achievement("uid", "title", "desc",
-                new List<IAchievementCondition> { acMock1.Object, acMock2.Object, acMock3.Object });
+                new List<AchievementCondition> { acMock1.Object, acMock2.Object, acMock3.Object });
 
             // Assert
             Assert.AreEqual(1, achievement.Conditions.Count());
@@ -156,19 +156,19 @@ namespace sharpchievements.UnitTest
         public void CheckUnlockStatus_EveryIAchievementConditionIsUnlocked_ShouldFireAchievementCompletedEvent()
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
 
-            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock2 = new Mock<AchievementCondition>();
             achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
 
-            Mock<IAchievementCondition> achievementConditionMock3 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock3 = new Mock<AchievementCondition>();
             achievementConditionMock3.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock3.SetupGet(x => x.UniqueId).Returns("ac3");
 
-            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            List<AchievementCondition> achievementConditions = new List<AchievementCondition>
             {
                 achievementConditionMock1.Object,
                 achievementConditionMock2.Object,
@@ -191,19 +191,19 @@ namespace sharpchievements.UnitTest
         public void CheckUnlockStatus_NotEveryIAchievementConditionIsUnlocked_ShouldNotFireAchievementCompletedEvent()
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
 
-            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock2 = new Mock<AchievementCondition>();
             achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(false);
             achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
 
-            Mock<IAchievementCondition> achievementConditionMock3 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock3 = new Mock<AchievementCondition>();
             achievementConditionMock3.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock3.SetupGet(x => x.UniqueId).Returns("ac3");
 
-            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            List<AchievementCondition> achievementConditions = new List<AchievementCondition>
             {
                 achievementConditionMock1.Object,
                 achievementConditionMock2.Object,
@@ -226,19 +226,19 @@ namespace sharpchievements.UnitTest
         public void CheckUnlockStatus_AchievementIsAlreadyUnlocked_ShouldNotFireAchievementCompletedEvent()
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
 
-            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock2 = new Mock<AchievementCondition>();
             achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
 
-            Mock<IAchievementCondition> achievementConditionMock3 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock3 = new Mock<AchievementCondition>();
             achievementConditionMock3.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock3.SetupGet(x => x.UniqueId).Returns("ac3");
 
-            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            List<AchievementCondition> achievementConditions = new List<AchievementCondition>
             {
                 achievementConditionMock1.Object,
                 achievementConditionMock2.Object,
@@ -262,11 +262,11 @@ namespace sharpchievements.UnitTest
         public void ConditionCompleted_RaiseEventOnOnlyConditionAndConditionIsUnlocked_UnlockAchievement()
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
 
-            IAchievementCondition ac = achievementConditionMock1.Object;
+            AchievementCondition ac = achievementConditionMock1.Object;
             Achievement achievement = new Achievement("uniqueId", "titel", "description", ac);
 
             List<Achievement> reportedAchievements = new List<Achievement>();
@@ -285,19 +285,19 @@ namespace sharpchievements.UnitTest
             ConditionCompleted_RaiseEventOnOneOfManyConditionsAndNotAllConditionsAreUnlocked_DoNotUnlockAchievement()
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
 
-            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock2 = new Mock<AchievementCondition>();
             achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(false);
             achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
 
-            Mock<IAchievementCondition> achievementConditionMock3 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock3 = new Mock<AchievementCondition>();
             achievementConditionMock3.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock3.SetupGet(x => x.UniqueId).Returns("ac3");
 
-            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            List<AchievementCondition> achievementConditions = new List<AchievementCondition>
             {
                 achievementConditionMock1.Object,
                 achievementConditionMock2.Object,
@@ -321,19 +321,19 @@ namespace sharpchievements.UnitTest
         public void ConditionCompleted_RaiseEventOnOneOfManyConditionsAndAllConditionsAreUnlocked_UnlockAchievement()
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
 
-            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock2 = new Mock<AchievementCondition>();
             achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
 
-            Mock<IAchievementCondition> achievementConditionMock3 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock3 = new Mock<AchievementCondition>();
             achievementConditionMock3.SetupGet(x => x.Unlocked).Returns(true);
             achievementConditionMock3.SetupGet(x => x.UniqueId).Returns("ac3");
 
-            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            List<AchievementCondition> achievementConditions = new List<AchievementCondition>
             {
                 achievementConditionMock1.Object,
                 achievementConditionMock2.Object,
@@ -362,17 +362,17 @@ namespace sharpchievements.UnitTest
             int conditionProgress, int expectedAchievementProgress)
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
             achievementConditionMock1.SetupGet(x => x.Progress).Returns(0);
 
-            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock2 = new Mock<AchievementCondition>();
             achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
             achievementConditionMock2.SetupGet(x => x.Progress).Returns(conditionProgress);
 
-            IAchievementCondition ac1 = achievementConditionMock1.Object;
-            IAchievementCondition ac2 = achievementConditionMock2.Object;
-            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            AchievementCondition ac1 = achievementConditionMock1.Object;
+            AchievementCondition ac2 = achievementConditionMock2.Object;
+            List<AchievementCondition> achievementConditions = new List<AchievementCondition>
             {
                 ac1,
                 ac2
@@ -402,18 +402,18 @@ namespace sharpchievements.UnitTest
         public void ConditionProgressChanged_GivenAlreadyUnlockedAchievementCondition_DoNothing()
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
             achievementConditionMock1.SetupGet(x => x.Progress).Returns(0);
 
-            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock2 = new Mock<AchievementCondition>();
             achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
             achievementConditionMock2.SetupGet(x => x.Progress).Returns(150);
             achievementConditionMock2.SetupGet(x => x.Unlocked).Returns(true);
 
-            IAchievementCondition ac1 = achievementConditionMock1.Object;
-            IAchievementCondition ac2 = achievementConditionMock2.Object;
-            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            AchievementCondition ac1 = achievementConditionMock1.Object;
+            AchievementCondition ac2 = achievementConditionMock2.Object;
+            List<AchievementCondition> achievementConditions = new List<AchievementCondition>
             {
                 ac1,
                 ac2
@@ -442,17 +442,17 @@ namespace sharpchievements.UnitTest
         public void Clear_GivenAnAchievementWithSeveralConditions_ClearsTheAchievement()
         {
             // Arrange
-            Mock<IAchievementCondition> achievementConditionMock1 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock1 = new Mock<AchievementCondition>();
             achievementConditionMock1.SetupGet(x => x.UniqueId).Returns("ac1");
             achievementConditionMock1.SetupGet(x => x.Progress).Returns(0);
 
-            Mock<IAchievementCondition> achievementConditionMock2 = new Mock<IAchievementCondition>();
+            Mock<AchievementCondition> achievementConditionMock2 = new Mock<AchievementCondition>();
             achievementConditionMock2.SetupGet(x => x.UniqueId).Returns("ac2");
             achievementConditionMock2.SetupGet(x => x.Progress).Returns(50);
 
-            IAchievementCondition ac1 = achievementConditionMock1.Object;
-            IAchievementCondition ac2 = achievementConditionMock2.Object;
-            List<IAchievementCondition> achievementConditions = new List<IAchievementCondition>
+            AchievementCondition ac1 = achievementConditionMock1.Object;
+            AchievementCondition ac2 = achievementConditionMock2.Object;
+            List<AchievementCondition> achievementConditions = new List<AchievementCondition>
             {
                 ac1,
                 ac2

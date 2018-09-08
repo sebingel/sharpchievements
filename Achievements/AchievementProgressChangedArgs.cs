@@ -15,22 +15,27 @@
 namespace sebingel.sharpchievements
 {
     /// <summary>
-    /// This class contains data that about the progresschange of an Achievement
+    ///     This class contains data that about the progresschange of an Achievement
     /// </summary>
     public class AchievementProgressChangedArgs
     {
-        /// <summary>
-        /// Current progress of the Achievement
-        /// </summary>
-        public int ProgressCount { get; private set; }
+        #region - Konstruktoren -
 
         /// <summary>
-        /// This class contains data that about the progresschange of an Achievement
+        ///     This class contains data that about the progresschange of an Achievement
         /// </summary>
         /// <param name="progressCount">Current progress of the Achievement</param>
-        public AchievementProgressChangedArgs(int progressCount)
-        {
-            ProgressCount = progressCount;
-        }
+        public AchievementProgressChangedArgs(int progressCount) => this.ProgressCount = progressCount;
+
+        #endregion
+
+        #region - Properties oeffentlich -
+
+        /// <summary>
+        ///     Current progress of the Achievement
+        /// </summary>
+        public int ProgressCount { get; }
+
+        #endregion
     }
 }

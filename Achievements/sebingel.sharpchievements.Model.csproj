@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>sebingel.sharpchievements</RootNamespace>
     <AssemblyName>sebingel.sharpchievements</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,9 +43,8 @@
       <HintPath>..\packages\DansUtilityLibraries.CSharpLibrary.5.2.0.1\lib\net45\DansCSharpLibrary.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Humanizer, Version=2.1.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Humanizer.Core.2.1.0\lib\netstandard1.0\Humanizer.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Humanizer, Version=2.4.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.4.2\lib\netstandard1.0\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -53,13 +53,23 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Achievement.cs" />
+    <Compile Include="AchievementAction.cs" />
+    <Compile Include="AchievementActionList.cs" />
     <Compile Include="AchievementCondition.cs" />
     <Compile Include="AchievementConditionCompletedHandler.cs" />
     <Compile Include="AchievementConditionProgressChangedArgs.cs" />
@@ -68,45 +78,15 @@
     <Compile Include="AchievementCompleteHandler.cs" />
     <Compile Include="AchievementRegisteredHandler.cs" />
     <Compile Include="AchievementSaveException.cs" />
-    <Compile Include="AchievementViews\View\AchievementControl.xaml.cs">
-      <DependentUpon>AchievementControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AchievementViews\View\AchievementNotificationWindow.xaml.cs">
-      <DependentUpon>AchievementNotificationWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AchievementProgressChangedArgs.cs" />
     <Compile Include="AchievementProgressChangedHandler.cs" />
-    <Compile Include="AchievementViews\View\AchievementOverviewControl.xaml.cs">
-      <DependentUpon>AchievementOverviewControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="IAchievementCondition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="AchievementViews\View\AchievementControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AchievementViews\View\AchievementNotificationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AchievementViews\View\AchievementOverviewControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="sebingel.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\award71.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\question30.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

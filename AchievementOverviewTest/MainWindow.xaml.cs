@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using sebingel.sharpchievements;
-using sebingel.sharpchievements.AchievementViews.View;
+using sebingel.sharpchievements.View;
 
 namespace AchievementOverviewTest
 {

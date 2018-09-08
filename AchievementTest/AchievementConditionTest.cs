@@ -28,7 +28,7 @@ namespace sebingel.sharpchievements.Tests
         /// sets completed variable true, when an AchievementCondition is completed
         /// </summary>
         /// <param name="achievementCondition"></param>
-        private static void AcConditionCompleted(IAchievementCondition achievementCondition)
+        private static void AcConditionCompleted(AchievementCondition achievementCondition)
         {
             completed = true;
         }
@@ -92,7 +92,7 @@ namespace sebingel.sharpchievements.Tests
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private static void AcProgressChanged(IAchievementCondition sender, AchievementConditionProgressChangedArgs args)
+        private static void AcProgressChanged(AchievementCondition sender, AchievementConditionProgressChangedArgs args)
         {
             madeProgress = true;
         }

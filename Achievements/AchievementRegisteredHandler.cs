@@ -15,7 +15,7 @@
 namespace sebingel.sharpchievements
 {
     /// <summary>
-    /// Delegate for the event that is fired when an Achievement is registered in the AchievementManager
+    ///     Delegate for the event that is fired when an Achievement is registered in the AchievementManager
     /// </summary>
     /// <param name="achievementCondition">The registered Achievement</param>
     public delegate void AchievementRegisteredHandler(Achievement achievementCondition);

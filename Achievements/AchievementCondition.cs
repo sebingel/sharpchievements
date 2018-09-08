@@ -17,127 +17,107 @@ using System;
 namespace sebingel.sharpchievements
 {
     /// <summary>
-    /// Condition that describes the requirements that must be met to unlock an achievement and can track the iProgressCount.
+    ///     Condition that describes the requirements that must be met to unlock an achievement and can track the
+    ///     iProgressCount.
     /// </summary>
     [Serializable]
-    public class AchievementCondition : IAchievementCondition
+    public class AchievementCondition
     {
-        #region Fields
+        #region - Konstruktoren -
 
-        private readonly int countToUnlock;
-        private int progressCount;
+        /// <summary>
+        ///     Condition that describes the requirements that must be met to unlock an achievement and can track the
+        ///     iProgressCount.
+        /// </summary>
+        /// <param name="uniqueId">Applicationwide Unique uniqueId of the AchievementCondition</param>
+        /// <param name="achievementConditionKey">
+        ///     Key of this AchivementCondition. Is used to identify one ore more
+        ///     AchievementConditions by the AchievementManager.
+        /// </param>
+        /// <param name="countToUnlock">Sets the number of Calls until this AchievementCondtion counts as completed.</param>
+        public AchievementCondition(string uniqueId, string achievementConditionKey, int countToUnlock)
+        {
+            this.UniqueId = uniqueId;
+            this.AchievementConditionKey = achievementConditionKey;
+            this.CountToUnlock = countToUnlock;
+            this.Unlocked = false;
+        }
 
         #endregion
 
-        #region Properties
+        #region - Methoden privat -
+
+        private void InvokeProgressChanged(int iProgressCount)
+        {
+            this.ProgressChanged?.Invoke(this, new AchievementConditionProgressChangedArgs(iProgressCount));
+        }
+
+        private void InvokeConditionCompleted()
+        {
+            this.Unlocked = true;
+            this.ConditionCompleted?.Invoke(this);
+        }
+
+        #endregion
+
+        #region - Properties oeffentlich -
 
         /// <summary>
-        /// Applicationwide Unique uniqueId of the AchievementCondition
+        ///     Applicationwide Unique uniqueId of the AchievementCondition
         /// </summary>
         public string UniqueId { get; set; }
 
         /// <summary>
-        /// Key of this AchivementCondition. Is used to identify one ore more AchievementConditions by the AchievementManager.
+        ///     Key of this AchivementCondition. Is used to identify one ore more AchievementConditions by the AchievementManager.
         /// </summary>
-        public string AchievementConditionKey { get; private set; }
+        public string AchievementConditionKey { get; }
 
         /// <summary>
-        /// Gets the Unlocked status of an AchievementCondition.
+        ///     Gets the Unlocked status of an AchievementCondition.
         /// </summary>
         public bool Unlocked { get; private set; }
 
         /// <summary>
-        /// The current progress of the AchievementCondition in percent
+        ///     The current progress of the AchievementCondition in percent
         /// </summary>
-        public int Progress
-        {
-            get
-            {
-                return 100 / countToUnlock * progressCount;
-            }
-        }
+        public int Progress => 100 / this.CountToUnlock * this.ProgressCount;
 
         /// <summary>
-        /// The current absoute progress of the AchievementCondition
+        ///     The current absoute progress of the AchievementCondition
         /// </summary>
-        public int ProgressCount
-        {
-            get
-            {
-                return progressCount;
-            }
-        }
+        public int ProgressCount { get; private set; }
 
         /// <summary>
-        /// Gets the number of progresses that needs to be made to complete this AchievementCondition
+        ///     Gets the number of progresses that needs to be made to complete this AchievementCondition
         /// </summary>
-        public int CountToUnlock
-        {
-            get
-            {
-                return countToUnlock;
-            }
-        }
+        public int CountToUnlock { get; }
 
         #endregion
 
-        #region Events
+        #region AchievementCondition Members
 
         /// <summary>
-        /// Event that fires when the iProgressCount of an AchievementCondition is changed.
+        ///     Event that fires when the iProgressCount of an AchievementCondition is changed.
         /// </summary>
         public event AchievementConditionProgressChangedHandler ProgressChanged;
 
-        private void InvokeProgressChanged(int iProgressCount)
-        {
-            if (ProgressChanged != null)
-                ProgressChanged(this, new AchievementConditionProgressChangedArgs(iProgressCount));
-        }
-
         /// <summary>
-        /// Event that fires when an AchievementCondition is completed.
+        ///     Event that fires when an AchievementCondition is completed.
         /// </summary>
         public event AchievementConditionCompletedHandler ConditionCompleted;
 
-        private void InvokeConditionCompleted()
-        {
-            Unlocked = true;
-            if (ConditionCompleted != null)
-                ConditionCompleted(this);
-        }
-
-        #endregion
-
-        #region Constructor
-
         /// <summary>
-        /// Condition that describes the requirements that must be met to unlock an achievement and can track the iProgressCount.
-        /// </summary>
-        /// <param name="uniqueId">Applicationwide Unique uniqueId of the AchievementCondition</param>
-        /// <param name="achievementConditionKey">Key of this AchivementCondition. Is used to identify one ore more AchievementConditions by the AchievementManager.</param>
-        /// <param name="countToUnlock">Sets the number of Calls until this AchievementCondtion counts as completed.</param>
-        public AchievementCondition(string uniqueId, string achievementConditionKey, int countToUnlock)
-        {
-            UniqueId = uniqueId;
-            AchievementConditionKey = achievementConditionKey;
-            this.countToUnlock = countToUnlock;
-            Unlocked = false;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Adds one iProgressCount step for this AchievementCondition
+        ///     Adds one iProgressCount step for this AchievementCondition
         /// </summary>
         public void MakeProgress()
         {
-            progressCount++;
-            InvokeProgressChanged(progressCount);
+            this.ProgressCount++;
+            this.InvokeProgressChanged(this.ProgressCount);
 
-            if (progressCount >= countToUnlock)
-                InvokeConditionCompleted();
+            if (this.ProgressCount >= this.CountToUnlock)
+            {
+                this.InvokeConditionCompleted();
+            }
         }
 
         #endregion
